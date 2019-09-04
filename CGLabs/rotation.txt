@@ -1,4 +1,0 @@
- a = x - xrot;
- b = y - yrot; 
- x = a * cosf - b * sinf + xrot;
- y = a * sinf + b * cosf + yrot;
