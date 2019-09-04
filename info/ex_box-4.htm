@@ -1,0 +1,125 @@
+
+<!-- saved from url=(0041)http://localhost/_canvas/ex_box2.php?kf=1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>
+	body { margin-left:20px; margin-top:10px; background: #F0DADA} 
+	table {background: #F0F0F0}
+	input { width: 100px}
+	#cs1 {background-color:#EEE; border: 4px solid #0A0;}	
+</style>
+<script>
+aframe = 400
+cnt1 = ''
+p0 = [aframe/2,aframe/2,0]
+a = 80
+aV0 = [[a,-a,-a],[-a,-a,-a],[-a,-a,a],[a,-a,a]
+	 ,[a, a,-a],[-a, a,-a],[-a, a,a],[a, a,a]]
+aV = [[a,-a,-a],[-a,-a,-a],[-a,-a,a],[a,-a,a]
+	 ,[a, a,-a],[-a, a,-a],[-a, a,a],[a, a,a]]
+mL = [[0,1],[1,2],[2,3],[3,0]
+     ,[4,5],[5,6],[6,7],[7,4]
+     ,[0,4],[1,5],[2,6],[3,7]]
+mG =  [[0,3,2,1],[4,5,6,7],[2,3,7,6],[0,4,7,3],[0,1,5,4],[1,2,6,5]]
+	// нижняя грань желтая (обход против часовой), верхняя - белая
+	// передняя грань красная, правая боковая синяя
+	// задняя грань оранжевая,  левая грань зеленая
+ax=0.5,ay=0.3,az=0.1  // начальные повороты
+kv = aV.length  // число вершин
+function initB(){
+	for (i = 0; i < kv; i++) {aV[i][0]=aV0[i][0]; aV[i][1]=aV0[i][1]; aV[i][2]=aV0[i][2]}
+}
+function turnX(fi,k) { // поворот точки вокруг Ox на угол fi
+	with (Math){
+	  var y = aV[k][1] * cos(fi) + aV[k][2] * sin(fi);
+	  var z = -aV[k][1] * sin(fi) + aV[k][2] * cos(fi);
+	}
+	aV[k][1] = y; aV[k][2] = z;
+}
+function turnY(fi,k) { // поворот точки вокруг Oy на угол fi
+	with (Math){
+	  x = aV[k][0] * cos(fi) - aV[k][2] * sin(fi);
+	  z = aV[k][0] * sin(fi) + aV[k][2] * cos(fi);
+	}
+	aV[k][0] = x; aV[k][2] = z
+}
+function turnZ(fi,k) { // поворот k точки вокруг Oz на угол fi
+	with (Math){
+	  x =  aV[k][0] * cos(fi) - aV[k][1] * sin(fi);
+	  y =  aV[k][0] * sin(fi) + aV[k][1] * cos(fi);
+	}
+	aV[k][0] = x; aV[k][1] = y
+}
+function turn(ax,ay,az) {  // поворот вокруг осей
+	for (i = 0; i < kv; i++) turnX(ax, i);  // aV -> aV1
+	for (i = 0; i < kv; i++) turnY(ay, i);  // aV1 -> aV
+	for (i = 0; i < kv; i++) turnZ(az, i);  // aV - aV1
+}
+function bVis(i1,i2,i3){ //  v1 =  i1-i2   v2 = i2-i3  
+	// проверка видимости грани с вершинами i1,i2,i3       
+	x1 = aV[i1][0]; y1 = aV[i1][1]; 
+	x2 = aV[i2][0]; y2 = aV[i2][1]; 
+	x3 = aV[i3][0]; y3 = aV[i3][1]; 
+	return ((x1-x2)*(y2-y3) - (x2-x3)*(y1-y2)) >= 0.0;
+}
+function showG(gr) { // отрисовка грани gr[0],gr[1] -- вершины
+	if (!bVis(gr[0], gr[1], gr[2])) return  // не видима
+	var k = gr.length  // число вершин на грани
+	with (cnt1){
+		moveTo(p0[0]+aV[gr[0]][0],p0[1]+aV[gr[0]][1])	 // 
+		for (var i=1; i<k; i++){
+			lineTo(p0[0]+aV[gr[i]][0], p0[1]+aV[gr[i]][1])
+		}
+		lineTo(p0[0]+aV[gr[0]][0],p0[1]+aV[gr[0]][1])
+		stroke()
+	}
+}
+function showBody() { // отрисовка тела
+	for (var i=0; i<mG.length; i++){
+		showG(mG[i]) // отрисовка грани
+	}
+}
+
+function start(){
+    cnt1 = document.getElementById("cs1").getContext("2d");
+	with (cnt1){
+		clearRect (0, 0, aframe, aframe)
+		//strokeRect(0, 0, aframe, aframe)
+		turn(ax,ay,az)
+		beginPath()
+		showBody()
+	}
+}
+
+function ft(k){
+	document.getElementById('cs1').width= aframe
+	document.getElementById('cs1').height= aframe
+	if(k==0){
+		var rx = document.getElementById('x').value
+		var ry = document.getElementById('y').value
+		var rz = document.getElementById('z').value
+		document.getElementById('ax').value = rx
+		document.getElementById('ay').value = ry
+		document.getElementById('az').value = rz
+	}else{
+		rx = document.getElementById('ax').value
+		ry = document.getElementById('ay').value
+		rz = document.getElementById('az').value
+	}
+	ax = rx/(2*Math.PI); ay = ry/(2*Math.PI);	az = rz/(2*Math.PI)
+	initB(); turn(ax,ay,az)
+	start()
+}
+</script>
+</head><body onload="start()">
+<table cellpadding="5"><tbody><tr>
+<td>0x<input type="range" value="30" id="x" min="0" max="180" onchange="ft(0)">
+</td><td>0y<input type="range" value="20" id="y" min="0" max="180" onchange="ft(0)">
+</td><td>0z<input type="range" value="10" id="z" min="0" max="180" onchange="ft(0)">
+</td></tr><tr>
+<td><input id="ax" value="0.5" onchange="ft(1)">
+</td><td><input id="ay" value="0.3" onchange="ft(1)">
+</td><td><input id="az" value="0.2" onchange="ft(1)">
+</td></tr></tbody></table>
+<br>
+<canvas id="cs1" width="400" height="400">???</canvas>
+
+</body></html>

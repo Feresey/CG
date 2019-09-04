@@ -1,0 +1,1022 @@
+
+<!-- saved from url=(0036)http://compgraph.tpu.ru/priority.htm -->
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+
+<title>5.6. Алгоритмы, использующие список приоритетов</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link rel="File-List" href="http://compgraph.tpu.ru/priority.files/filelist.xml">
+
+<style>
+<!--
+h2
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:justify;
+	text-indent:0cm;
+	page-break-after:avoid;
+	tab-stops:list 0cm;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic}
+ p.MsoNormal
+	{mso-style-parent:"";
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-indent:1.0cm;
+	font-size:14.0pt;
+	font-family:"Times New Roman";
+	margin-left:0cm; margin-right:0cm; margin-top:0cm}
+p.MsoCaption
+	{margin-top:6.0pt;
+	margin-right:0cm;
+	margin-bottom:12.0pt;
+	margin-left:0cm;
+	text-align:center;
+	font-size:13.0pt;
+	font-family:"Times New Roman";
+	}
+h3
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:justify;
+	text-indent:1.0cm;
+	page-break-after:avoid;
+	tab-stops:0cm;
+	font-size:13.0pt;
+	font-family:Arial;
+	}
+-->
+</style>
+<!--[if !mso]>
+<style>
+v\:*         { behavior: url(#default#VML) }
+o\:*         { behavior: url(#default#VML) }
+.shape       { behavior: url(#default#VML) }
+</style>
+<![endif]--><!--[if gte mso 9]>
+<xml><o:shapedefaults v:ext="edit" spidmax="1027"/>
+</xml><![endif]-->
+<!--mstheme--><link rel="stylesheet" type="text/css" href="./5.6. Алгоритмы, использующие список приоритетов_files/comp1011-1251.css"><meta name="Microsoft Theme" content="compass 1011">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+
+<p class="MsoNormal" style="text-align: center">
+<span style="font-style: normal; font-weight: 400">
+<font size="4" face="Times New Roman"><span lang="ru">
+<a href="http://compgraph.tpu.ru/ray.htm">Назад</a> | <a href="http://compgraph.tpu.ru/Oglavlenie.htm">
+Оглавление</a> | <a href="http://compgraph.tpu.ru/index.html">Домой</a> |
+<a href="http://compgraph.tpu.ru/warnock.htm">Далее</a></span></font></span></p>
+
+<h2 style="margin-left:0cm;text-indent:0cm"><a name="_Toc88449730">5.6.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Алгоритмы, использующие список приоритетов</a></h2>
+<p class="MsoNormal">При реализации всех обсуждавшихся алгоритмов удаления 
+невидимых линий и поверхностей устанавливались приоритеты, т. е. глубины 
+объектов сцены или их расстояния от точки наблюдения. Алгоритмы, использующие 
+список приоритетов, пытаются получить преимущество посредством предварительной 
+сортировки по глубине или приоритету. Цель такой сортировки состоит в том, чтобы 
+получить окончательный список элементов сцены, упорядоченных по приоритету 
+глубины, основанному на расстоянии от точки наблюдения. Если такой список 
+окончателен, то никакие два элемента не будут взаимно перекрывать друг друга. 
+Тогда можно записать все элементы в буфер кадра поочередно, начиная с элемента, 
+наиболее удаленного от точки наблюдения. Более близкие к наблюдателю элементы 
+будут затирать информацию о более далеких элементах в буфере кадра. Поэтому 
+задача об удалении невидимых поверхностей решается тривиально. Эффекты 
+прозрачности можно включить в состав алгоритма путем не полной, а частичной 
+корректировки содержимого буфера кадра с учетом атрибутов прозрачных элементов.</p>
+<p class="MsoNormal">Для простых элементов сцены, например для многоугольников, 
+этот метод иногда называют алгоритмом <b><i>художника</i></b>, поскольку он 
+аналогичен тому способу, которым художник создает картину. Сначала художник 
+рисует фон, затем предметы, лежащие на среднем расстоянии, и, наконец, передний 
+план. Тем самым художник решает задачу об удалении невидимых поверхностей, или 
+задачу видимости, путем построения картины в порядке обратного приоритета.</p>
+<p class="MsoNormal">Для простой сцены, вроде той, что показана на рис. 5.13, а, 
+окончательный список приоритетов можно получить непосредственно. Например, эти 
+многоугольники можно упорядочить по их максимальному или минимальному значению 
+координаты <i>z</i>. Однако уже для сцены, показанной на рис. 6.13 b, 
+окончательный список приоритетов по глубине невозможно получить простой 
+сортировкой по <i>z</i>. Если <i>P</i> и <i>Q</i> с рис. 5.13, b упорядочены по 
+минимальному значению координаты <i>z</i> (<i>z</i><sub>min</sub>), окажется, 
+что <i>Р</i> в списке приоритетов по глубине будет стоять перед <i>Q</i>. Если 
+их записать в буфер кадра в таком порядке, то получится, что <i>Q</i> частично 
+экранирует <i>P</i>. Однако фактически <i>P</i> частично экранирует <i>Q</i>. 
+Правильный порядок в списке приоритетов будет тогда, когда <i>P</i> и <i>Q</i> 
+поменяются местами.</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal" align="center" style="text-align:center">
+<span lang="EN-US"><!--[if gte vml 1]><v:group id="_x0000_s1025"
+ editas="canvas" style='width:381.75pt;height:162pt;
+ mso-position-horizontal-relative:char;mso-position-vertical-relative:line'
+ coordorigin="1995,5370" coordsize="7635,3240">
+ <o:lock v:ext="edit" aspectratio="t"/>
+ <v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75"
+  o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+  <v:stroke joinstyle="miter"/>
+  <v:formulas>
+   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+   <v:f eqn="sum @0 1 0"/>
+   <v:f eqn="sum 0 0 @1"/>
+   <v:f eqn="prod @2 1 2"/>
+   <v:f eqn="prod @3 21600 pixelWidth"/>
+   <v:f eqn="prod @3 21600 pixelHeight"/>
+   <v:f eqn="sum @0 0 1"/>
+   <v:f eqn="prod @6 1 2"/>
+   <v:f eqn="prod @7 21600 pixelWidth"/>
+   <v:f eqn="sum @8 21600 0"/>
+   <v:f eqn="prod @7 21600 pixelHeight"/>
+   <v:f eqn="sum @10 21600 0"/>
+  </v:formulas>
+  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+  <o:lock v:ext="edit" aspectratio="t"/>
+ </v:shapetype><v:shape id="_x0000_s1026" type="#_x0000_t75" style='position:absolute;
+  left:1995;top:5370;width:7635;height:3240' o:preferrelative="f">
+  <v:fill o:detectmouseclick="t"/>
+  <v:path o:extrusionok="t" o:connecttype="none"/>
+  <o:lock v:ext="edit" text="t"/>
+ </v:shape><v:group id="_x0000_s1027" style='position:absolute;left:1995;top:5370;
+  width:3600;height:2895' coordorigin="1995,5370" coordsize="3600,2895">
+  <v:line id="_x0000_s1028" style='position:absolute' from="2220,5538" to="5205,5538">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:line id="_x0000_s1029" style='position:absolute' from="2220,5538"
+   to="2220,8102">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:shapetype id="_x0000_t202" coordsize="21600,21600" o:spt="202"
+   path="m,l,21600r21600,l21600,xe">
+   <v:stroke joinstyle="miter"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+  </v:shapetype><v:shape id="_x0000_s1030" type="#_x0000_t202" style='position:absolute;
+   left:1995;top:7920;width:315;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table11">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">z<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape><v:shape id="_x0000_s1031" type="#_x0000_t202" style='position:absolute;
+   left:5281;top:5370;width:314;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table10">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">x<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape></v:group><v:group id="_x0000_s1032" style='position:absolute;
+  left:6030;top:5370;width:3600;height:2895' coordorigin="1995,5370"
+  coordsize="3600,2895">
+  <v:line id="_x0000_s1033" style='position:absolute' from="2220,5538" to="5205,5538">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:line id="_x0000_s1034" style='position:absolute' from="2220,5538"
+   to="2220,8102">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:shape id="_x0000_s1035" type="#_x0000_t202" style='position:absolute;
+   left:1995;top:7920;width:315;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table9">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">z<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape><v:shape id="_x0000_s1036" type="#_x0000_t202" style='position:absolute;
+   left:5281;top:5370;width:314;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table8">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">x<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape></v:group><v:line id="_x0000_s1037" style='position:absolute'
+  from="3030,6180" to="4875,6630" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1038" type="#_x0000_t202" style='position:absolute;
+  left:2895;top:5880;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table7">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<b style="mso-bidi-font-weight:
+     normal"><i style="mso-bidi-font-style:normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			P<o:p></o:p></span></i></b></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1039" style='position:absolute;flip:y' from="2730,6932"
+  to="5070,7155" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:line id="_x0000_s1040" style='position:absolute' from="3495,7471"
+  to="4515,7562" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1041" type="#_x0000_t202" style='position:absolute;
+  left:2535;top:6825;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table6">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<b style="mso-bidi-font-weight:
+     normal"><i style="mso-bidi-font-style:normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			Q<o:p></o:p></span></i></b></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1042" type="#_x0000_t202" style='position:absolute;
+  left:4560;top:7395;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table5">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<b style="mso-bidi-font-weight:
+     normal"><i style="mso-bidi-font-style:normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			R<o:p></o:p></span></i></b></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1043" style='position:absolute' from="6780,6075"
+  to="8460,7740" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1044" type="#_x0000_t202" style='position:absolute;
+  left:6630;top:5805;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table4">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<b style="mso-bidi-font-weight:
+     normal"><i style="mso-bidi-font-style:normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			P<o:p></o:p></span></i></b></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1045" style='position:absolute' from="7950,6303"
+  to="8940,7293" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1046" type="#_x0000_t202" style='position:absolute;
+  left:7725;top:6018;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table3">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<b style="mso-bidi-font-weight:
+     normal"><i style="mso-bidi-font-style:normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			Q<o:p></o:p></span></i></b></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1047" type="#_x0000_t202" style='position:absolute;
+  left:7725;top:8265;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table2">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			b<o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1048" type="#_x0000_t202" style='position:absolute;
+  left:3900;top:8265;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table1">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			a<o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape></v:group><![endif]--><!--[if !vml]--><img width="513" height="220" src="./5.6. Алгоритмы, использующие список приоритетов_files/image001.gif" v:shapes="_x0000_s1025 _x0000_s1026 _x0000_s1027 _x0000_s1028 _x0000_s1029 _x0000_s1030 _x0000_s1031 _x0000_s1032 _x0000_s1033 _x0000_s1034 _x0000_s1035 _x0000_s1036 _x0000_s1037 _x0000_s1038 _x0000_s1039 _x0000_s1040 _x0000_s1041 _x0000_s1042 _x0000_s1043 _x0000_s1044 _x0000_s1045 _x0000_s1046 _x0000_s1047 _x0000_s1048"><!--[endif]--></span></p>
+<p class="MsoNormal" align="center" style="text-align:center">
+<span lang="EN-US">&nbsp;</span></p>
+<p class="MsoCaption">Рис. 5.13. Установление приоритетов для многоугольников</p>
+<p class="MsoCaption">&nbsp;</p>
+<p class="MsoNormal">Другие трудности показаны на рис. 5.14. Здесь 
+многоугольники циклически перекрывают друг друга. На рис. 5.14, а <i>P</i> 
+находится впереди <i>Q</i>, который лежит впереди <i>R</i>, который, в свою 
+очередь, находится впереди <i>P</i>. На рис. 5.14, b <i>P</i> экранирует <i>Q</i>, 
+a <i>Q</i> экранирует <i>P</i>. Аналогичное циклическое экранирование возникает 
+при протыкании многоугольников; например, на рис. 5.12 показано, как треугольник 
+протыкает прямоугольник. Там прямоугольник экранируется треугольником, и 
+наоборот. В обоих примерах окончательный список приоритетов невозможно 
+установить сразу. Выход из положения заключается в циклическом разрезании 
+многоугольников по линиям, образованным пересечениями их плоскостей, до тех пор, 
+пока не будет получен окончательный список приоритетов. Такие линии показаны 
+пунктиром на рис. 5.14.</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal" align="center" style="text-align:center">&nbsp;</p>
+<p class="MsoNormal" align="center" style="text-align:center">
+<span lang="EN-US"><!--[if gte vml 1]><v:group
+ id="_x0000_s1049" editas="canvas" style='width:372.75pt;height:159pt;
+ mso-position-horizontal-relative:char;mso-position-vertical-relative:line'
+ coordorigin="1815,5267" coordsize="7455,3183">
+ <o:lock v:ext="edit" aspectratio="t"/>
+ <v:shape id="_x0000_s1050" type="#_x0000_t75" style='position:absolute;left:1815;
+  top:5267;width:7455;height:3183' o:preferrelative="f">
+  <v:fill o:detectmouseclick="t"/>
+  <v:path o:extrusionok="t" o:connecttype="none"/>
+  <o:lock v:ext="edit" text="t"/>
+ </v:shape><v:group id="_x0000_s1051" style='position:absolute;left:1815;top:5267;
+  width:3420;height:2863' coordorigin="1815,5267" coordsize="3420,2863">
+  <v:line id="_x0000_s1052" style='position:absolute;flip:y' from="2070,5342"
+   to="2070,7876">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:line id="_x0000_s1053" style='position:absolute' from="2070,7876"
+   to="4875,7876">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:shape id="_x0000_s1054" type="#_x0000_t202" style='position:absolute;
+   left:1815;top:5267;width:270;height:420' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table22">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">y<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape><v:shape id="_x0000_s1055" type="#_x0000_t202" style='position:absolute;
+   left:4965;top:7710;width:270;height:420' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table21">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">x<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape></v:group><v:group id="_x0000_s1056" style='position:absolute;
+  left:5850;top:5267;width:3420;height:2863' coordorigin="1815,5267"
+  coordsize="3420,2863">
+  <v:line id="_x0000_s1057" style='position:absolute;flip:y' from="2070,5342"
+   to="2070,7876">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:line id="_x0000_s1058" style='position:absolute' from="2070,7876"
+   to="4875,7876">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:shape id="_x0000_s1059" type="#_x0000_t202" style='position:absolute;
+   left:1815;top:5267;width:270;height:420' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table20">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">y<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape><v:shape id="_x0000_s1060" type="#_x0000_t202" style='position:absolute;
+   left:4965;top:7710;width:270;height:420' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table19">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">x<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape></v:group><v:rect id="_x0000_s1061" style='position:absolute;
+  left:2685;top:5402;width:435;height:1963' strokeweight="1.25pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:rect><v:shape id="_x0000_s1062" style='position:absolute;left:2400;top:5957;
+  width:1965;height:1320;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;
+  mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;
+  mso-position-horizontal:absolute;mso-position-horizontal-relative:text;
+  mso-position-vertical:absolute;mso-position-vertical-relative:text;
+  v-text-anchor:top' coordsize="1965,1320" path="m,795r,525l1965,,,795xe"
+  strokeweight="1.25pt">
+  <v:shadow offset="6pt,6pt"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s1063" style='position:absolute;left:3120;top:6107;
+  width:1245;height:855;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;
+  mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;
+  mso-position-horizontal:absolute;mso-position-horizontal-relative:text;
+  mso-position-vertical:absolute;mso-position-vertical-relative:text;
+  v-text-anchor:top' coordsize="1245,855" path="m1245,855l,165,,,1245,315r,540xe"
+  strokeweight="1.25pt">
+  <v:shadow offset="6pt,6pt"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:line id="_x0000_s1064" style='position:absolute;flip:x y' from="2491,5957"
+  to="2685,6047">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:line id="_x0000_s1065" style='position:absolute;flip:x y' from="2483,5950"
+  to="2677,5979">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1066" type="#_x0000_t202" style='position:absolute;
+  left:2460;top:6780;width:270;height:420' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table18">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">R<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1067" type="#_x0000_t202" style='position:absolute;
+  left:4035;top:6465;width:270;height:420' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table17">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">Q<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1068" type="#_x0000_t202" style='position:absolute;
+  left:2820;top:5520;width:270;height:293' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table16">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">P<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1069" style='position:absolute' from="2685,5805"
+  to="3120,5963">
+  <v:stroke dashstyle="dash"/>
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:line id="_x0000_s1070" style='position:absolute' from="3210,6137"
+  to="3210,6317">
+  <v:stroke dashstyle="dash"/>
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1071" style='position:absolute;left:6630;top:5612;
+  width:1920;height:1710;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;
+  mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;
+  mso-position-horizontal:absolute;mso-position-horizontal-relative:text;
+  mso-position-vertical:absolute;mso-position-vertical-relative:text;
+  v-text-anchor:top' coordsize="1920,1710" path="m,240l,1710r1920,l1920,,810,1305,,240xe"
+  strokeweight="1.25pt">
+  <v:shadow offset="6pt,6pt"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s1072" style='position:absolute;left:8550;top:5742;
+  width:470;height:500;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;
+  mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;
+  mso-position-horizontal:absolute;mso-position-horizontal-relative:text;
+  mso-position-vertical:absolute;mso-position-vertical-relative:text;
+  v-text-anchor:top' coordsize="480,500" path="m,120l360,,480,340,,500,,120xe"
+  strokeweight="1.25pt">
+  <v:shadow offset="6pt,6pt"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s1073" style='position:absolute;left:6240;top:5952;
+  width:2010;height:1060;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;
+  mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;
+  mso-position-horizontal:absolute;mso-position-horizontal-relative:text;
+  mso-position-vertical:absolute;mso-position-vertical-relative:text;
+  v-text-anchor:top' coordsize="2010,1060" path="m,700r100,360l1540,570,2010,,,700xe"
+  strokeweight="1.25pt">
+  <v:shadow offset="6pt,6pt"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s1074" type="#_x0000_t202" style='position:absolute;
+  left:8680;top:5820;width:270;height:293' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table15">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">P<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1075" type="#_x0000_t202" style='position:absolute;
+  left:8235;top:6935;width:270;height:420' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table14">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">Q<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1076" style='position:absolute;flip:x' from="7490,6182"
+  to="7580,6632" strokeweight="1.25pt">
+  <v:stroke dashstyle="dash"/>
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1077" type="#_x0000_t202" style='position:absolute;
+  left:3225;top:8030;width:270;height:420' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table13">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			a</span><span style="mso-bidi-font-size:14.0pt"><o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1078" type="#_x0000_t202" style='position:absolute;
+  left:7350;top:7955;width:270;height:420' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table12">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			b</span><span style="mso-bidi-font-size:14.0pt"><o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape></v:group><![endif]--><!--[if !vml]--><img width="501" height="216" src="./5.6. Алгоритмы, использующие список приоритетов_files/image002.gif" v:shapes="_x0000_s1049 _x0000_s1050 _x0000_s1051 _x0000_s1052 _x0000_s1053 _x0000_s1054 _x0000_s1055 _x0000_s1056 _x0000_s1057 _x0000_s1058 _x0000_s1059 _x0000_s1060 _x0000_s1061 _x0000_s1062 _x0000_s1063 _x0000_s1064 _x0000_s1065 _x0000_s1066 _x0000_s1067 _x0000_s1068 _x0000_s1069 _x0000_s1070 _x0000_s1071 _x0000_s1072 _x0000_s1073 _x0000_s1074 _x0000_s1075 _x0000_s1076 _x0000_s1077 _x0000_s1078"><!--[endif]--></span></p>
+<p class="MsoCaption">Рис. 5.14. Циклически перекрывающие многоугольники</p>
+<p class="MsoCaption">&nbsp;</p>
+<p class="MsoNormal" style="text-indent:35.4pt">Ньюэл М., Ньюэл Р. и Санча 
+предложили специальный метод сортировки для разрешения конфликтов, возникающих 
+при создании списка приоритетов по глубине. Этот метод включен в состав 
+алгоритма Ньюэла - Ньюэла - Санча, который излагается ниже. В алгоритме 
+динамически вычисляется новый список приоритетов перед обработкой каждого кадра 
+сцены. Не накладывается никаких ограничений на сложность сцены и на тип 
+многоугольников, используемых для описания элементов сцены. Первоначальный 
+алгоритм Ньюэла - Ньюэла - Санча был предназначен для обработки трехмерных тел. 
+Это расширение не ограничено рамками многогранников. Оно может, кроме того, 
+обрабатывать тела смешанных типов в рамках одной сцены.</p>
+<h3 style="text-indent: 0cm; margin-left: 1.0cm"><a name="_Toc88449731">
+<span style="font-size:14.0pt;font-family:&quot;Times New Roman&quot;">Алгоритм 
+Ньюэла-Ньюэла-Санча для случая многоугольников</span></a></h3>
+<p class="MsoNormal">Сформировать предварительный список приоритетов по глубине, 
+используя в качестве ключа сортировки значение <i>z</i><sub>min</sub> для 
+каждого многоугольника. Первым в списке будет многоугольник с минимальным 
+значением <i>z</i><sub>min</sub>. Этот многоугольник лежит дальше всех от точки 
+наблюдения, расположенной в бесконечности на положительной полуоси <i>z</i>. 
+Обозначим его через <i>P</i>, а следующий в списке многоугольник - через <i>Q</i>. 
+Для каждого многоугольника <i>P</i> из списка надо проверить его отношение с <i>
+Q</i>. </p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">Если ближайшая вершина <i>Р</i> (<span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1116" type="#_x0000_t75" style='width:27pt;height:21pt'>
+ <v:imagedata src="priority.files/image003.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="36" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image004.gif" v:shapes="_x0000_s1116"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->) 
+будет дальше от точки наблюдения, чем самая удаленная вершина <i>Q</i> (<span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1115" type="#_x0000_t75" style='width:27.75pt;height:21pt'>
+ <v:imagedata src="priority.files/image005.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="37" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image006.gif" v:shapes="_x0000_s1115"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->), 
+т. е. <span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1114" type="#_x0000_t75" style='width:27pt;height:21pt'>
+ <v:imagedata src="priority.files/image007.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="36" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image008.gif" v:shapes="_x0000_s1114"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->&#8805; 
+&nbsp;<span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1113" type="#_x0000_t75" style='width:27pt;height:21pt'>
+ <v:imagedata src="priority.files/image009.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="36" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image004.gif" v:shapes="_x0000_s1113"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->никакая 
+часть <i>P</i> не может экранировать <i>Q</i>. Занести <i>Р</i> в буфер кадра 
+(см. рис. 5.13, а).</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">Если <span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1112" type="#_x0000_t75" style='width:27.75pt;height:21pt'>
+ <v:imagedata src="priority.files/image010.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="37" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image006.gif" v:shapes="_x0000_s1112"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->&lt; 
+&nbsp;<span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1111" type="#_x0000_t75" style='width:27pt;height:21pt'>
+ <v:imagedata src="priority.files/image011.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="36" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image004.gif" v:shapes="_x0000_s1111"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->, 
+то <i>Р</i> потенциальное экранирует не только <i>Q</i>, но также и любой другой 
+многоугольник типа <i>Q</i> из списка, для которого
+<span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1110" type="#_x0000_t75" style='width:27.75pt;height:21pt'>
+ <v:imagedata src="priority.files/image010.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="37" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image006.gif" v:shapes="_x0000_s1110"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->&lt;<span style="position: relative; top: 9.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1109" type="#_x0000_t75" style='width:27pt;height:21pt'>
+ <v:imagedata src="priority.files/image011.wmz" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img border="0" width="36" height="28" src="./5.6. Алгоритмы, использующие список приоритетов_files/image004.gif" v:shapes="_x0000_s1109"><!--[endif]--></span><!--[if gte mso 9]><![endif]-->. 
+Тем самым образуется множество {<i>Q</i>}. Однако <i>Р</i> может фактически и не 
+экранировать ни один из этих многоугольников. Если последнее верно, то <i>Р</i> 
+можно заносить в буфер кадра. Для ответа на этот вопрос используется серия 
+тестов, следующих по возрастанию их вычислительной сложности. Эти тесты ниже 
+формулируются в виде вопросов. Если ответ на любой вопрос будет положительным, 
+то <i>Р</i> не может экранировать {<i>Q</i>}. Поэтому <i>Р</i> сразу же 
+заносится в буфер кадра. Вот эти тесты: </p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal" style="margin-left: 0cm">
+<span style="font-size: 12.0pt; font-family: Symbol">&#168;<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span>Верно ли, что прямоугольные объемлющие оболочки <i>Р</i> и <i>Q</i> 
+не перекрываются по <i>х</i>?</p>
+<p class="MsoNormal" style="margin-left: 0cm">
+<span style="font-size: 12.0pt; font-family: Symbol">&#168;<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span>Верно ли, что прямоугольные оболочки <i>Р </i>и <i>Q</i> не 
+перекрываются по <i>у</i>?</p>
+<p class="MsoNormal" style="margin-left: 0cm">
+<span style="font-size: 12.0pt; font-family: Symbol">&#168;<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span>Верно ли, что <i>Р</i> целиком лежит по ту сторону плоскости, 
+несущей <i>Q</i>, которая расположена дальше от точки наблюдения (рис. 5.15, а)?</p>
+<p class="MsoNormal" style="margin-left: 0cm">
+<span style="font-size: 12.0pt; font-family: Symbol">&#168;<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span>Верно ли, что <i>Q</i> целиком лежит по ту сторону плоскости, 
+несущей <i>P</i>, которая ближе к точке наблюдения (рис. 5.15,&nbsp; b)?</p>
+<p class="MsoNormal" style="margin-left: 0cm">
+<span style="font-size: 12.0pt; font-family: Symbol">&#168;<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span>Верно ли, что проекции <i>Р</i> и <i>Q</i> не перекрываются?</p>
+<p class="MsoNormal" style="margin-left: 0cm">
+&nbsp;</p>
+<p class="MsoNormal" align="center" style="text-align:center">&nbsp;</p>
+<p class="MsoNormal" align="center" style="text-align:center">
+<span lang="EN-US"><!--[if gte vml 1]><v:group
+ id="_x0000_s1087" editas="canvas" style='width:381.75pt;height:162pt;
+ mso-position-horizontal-relative:char;mso-position-vertical-relative:line'
+ coordorigin="1995,5370" coordsize="7635,3240">
+ <o:lock v:ext="edit" aspectratio="t"/>
+ <v:shape id="_x0000_s1088" type="#_x0000_t75" style='position:absolute;left:1995;
+  top:5370;width:7635;height:3240' o:preferrelative="f">
+  <v:fill o:detectmouseclick="t"/>
+  <v:path o:extrusionok="t" o:connecttype="none"/>
+  <o:lock v:ext="edit" text="t"/>
+ </v:shape><v:group id="_x0000_s1089" style='position:absolute;left:1995;top:5370;
+  width:3600;height:2895' coordorigin="1995,5370" coordsize="3600,2895">
+  <v:line id="_x0000_s1090" style='position:absolute' from="2220,5538" to="5205,5538">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:line id="_x0000_s1091" style='position:absolute' from="2220,5538"
+   to="2220,8102">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:shape id="_x0000_s1092" type="#_x0000_t202" style='position:absolute;
+   left:1995;top:7920;width:315;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table32">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">z<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape><v:shape id="_x0000_s1093" type="#_x0000_t202" style='position:absolute;
+   left:5281;top:5370;width:314;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table31">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">x<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape></v:group><v:group id="_x0000_s1094" style='position:absolute;
+  left:6030;top:5370;width:3600;height:2895' coordorigin="1995,5370"
+  coordsize="3600,2895">
+  <v:line id="_x0000_s1095" style='position:absolute' from="2220,5538" to="5205,5538">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:line id="_x0000_s1096" style='position:absolute' from="2220,5538"
+   to="2220,8102">
+   <v:stroke endarrow="block"/>
+   <v:shadow offset="6pt,6pt"/>
+  </v:line><v:shape id="_x0000_s1097" type="#_x0000_t202" style='position:absolute;
+   left:1995;top:7920;width:315;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table30">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">z<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape><v:shape id="_x0000_s1098" type="#_x0000_t202" style='position:absolute;
+   left:5281;top:5370;width:314;height:345' filled="f" stroked="f">
+   <v:shadow on="t" offset="6pt,6pt"/>
+   <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table29">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+      normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+      EN-US">x<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+  </v:shape></v:group><v:line id="_x0000_s1099" style='position:absolute;
+  flip:y' from="3750,6120" to="5130,6975" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1100" type="#_x0000_t202" style='position:absolute;
+  left:3735;top:6600;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table28">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">P<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1101" style='position:absolute' from="2700,6495"
+  to="4785,7877" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1102" type="#_x0000_t202" style='position:absolute;
+  left:2460;top:6615;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table27">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">Q<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1103" style='position:absolute' from="6960,6060"
+  to="8910,7275" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1104" type="#_x0000_t202" style='position:absolute;
+  left:6810;top:5790;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table26">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">P<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s1105" style='position:absolute;flip:y' from="6825,6918"
+  to="7860,7698" strokeweight="1.5pt">
+  <v:shadow offset="6pt,6pt"/>
+ </v:line><v:shape id="_x0000_s1106" type="#_x0000_t202" style='position:absolute;
+  left:6885;top:7668;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table25">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<i style="mso-bidi-font-style:
+     normal">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:
+     EN-US">Q<o:p></o:p></span></i></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1107" type="#_x0000_t202" style='position:absolute;
+  left:7725;top:8265;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table24">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			b</span><span style="mso-bidi-font-size:14.0pt"><o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s1108" type="#_x0000_t202" style='position:absolute;
+  left:3900;top:8265;width:315;height:345' filled="f" stroked="f">
+  <v:shadow on="t" offset="6pt,6pt"/>
+  <v:textbox inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table23">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal" style="text-indent:0cm">
+			<span lang="EN-US" style="mso-bidi-font-size:14.0pt;mso-ansi-language:EN-US">
+			a</span><span style="mso-bidi-font-size:14.0pt"><o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape></v:group><![endif]--><!--[if !vml]--><img width="513" height="220" src="./5.6. Алгоритмы, использующие список приоритетов_files/image012.gif" v:shapes="_x0000_s1087 _x0000_s1088 _x0000_s1089 _x0000_s1090 _x0000_s1091 _x0000_s1092 _x0000_s1093 _x0000_s1094 _x0000_s1095 _x0000_s1096 _x0000_s1097 _x0000_s1098 _x0000_s1099 _x0000_s1100 _x0000_s1101 _x0000_s1102 _x0000_s1103 _x0000_s1104 _x0000_s1105 _x0000_s1106 _x0000_s1107 _x0000_s1108"><!--[endif]--></span></p>
+<p class="MsoCaption">Рис. 5.15. Тесты для перекрывающихся многоугольников</p>
+<p class="MsoCaption">&nbsp;</p>
+<p class="MsoNormal">Каждый из этих тестов применяется к каждому элементу {<i>Q</i>}. 
+Если ни один из них не дает положительного ответа и не заносит <i>Р </i>в буфер 
+кадра, то <i>Р</i> может закрывать <i>Q</i>.</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">Поменять <i>Р</i> и <i>Q</i> местами, пометив позицию <i>Q</i> 
+в списке. Повторить тесты с новым списком. Это дает положительный результат для 
+сцены с рис. 5.13, b. </p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">Если сделана попытка вновь переставить <i>Q</i>, значит, 
+обнаружена ситуация циклического экранирования (см. рис. 5.14.). В этом случае
+<i>Р</i> разрезается плоскостью, несущей <i>Q</i>, исходный многоугольник <i>Р</i> 
+удаляется из списка, а его части заносятся в список. Затем тесты повторяются для 
+нового списка. Этот шаг предотвращает зацикливание алгоритма. </p>
+
+<p class="MsoNormal" style="text-align: center">
+<span style="font-style: normal; font-weight: 400">
+<font size="4" face="Times New Roman"><span lang="ru">
+<a href="http://compgraph.tpu.ru/ray.htm">Назад</a> | <a href="http://compgraph.tpu.ru/Oglavlenie.htm">
+Оглавление</a> | <a href="http://compgraph.tpu.ru/index.html">Домой</a> |
+<a href="http://compgraph.tpu.ru/warnock.htm">Далее</a></span></font></span></p>
+
+
+
+
+</body></html>

@@ -1,0 +1,1593 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<title>6</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	font-size:16.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoBodyText2, li.MsoBodyText2, div.MsoBodyText2
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+pre
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.identifier
+	{mso-style-name:identifier;}
+span.parameter
+	{mso-style-name:parameter;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:2.0cm 2.0cm 59.55pt 2.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=RU>
+<!--
+<a href="http://www.chernyshov.com/_canvas/">www.chernyshov.com/_canvas - Примеры на canvas</a>
+-->
+<a href="ex_box-3.htm">Тетраэдр</a>
+<br><a href="ex_box-4.htm">Куб</a>
+<br><br>
+<a href="http://compgraph.tpu.ru/Oglavlenie.htm">Машинная графика. ОГЛАВЛЕНИЕ</a>
+<br><a href="http://compgraph.tpu.ru/zbuffer.htm">Алгоритм, использующий z–буфер</a>
+(<a href="http://www.mari-el.ru/mmlab/home/kg/Lection10/3.html">z–буфер</a>)
+<br>
+<br><a href="http://compgraph.tpu.ru/ray.htm">Метод трассировки лучей (ray casting)</a>
+(<a href="https://ru.wikipedia.org/wiki/%D0%A2%D1%80%D0%B0%D1%81%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BB%D1%83%D1%87%D0%B5%D0%B9">
+Wiki: Трассировка лучей</a>)
+<br>
+<br><a href="http://compgraph.tpu.ru/priority.htm">Алгоритмы, использующие список приоритетов</a>
+<br>
+<br><a href="http://compgraph.tpu.ru/warnock.htm">Алгоритм Варнока (Warnock)</a>
+(<a href="Warnock.pdf">Алгоритм Warnock - перезентация</a>)
+<br>
+<br> <a href="Lect5.htm">
+Удаление невидимых поверхностей выпуклого многогранника.
+Однотонная закраска полигонов.
+</a>
+<br> <a href="Lect6.htm">
+Цвет в компьютерной графике.
+</a>
+<br><br>
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'> Аффинные преобразования и однородные
+координаты.</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>1. Аффинные преобразования.</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><u><span
+style='font-size:14.0pt;line-height:150%'><span style='text-decoration:none'>&nbsp;</span></span></u></p>
+
+<p class=MsoNormal align=right style='text-align:right;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Аффинные преобразования (от
+лат. affinis – родственный) представляют собой точечные взаимно однозначные
+отображения пространства (плоскости) на себя, при которых прямые переходят в
+прямые. </span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Аффинные преобразования
+сохраняют параллельность линий и плоскостей. Они также сохраняют пропорции
+параллельных объектов: длин отрезков на параллельных прямых и площадей на
+параллельных плоскостях.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Аффинное преобразование
+векторного изображения на плоскости:</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'><img width=155 height=123
+src="Lect4_Афинные_преобр.files/image001.gif">             <img width=208
+height=129 src="Lect4_Афинные_преобр.files/image002.jpg"></span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-right:25.45pt;text-align:justify;text-indent:
+36.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%'>Произвольное
+аффинное преобразование, переводящее каждую точку  <sub><img width=31
+height=17 src="Lect4_Афинные_преобр.files/image003.gif"></sub>пространства в
+точку <sub><img width=37 height=17 src="Lect4_Афинные_преобр.files/image004.gif"></sub>задается
+матричной формулой</span></p>
+
+<p class=MsoNormal style='margin-right:25.45pt;text-align:justify;text-indent:
+36.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 valign=top style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  style='font-size:14.0pt;line-height:150%'><sub><img width=131 height=17
+  src="Lect4_Афинные_преобр.files/image005.gif"></sub></span><span lang=EN-US
+  style='font-size:14.0pt;line-height:150%'>,</span></p>
+  </td>
+  <td width=36 valign=top style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=right style='text-align:right;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(</span></b><b><span lang=EN-US
+  style='font-size:14.0pt;line-height:150%'>1</span></b><b><span
+  style='font-size:14.0pt;line-height:150%'>)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>, где </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>P</span><span style='font-size:14.0pt;
+line-height:150%'>-матрица, а </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>D</span><span style='font-size:14.0pt;line-height:150%'>-вектор,
+не зависящие от М.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Из (1) следует, что
+суперпозиция аффинных преобразований сводится вычислению матричных выражений в
+соответствии с правилами линейной алгебры.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Обычно выделяют три
+основных вида аффинных преобразований: перенос, поворот и масштабирование.</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          <i>Перенос</i> переводит
+точку <sub><img width=91 height=75 src="Lect4_Афинные_преобр.files/image006.gif"></sub> в
+точку <sub><img width=143 height=75
+src="Lect4_Афинные_преобр.files/image007.gif"></sub> </span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Рассмотрим плоский (2</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>D</span><span
+style='font-size:14.0pt;line-height:150%'>)  случай <i>поворота</i>
+относительно начала координат.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'><img width=205
+height=153 src="Lect4_Афинные_преобр.files/image008.jpg"></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>Осуществим
+<a name=OCRUncertain023>поворот</a> вокруг точки начала координат на
+произвольный угол </span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%;font-family:Symbol;layout-grid-mode:line'>j</span><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>. Рассмотрим радиус-вектор точки
+</span><span lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'>M</span><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'>). Обозначим </span><a name=OCRUncertain028><i><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>r</span></i></a><i><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span></i><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>—</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> длину вектора,
+а </span><i><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:Symbol;layout-grid-mode:line'>q</span></i><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>—</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>угол между радиус-вектором
+</span><span lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'>OM</span><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'> </span><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>и осью <a name=OCRUncertain030><i>х. </i>Радиус-вектор</a>
+поворачивается вокруг начала координат на угол </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;font-family:Symbol;layout-grid-mode:
+line'>j</span><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'> и попадает в точку </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>M</span><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>'<i>. </i> Записав радиус-векторы для </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>M</span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> и </span><a
+name=OCRUncertain032><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>M</span></a><span style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'>',</span><span style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'> получаем:</span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  style='font-size:14.0pt;line-height:150%'><sub><img width=195 height=48
+  src="Lect4_Афинные_преобр.files/image009.gif"></sub></span></p>
+  </td>
+  <td width=36 style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(2)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-top:6.0pt;margin-right:1.0pt;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>и</span></p>
+
+<p class=MsoNormal align=center style='margin-top:6.0pt;margin-right:1.0pt;
+margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:center;
+line-height:150%'><span style='font-size:14.0pt;line-height:150%'><sub><img
+width=253 height=48 src="Lect4_Афинные_преобр.files/image010.gif"></sub></span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;margin-right:1.0pt;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:justify;line-height:150%'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:23.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>Используя
+формулу для косинуса суммы углов, перепишем выражение для </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>M</span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>' <a
+name=OCRUncertain050>следующим</a> образом</span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:23.0pt;
+  line-height:150%'><span style='font-size:14.0pt;line-height:150%'><sub><img
+  width=380 height=48 src="Lect4_Афинные_преобр.files/image011.gif"></sub></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+  </td>
+  <td width=36 style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(3)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-right:24.0pt;text-align:justify;text-indent:
+23.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>Использ<a name=OCRUncertain066>у</a>я <a
+name=OCRUncertain067>(2) <i>,</i></a> можно переписать (3) в виде</span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:23.0pt;
+  line-height:150%'><span style='font-size:14.0pt;line-height:150%'><sub><img
+  width=297 height=48 src="Lect4_Афинные_преобр.files/image012.gif"></sub></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+  </td>
+  <td width=36 style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(</span></b><b><span lang=EN-US
+  style='font-size:14.0pt;line-height:150%'>4</span></b><b><span
+  style='font-size:14.0pt;line-height:150%'>)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-right:24.0pt;text-align:justify;text-indent:
+23.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-right:24.0pt;text-align:justify;text-indent:
+23.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><a
+name=OCRUncertain075><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'>Таким</span></a><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'> образом, преобразованная точка имеет координаты</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:66.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>х'
+<a name=OCRUncertain077>=</a> х</span></i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>cos</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol;
+layout-grid-mode:line'>j</span><i><span style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'> -у</span></i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>sin</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol;
+layout-grid-mode:line'>j</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:66.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>у'
+<a name=OCRUncertain080>=</a> х</span></i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>sin</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span><a
+name=OCRUncertain081><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:Symbol;layout-grid-mode:line'>j</span></a><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>+</span></i><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> у</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>cos</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol;
+layout-grid-mode:line'>j</span><i><span style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'>.</span></i></p>
+
+<p class=MsoNormal style='margin-top:0cm;margin-right:126.0pt;margin-bottom:
+0cm;margin-left:112.0pt;margin-bottom:.0001pt;text-align:justify;text-indent:
+-112.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>или в матричном виде</span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr style='height:53.1pt'>
+  <td width=621 style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt;height:53.1pt'>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:23.0pt;
+  line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:23.0pt;
+  line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:23.0pt;
+  line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:23.0pt;
+  line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+  layout-grid-mode:line'>&nbsp;</span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><img
+  width=325 height=71 src="Lect4_Афинные_преобр.files/image013.gif" align=left
+  hspace=12></p>
+  </td>
+  <td width=36 style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;height:53.1pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(</span></b><b><span lang=EN-US
+  style='font-size:14.0pt;line-height:150%'>5</span></b><b><span
+  style='font-size:14.0pt;line-height:150%'>)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></i></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'>
+
+<table cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=182 height=0></td>
+ </tr>
+ <tr>
+  <td></td>
+  <td><img width=264 height=89 src="Lect4_Афинные_преобр.files/image014.gif"></td>
+ </tr>
+</table>
+
+<br clear=ALL>
+<span style='font-size:14.0pt;line-height:150%'>Для применения обратного
+пребразования найдем матрицу поворота на -</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;font-family:Symbol;layout-grid-mode:
+line'>j</span><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>Эту
+же матрицу можно получить из общих соображений как обратную к </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>P</span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>В
+данном случае матрица ортогональная (</span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%'>det</span><span style='font-size:14.0pt;line-height:
+150%'>(</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'>P</span><span
+style='font-size:14.0pt;line-height:150%'>) = 1)  =&gt;  </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>P</span><sup><span
+style='font-size:14.0pt;line-height:150%'>-1</span></sup><span
+style='font-size:14.0pt;line-height:150%'>=</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>P<sup>T</sup></span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></i></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Таким образом<i>, поворот</i>
+против часовой стрелки на заданный угол </span><span style='font-size:14.0pt;
+line-height:150%;font-family:Symbol'>j</span><span style='font-size:14.0pt;
+line-height:150%'> вокруг оси аппликат <b>OZ</b> переводит точку M(x,y,z) в
+точку M'(x', y', z') в соответствии со следующими уравнениями ( в координатной
+и матричной формах ): </span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></i></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>x'
+= x&#8729;cos </span><span style='font-size:14.0pt;line-height:150%;font-family:
+Symbol'>j</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'> - y&#8729;sin
+</span><span style='font-size:14.0pt;line-height:150%;font-family:Symbol'>j</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>,</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>y'
+= x&#8729;sin </span><span style='font-size:14.0pt;line-height:150%;font-family:
+Symbol'>j</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'> + y&#8729;cos
+</span><span style='font-size:14.0pt;line-height:150%;font-family:Symbol'>j</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span style='font-size:14.0pt;line-height:150%'>z' = z,</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><img width=260 height=73 src="Lect4_Афинные_преобр.files/image015.gif"
+align=left hspace=12></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%'>Поворот</span></i><span
+style='font-size:14.0pt;line-height:150%'> против часовой стрелки на заданный
+угол </span><span style='font-size:14.0pt;line-height:150%;font-family:Symbol'>j</span><span
+style='font-size:14.0pt;line-height:150%'> вокруг оси абсцисс <b>OX</b>
+переводит точку M(x,y,z) в точку M'(x', y', z') в соответствии со следующими
+уравнениями ( в координатной и матричной формах ): </span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>x'
+= x,</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>y'
+= y&#8729;cos </span><span style='font-size:14.0pt;line-height:150%;font-family:
+Symbol'>j</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'> - z&#8729;sin
+</span><span style='font-size:14.0pt;line-height:150%;font-family:Symbol'>j</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>,</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>z'
+= y&#8729;sin </span><span style='font-size:14.0pt;line-height:150%;font-family:
+Symbol'>j</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'> + z&#8729;cos
+</span><span style='font-size:14.0pt;line-height:150%;font-family:Symbol'>j</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><i><span style='font-size:14.0pt;line-height:150%'><sub><img
+width=234 height=66 src="Lect4_Афинные_преобр.files/image016.gif"></sub></span></i></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Поворот против часовой стрелки вокруг
+оси ординат <b>OY</b> задается следующим образом:<i> </i></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>x'
+= x&#8729;cos </span><span style='font-size:14.0pt;line-height:150%;font-family:
+Symbol'>j</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'> + z&#8729;sin
+</span><span style='font-size:14.0pt;line-height:150%;font-family:Symbol'>j</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>,</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>y'
+= y,</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>z'
+= -x&#8729;sin </span><span style='font-size:14.0pt;line-height:150%;
+font-family:Symbol'>j</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'> + z&#8729;cos </span><span style='font-size:14.0pt;
+line-height:150%;font-family:Symbol'>j</span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%'>;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><img width=222 height=62 src="Lect4_Афинные_преобр.files/image017.gif"
+align=left hspace=12></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Повороты точки вокруг
+координатных осей (по [2]):</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'><img width=662 height=245
+src="Lect4_Афинные_преобр.files/image018.gif"></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Нетрудно заметить, что
+при преобразованиях поворота и переноса длины отрезков и углы между ними не
+изменяются.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%'>Масштабирование</span></i><span
+style='font-size:14.0pt;line-height:150%'> изображения вдоль осей <b>OX</b>, <b>OY</b>,
+<b>OZ </b>задается формулами </span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+  line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>x'
+  = s<sub>x</sub>&#8729;x;</span></p>
+  <p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+  line-height:150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>y'
+  = s<sub>y</sub>&#8729;y,</span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:14.0pt;line-height:150%'>             </span><span
+  style='font-size:14.0pt;line-height:150%'>z' = s<sub>z</sub>&#8729;z,</span></p>
+  </td>
+  <td width=36 style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(</span></b><b><span lang=EN-US
+  style='font-size:14.0pt;line-height:150%'>6</span></b><b><span
+  style='font-size:14.0pt;line-height:150%'>)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>где sx,sy,sz </span><span
+style='font-size:14.0pt;line-height:150%;font-family:Symbol'>&sup1;</span><span
+style='font-size:14.0pt;line-height:150%'> 0 – коэффициенты масштабирования
+изображения вдоль соответствующей оси. Матричная запись (6):</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><img width=216 height=78 src="Lect4_Афинные_преобр.files/image019.gif"
+align=left hspace=12></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><i><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></i></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Если абсолютное значение
+коэффициента масштабирования вдоль какой-либо оси больше 1, имеет место
+растяжение изображения вдоль данной оси, если меньше 1 – сжатие. Отрицательное
+значение коэффициента масштабирования вдоль оси означает <i>зеркальное
+отражение</i> точки относительно координатной плоскости, перпендикулярной
+данной оси. На рисунке правая сцена получена из левой сжатием по оси <b>OX</b>
+и растяжением по осям <b>OY</b> и <b>OZ</b></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>.<img width=283
+height=154 src="Lect4_Афинные_преобр.files/image020.gif"></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Масштабирование вдоль 
+координатных осей (по [2]).</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Произвольное аффинное
+преобразование всегда может быть сведено к выполнению преобразований переноса,
+поворота и масштабирования в некотором порядке. Это позволяет использовать
+приведенные выше стандартные формулы для вычисления более сложных аффинных
+преобразований. Например, поворот куба (рис а) на некоторый угол вокруг оси,
+параллельной оси <b>OX </b>и проходящей через центр куба - точку Q с
+координатами x, y, z<sub>, </sub> удобно заменить следующей последовательностью
+:</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>1. Перенос куба на <sub><img
+width=83 height=77 src="Lect4_Афинные_преобр.files/image021.gif"></sub><sup> </sup>для
+совмещения его центра с </span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>началом координат (рис б).</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>2. Поворот куба вокруг
+оси <b>OX</b>  (рис в).</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>3. Перенос куба на <sub><img
+width=75 height=77 src="Lect4_Афинные_преобр.files/image022.gif"></sub><sup> </sup>для
+возвращения его на прежнее место </span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>(рис г).</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Последовательное применение переноса,
+поворота и переноса:</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'>
+
+<table cellpadding=0 cellspacing=0 align=left>
+ <tr>
+  <td width=76 height=0></td>
+  <td width=180></td>
+  <td width=85></td>
+  <td width=158></td>
+ </tr>
+ <tr>
+  <td height=141></td>
+  <td rowspan=2 align=left valign=top><img width=180 height=150
+  src="Lect4_Афинные_преобр.files/image023.jpg"></td>
+  <td></td>
+  <td align=left valign=top><img width=158 height=141
+  src="Lect4_Афинные_преобр.files/image024.jpg"></td>
+ </tr>
+ <tr>
+  <td height=9></td>
+ </tr>
+</table>
+
+<br clear=ALL>
+</p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'>
+
+<table cellpadding=0 cellspacing=0 align=left>
+ <tr>
+  <td width=76 height=0></td>
+  <td width=165></td>
+  <td width=90></td>
+  <td width=180></td>
+ </tr>
+ <tr>
+  <td height=146></td>
+  <td align=left valign=top><img width=165 height=146
+  src="Lect4_Афинные_преобр.files/image025.jpg"></td>
+  <td></td>
+  <td rowspan=2 align=left valign=top><img width=180 height=151
+  src="Lect4_Афинные_преобр.files/image026.jpg"></td>
+ </tr>
+ <tr>
+  <td height=5></td>
+ </tr>
+</table>
+
+<br clear=ALL>
+</p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt;
+line-height:150%'><span style='font-size:14.0pt;line-height:150%'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-align:justify;text-indent:
+36.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%'>Таким
+образом произвольная точка М, принадлежащая кубу, перейдет в точку </span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>М' = </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>R<sub>x</sub></span><span
+style='font-size:14.0pt;line-height:150%'>(</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>M+D</span><sub><span
+style='font-size:14.0pt;line-height:150%'>1</span></sub><span style='font-size:
+14.0pt;line-height:150%'>)</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>-D<sub>1</sub></span><span style='font-size:14.0pt;
+line-height:150%'>                                      </span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-align:justify;text-indent:
+36.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%'>Обратим
+внимание, что результат композиции аффинных преобразований в общем случае
+зависит от очередности их применения. Т.е. повернуть, а затем сдвинуть &#8800;
+сдвинуть, а затем повернуть и т.д.</span></p>
+
+<p class=MsoBodyText2 style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>2. Однородные координаты. Аффинные
+преобразования в однородных координатах.</span></b></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Рассмотрим сначала общее
+аффинное преобразование на плоскости, переводящее М(</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>x</span><span style='font-size:14.0pt;
+line-height:150%'>;</span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>y</span><span style='font-size:14.0pt;line-height:150%'>) в М’(</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>x</span><span
+style='font-size:14.0pt;line-height:150%'>’;</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>y</span><span style='font-size:14.0pt;
+line-height:150%'>’)</span></p>
+
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 style='width:466.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:14.0pt;line-height:150%'>x’ = ax+by+n</span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:14.0pt;line-height:150%'>y’ = cx+dy+m</span></p>
+  </td>
+  <td width=36 style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(</span></b><b><span lang=EN-US
+  style='font-size:14.0pt;line-height:150%'>7</span></b><b><span
+  style='font-size:14.0pt;line-height:150%'>)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Легко видеть, что его нельзя
+описать одной матрицей 2-го порядка. Это можно сделать матрицей 3-го порядка,
+введя т.н. <i>однородные координаты</i>. Однородные координаты точки на
+плоскости (</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'>x</span><span
+style='font-size:14.0pt;line-height:150%'>,</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>y</span><span style='font-size:14.0pt;
+line-height:150%'>) представляют собой тройку (</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>x</span><span style='font-size:14.0pt;
+line-height:150%'>*, </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>y</span><span style='font-size:14.0pt;line-height:150%'>*, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>h</span><span
+style='font-size:14.0pt;line-height:150%'>), такую что </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>x</span><span style='font-size:14.0pt;
+line-height:150%'>*=</span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>hx</span><span style='font-size:14.0pt;line-height:150%'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>y</span><span
+style='font-size:14.0pt;line-height:150%'>* = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>hy</span><span style='font-size:14.0pt;
+line-height:150%'>, </span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>h</span><span style='font-size:14.0pt;line-height:150%'> – некоторое
+число, отличное от нуля (</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>h</span><span style='font-size:14.0pt;line-height:150%'>=0 –
+особый случай). Очевид</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>e</span><span style='font-size:14.0pt;line-height:150%'>н
+переход от однородных координат к обычным: </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>x</span><span style='font-size:14.0pt;
+line-height:150%'> = </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>x</span><span style='font-size:14.0pt;line-height:150%'>*/</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>h</span><span
+style='font-size:14.0pt;line-height:150%'>; </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>y</span><span style='font-size:14.0pt;
+line-height:150%'> = </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>y</span><span style='font-size:14.0pt;line-height:150%'>*/</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>h</span><span
+style='font-size:14.0pt;line-height:150%'>.Таким образом, одной точке на
+плоскости соответствует бесконечно много троек  однородных координат. Например,
+тройки (2; 4;1), (-4;-8;-2), (1;2; 0,5) представляют одну и ту же двумерную
+точку (2;4). Заметим, что при </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>h</span><span style='font-size:14.0pt;line-height:150%'> = 1 </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>x</span><span
+style='font-size:14.0pt;line-height:150%'>* = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>x</span><span style='font-size:14.0pt;
+line-height:150%'>, </span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>y</span><span style='font-size:14.0pt;line-height:150%'>* = </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>y</span><span
+style='font-size:14.0pt;line-height:150%'>. Множество таких троек часто
+называют <i>физической плоскостью</i> однородных координат.</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Матрица преобразования  для
+однородных 2</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'>D</span><span
+style='font-size:14.0pt;line-height:150%'>- координат имеет размер (3х3).</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Матрица поворота имеет вид</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Р<sub>1</sub> = <sub><img width=176
+height=98 src="Lect4_Афинные_преобр.files/image027.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Матрица масштабирования
+имеет вид</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Р<sub>2</sub> = <sub><img width=118
+height=102 src="Lect4_Афинные_преобр.files/image028.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Матрица переноса имеет вид</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Р<sub>3</sub> = <sub><img width=103
+height=94 src="Lect4_Афинные_преобр.files/image029.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>При этом композиция переносов,
+масштабирований и поворотов сводится к перемножению матриц.</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Преобразование (7) запишется в виде </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>M</span><span
+style='font-size:14.0pt;line-height:150%'>’ = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>PM</span><span style='font-size:14.0pt;
+line-height:150%'>,</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>где </span></p>
+
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=621 style='width:466.1pt;border:solid windowtext 1.0pt;padding:
+  0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:14.0pt;line-height:150%'>P</span><span
+  style='font-size:14.0pt;line-height:150%'> = <sub><img width=80 height=75
+  src="Lect4_Афинные_преобр.files/image030.gif"></sub></span></p>
+  </td>
+  <td width=36 style='width:26.6pt;border:solid windowtext 1.0pt;border-left:
+  none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+  style='font-size:14.0pt;line-height:150%'>(8)</span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Четырехмерные однородные
+координаты трехмерного физического пространства вводятся аналогично.</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>3. Реализация аффинных преобразований
+на плоскости в .</span></b><b><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>NET</span></b><b><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'> </span></b><b><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'>Framework</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></b></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          В классе </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%'>  предусмотрено несколько альтернативных
+способов выполнения аффинных преобразований. Все они явно или неявно используют
+класс, реализующий матричные вычисления – </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>Matrix</span><span style='font-size:
+14.0pt;line-height:150%'>. </span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Можно сформировать матрицу
+требуемого аффинного преобразования в однородных координатах и установить ее в
+качестве текущей матрицы преобразования мирового пространства в пространство
+страницы </span><span lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%'>.</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>Transform</span><span
+style='font-size:14.0pt;line-height:150%'>.</span></p>
+
+<pre style='line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>            Матрицу можно инициализировать вызовом конструктора </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>Matrix</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'> </span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>(</span><span
+class=parameter><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>m</span></span><span class=parameter><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>11</span></span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'> , </span><span
+class=parameter><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>m</span></span><span class=parameter><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>12</span></span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+class=parameter><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>m</span></span><span class=parameter><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>21</span></span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+class=parameter><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>m</span></span><span class=parameter><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>22</span></span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+class=parameter><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>dx</span></span><span class=parameter><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span></span><span
+class=parameter><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:"Times New Roman",serif'>dy</span></span><span style='font-size:
+14.0pt;line-height:150%;font-family:"Times New Roman",serif'>),   входные параметры которого суть элементы </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>a</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>b</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>c</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>d</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>n</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'>m</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Times New Roman",serif'> матрицы (8) соответственно.</span></pre>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Пример</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>: </span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%;color:#339966'>// поворот на 45<sup>0</sup>
+против часовой стрелки и сдвиг на </span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%;color:#339966'>dx</span><span style='font-size:14.0pt;
+line-height:150%;color:#339966'>=50; </span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%;color:#339966'>dy</span><span style='font-size:14.0pt;
+line-height:150%;color:#339966'>=50</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>e.Graphics.FillRectangle(<span
+style='color:teal'>Brushes</span>.Blue, 50, 50, 60, 80);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New";
+color:teal'>Matrix</span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%;font-family:"Courier New"'> </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;font-family:"Courier New"'>M</span><span style='font-size:
+14.0pt;line-height:150%;font-family:"Courier New"'> = //<span style='color:
+#339966'>аргументы тригонометрических функций – в радианах</span></span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:150%;text-autospace:
+none'><span lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:
+"Courier New";color:blue'>new</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;font-family:"Courier New"'> <span style='color:teal'>Matrix</span>(
+(<span style='color:blue'>float</span>)<span style='color:teal'>Math</span>.Cos(<span
+style='color:teal'>Math</span>.PI/4),(<span style='color:blue'>float</span>)-<span
+style='color:teal'>Math</span>.Sin(<span style='color:teal'>Math</span>.PI/4),          
+</span></p>
+
+<p class=MsoNormal style='margin-left:72.0pt;text-indent:36.0pt;line-height:
+150%;text-autospace:none'><span lang=EN-US style='font-size:14.0pt;line-height:
+150%;font-family:"Courier New"'>(<span style='color:blue'>float</span>)<span
+style='color:teal'>Math</span>.Sin(<span style='color:teal'>Math</span>.PI/4),(<span
+style='color:blue'>float</span>) <span style='color:teal'>Math</span>.Cos(<span
+style='color:teal'>Math</span>.PI/4),</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>             50.0f,50.0f);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>e</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>.</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>.</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>Transform</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'> = </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>M</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>; </span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New";color:#339966'>//Устанавливаем
+сформированную матрицу в качестве текущей</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>e.Graphics.FillRectangle(<span
+style='color:teal'>Brushes</span>.Red, 0, 0, 60, 80);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>Результат</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>:</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'><img width=185 height=185
+src="Lect4_Афинные_преобр.files/image031.jpg"></span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Для упрощения формирования
+матрицы аффинного преобразования существуют стандартные методы класса </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Matrix</span><span
+style='font-size:14.0pt;line-height:150%'>, обеспечивающие умножение матрицы на
+матрицу аффинного преобразования. </span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Пример</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>:</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.FillRectangle(<span style='color:teal'>Brushes</span>.Blue, 50, 50,
+60, 80);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+<span style='color:teal'>Matrix</span> M = <span style='color:blue'>new</span> <span
+style='color:teal'>Matrix</span>();</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+M.Rotate(-45,<span style='color:teal'>MatrixOrder</span>.Append);<span
+style='color:#339966'>//</span></span><span style='font-size:14.0pt;line-height:
+150%;font-family:"Courier New";color:#339966'>Поворот</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New";color:#339966'>.
+</span><span style='font-size:14.0pt;line-height:150%;font-family:"Courier New";
+color:#339966'>Угол</span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%;font-family:"Courier New";color:#339966'> – </span><span style='font-size:
+14.0pt;line-height:150%;font-family:"Courier New";color:#339966'>в</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New";color:#339966'>
+</span><span style='font-size:14.0pt;line-height:150%;font-family:"Courier New";
+color:#339966'>градусах</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;font-family:"Courier New";color:#339966'>.</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+M.Translate(50,50,<span style='color:teal'>MatrixOrder</span>.Append);</span><span
+style='font-size:14.0pt;line-height:150%;font-family:"Courier New";color:#339966'>//Сдвиг</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.Transform = M;</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.FillRectangle(<span style='color:teal'>Brushes</span>.Red, 0, 0, 60,
+80);</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%;text-autospace:none'><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%;text-autospace:none'><span style='font-size:14.0pt;line-height:150%'>Результат
+будет тот же, что и на предыдущем рисунке. Обратим внимание,что в методе </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Rotate</span><span
+style='font-size:14.0pt;line-height:150%'> при задании угла поворота
+используются не радианы, а градусы. Необязательный параметр </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New";
+color:teal'>MatrixOrder</span><span style='font-size:14.0pt;line-height:150%;
+font-family:"Courier New"'>.</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;font-family:"Courier New"'>Append</span><span
+style='font-size:14.0pt;line-height:150%'> позволяет задавать порядок умножения
+исходной матрицы на матрицу нового преобразования (справа-А</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>ppend</span><span
+style='font-size:14.0pt;line-height:150%'> или слева-</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>Prepend</span><span style='font-size:
+14.0pt;line-height:150%'>), тем самым позволяя  изменять очередность выполнения
+аффинных преобразований. По умолчанию значение этого параметра – </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Prepend</span><span
+style='font-size:14.0pt;line-height:150%'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%;text-autospace:none'><span style='font-size:14.0pt;line-height:150%'>Для
+масштабирования используется метод </span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%'>Matrix</span><span style='font-size:14.0pt;line-height:
+150%'>.</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'>Scale</span><span
+style='font-size:14.0pt;line-height:150%'>( </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>sx</span><span style='font-size:14.0pt;
+line-height:150%'>, </span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>sy</span><span style='font-size:14.0pt;line-height:150%'>).</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%;text-autospace:none'><span style='font-size:14.0pt;line-height:150%'>Матрицу</span><span
+style='font-size:14.0pt;line-height:150%'> </span><span style='font-size:14.0pt;
+line-height:150%'>преобразования</span><span style='font-size:14.0pt;
+line-height:150%'> </span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>Graphics.Transform  </span><span style='font-size:14.0pt;line-height:
+150%'>можно</span><span style='font-size:14.0pt;line-height:150%'> </span><span
+style='font-size:14.0pt;line-height:150%'>задать</span><span style='font-size:
+14.0pt;line-height:150%'> </span><span style='font-size:14.0pt;line-height:
+150%'>неявно</span><span style='font-size:14.0pt;line-height:150%'> </span><span
+style='font-size:14.0pt;line-height:150%'>методами</span><span
+style='font-size:14.0pt;line-height:150%'> </span><span style='font-size:14.0pt;
+line-height:150%'>класса</span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%'> Graphics </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;font-family:"Courier New"'>RotateTransform, TranslateTransform
+</span><span style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>и</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>
+ScaleTransform</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'>:</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>Пример</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>:</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.FillRectangle(<span style='color:teal'>Brushes</span>.Blue, 50, 50,
+60, 80);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.RotateTransform(-45, <span style='color:teal'>MatrixOrder</span>.Append);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.TranslateTransform(50, 50, <span style='color:teal'>MatrixOrder</span>.Append);</span></p>
+
+<p class=MsoNormal style='line-height:150%;text-autospace:none'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:"Courier New"'>   
+e.Graphics.FillRectangle(<span style='color:teal'>Brushes</span>.Red, 0, 0, 60,
+80);</span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          </span></p>
+
+<p class=MsoNormal style='text-align:justify;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%'>          Метод </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%'>.</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>MultiplyTransform</span><span
+style='font-size:14.0pt;line-height:150%'> позволяет домножать матрицу </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%'>.</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>Transform</span><span
+style='font-size:14.0pt;line-height:150%'> на заданную матрицу. Метод </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%'>.</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>ResetTransform</span><span
+style='font-size:14.0pt;line-height:150%'> делает матрицу </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+style='font-size:14.0pt;line-height:150%'>.</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>Transform</span><span
+style='font-size:14.0pt;line-height:150%'> единичной.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>Методы класса </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>Graphics</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'> </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>TransformPoints</span><span
+style='font-size:14.0pt;line-height:150%'> и </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>TransformVectors</span><span
+style='font-size:14.0pt;line-height:150%'> позволяют вычислять аффинные
+преобразования точек и векторов без их отрисовки. </span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>4. Пространственный поворот
+относительно произвольной оси.</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:150%'><b><span
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></b></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><a name=BITSoft></a><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>Пусть заданная ось в пространстве проходит через точку <a
+name=OCRUncertain001>(</a></span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>x</span><sub><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>0</span></sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>y</span><sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>0</span></sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>z</span><sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>0</span></sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>) <a
+name=OCRUncertain004>с</a> направляющим единичным вектором <a
+name=OCRUncertain006>(</a></span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>c<i><sub>x</sub></i></span><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>,</span></i><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> </span></i><i><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>c<sub>y</sub></span></i><a
+name=OCRUncertain007><i><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>,</span></i></a><i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> </span></i><i><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>c<sub>z</sub></span></i><a
+name=OCRUncertain008><i><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>)</span></i></a><i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>.</span></i><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'> Поворот вокруг этой оси на
+некоторый угол </span><i><span lang=EN-US style='font-size:14.0pt;line-height:
+150%;font-family:Symbol;layout-grid-mode:line'>d</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> выполняется по
+следующему правилу:</span></p>
+
+<p class=MsoNormal style='margin-left:10.0pt;text-align:justify;text-indent:
+-7.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>- выполнить перенос так, чтобы точка (</span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>x</span><sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>0</span></sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>y</span><sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>0</span></sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>, </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>z</span><sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>0</span></sub><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>) находилась в
+начале системы координат;</span></p>
+
+<p class=MsoNormal style='margin-left:10.0pt;text-align:justify;text-indent:
+-7.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>- выполнить соответствующие повороты так, чтобы ось
+вращения совпала с координатной осью, например </span><a name=OCRUncertain010><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>z</span></a><a
+name=OCRUncertain011></a><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>;</span></p>
+
+<p class=MsoNormal style='margin-left:10.0pt;text-align:justify;text-indent:
+-7.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>- выполнить поворот на угол </span><i><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;font-family:Symbol;layout-grid-mode:
+line'>d</span></i><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'> вокруг оси </span><a name=OCRUncertain012><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>z</span></a><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>;</span></p>
+
+<p class=MsoNormal style='margin-left:10.0pt;text-align:justify;text-indent:
+-7.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>- выполнить преобразование, обратное тому, что позволило
+совместить ось вращения с осью </span><a name=OCRUncertain013><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>z</span></a><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>;</span></p>
+
+<p class=MsoNormal style='margin-left:10.0pt;text-align:justify;text-indent:
+-7.0pt;line-height:150%'><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>- выполнить обратный перенос.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:10.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>В
+общем случае для того, чтобы произвольная ось, проходящая через начало
+координат, совпала с одной из координатных осей, необходимо сделать два
+последовательных поворота вокруг двух других координатных осей. Для совмещения
+произвольной оси вращения с осью </span><i><span lang=EN-US style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>z</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> сначала
+выполним поворот вокруг оси </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>x</span><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>, а затем вокруг оси <i>у.</i> Чтобы
+определить угол поворота </span><span style='font-size:14.0pt;line-height:150%;
+font-family:Symbol;layout-grid-mode:line'>a</span><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> вокруг оси <a name=OCRUncertain015><i>х,</i></a>
+используемый для перевода произвольной оси в плоскость </span><a
+name=OCRUncertain016><i><span lang=EN-US style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'>xz</span></i></a><i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>,</span></i><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'> спроецируем сначала на
+плоскость </span><a name=OCRUncertain017><i><span lang=EN-US style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>yz</span></i></a><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> направляющий
+единичный вектор этой оси. Компоненты <i>у</i> и </span><i><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>z</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>
+спроецированного вектора равны </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>c</span><i><sub><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>у</span></sub></i><i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>-</span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> и </span><i><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>c<sub>z</sub></span></i><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> -компонентам
+единичного направляющего вектора оси вращения. </span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'>          Пусть </span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%'>d</span><span style='font-size:14.0pt;line-height:
+150%'> = </span><span lang=EN-US style='font-size:14.0pt;line-height:150%'><sub><img
+width=73 height=33 src="Lect4_Афинные_преобр.files/image032.gif"></sub></span><span
+style='font-size:14.0pt;line-height:150%'>,  Тогда </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>cos</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'> </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;font-family:Symbol'>a</span><span
+style='font-size:14.0pt;line-height:150%'> = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>c<sub>z</sub></span><span
+style='font-size:14.0pt;line-height:150%'>/</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>d</span><span style='font-size:14.0pt;
+line-height:150%'>; </span><span lang=EN-US style='font-size:14.0pt;line-height:
+150%'>sin</span><span lang=EN-US style='font-size:14.0pt;line-height:150%'> </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol'>a</span><span
+style='font-size:14.0pt;line-height:150%'> = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>c<sub>y</sub></span><span
+style='font-size:14.0pt;line-height:150%'>/</span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>d</span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'><img width=650 height=329
+src="Lect4_Афинные_преобр.files/image033.gif"></span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span style='font-size:14.0pt;
+line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoBodyText style='line-height:150%'><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>После
+перевода в плоскость </span><i><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>xz</span></i><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'> с помощью поворота вокруг оси <a
+name=OCRUncertain009><i>х,</i></a> </span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>z</span><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>-компонента единичного вектора
+равна </span><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>d</span><span style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>, а </span><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>x</span><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>-компонента равна </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>c<sub>x</sub></span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>, т.е. </span><a
+name=OCRUncertain014><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+layout-grid-mode:line'>x</span></a><span style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'>-компоненте</span><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> направляющего вектора, как это
+показано на рис<i>.</i> Таким образом, угол поворота </span><i><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol;
+layout-grid-mode:line'>b</span></i><i><span style='font-size:14.0pt;line-height:
+150%;layout-grid-mode:line'>  </span></i><span style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'>вокруг оси <i>у,</i> необходимый для
+совмещения произвольной оси с осью </span><span lang=EN-US style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>z</span><span style='font-size:
+14.0pt;line-height:150%;layout-grid-mode:line'>, равен</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:
+line'>cos </span><i><span lang=EN-US style='font-size:14.0pt;line-height:150%;
+font-family:Symbol;layout-grid-mode:line'>b</span></i><i><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> = d,   sin </span></i><i><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol;
+layout-grid-mode:line'>b</span></i><i><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;layout-grid-mode:line'> = c<sub>x</sub></span></i></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>Тогда полное
+преобразование можно представить в виде</span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;text-indent:36.0pt;line-height:150%'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>P =
+TR<sub>x</sub>R<sub>y</sub>R</span><sub><span lang=EN-US style='font-size:14.0pt;
+line-height:150%;font-family:Symbol;layout-grid-mode:line'>d</span></sub><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>R<sub>y</sub><sup>-1</sup>R<sub>x</sub><sup>-1</sup>T<sup>-1</sup>,</span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>где </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>T</span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> – матрица
+переноса</span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;text-indent:36.0pt;line-height:150%'><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;text-indent:36.0pt;line-height:150%'><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>T</span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> = </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'><sub><img
+width=113 height=96 src="Lect4_Афинные_преобр.files/image034.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>R<sub>x</sub></span><span
+style='font-size:14.0pt;line-height:150%'> - матрица поворота вокруг оси </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>x</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>R<sub>x</sub></span><sub><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'> </span></sub><span
+style='font-size:14.0pt;line-height:150%'>=<sub> </sub></span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'><sub><img
+width=157 height=96 src="Lect4_Афинные_преобр.files/image035.gif"></sub></span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> = </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'><sub><img
+width=156 height=96 src="Lect4_Афинные_преобр.files/image036.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>R<sub>y</sub></span><span
+style='font-size:14.0pt;line-height:150%'>- матрица поворота вокруг оси </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>y</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>R<sub>y</sub></span><sub><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'> </span></sub><span
+style='font-size:14.0pt;line-height:150%'>=<sub> </sub></span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'><sub><img
+width=196 height=96 src="Lect4_Афинные_преобр.files/image037.gif"></sub></span><span
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'> = </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'><sub><img
+width=121 height=96 src="Lect4_Афинные_преобр.files/image038.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%'>И, наконец, вращение
+вокруг произвольной оси достигается вращением вокруг оси </span><span
+lang=EN-US style='font-size:14.0pt;line-height:150%'>z</span><span
+style='font-size:14.0pt;line-height:150%'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span lang=EN-US style='font-size:14.0pt;line-height:150%'>R</span><sub><span
+lang=EN-US style='font-size:14.0pt;line-height:150%;font-family:Symbol'>d</span></sub><span
+style='font-size:14.0pt;line-height:150%'> = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%'>R<sub>z</sub></span><span
+style='font-size:14.0pt;line-height:150%'> = </span><span lang=EN-US
+style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'><sub><img
+width=156 height=96 src="Lect4_Афинные_преобр.files/image039.gif"></sub></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt;line-height:
+150%'><span style='font-size:14.0pt;line-height:150%;layout-grid-mode:line'>&nbsp;</span></p>
+
+</div>
+<a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%82%D1%80%D0%B8%D1%86%D0%B0_%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%B0">
+wikipedia. Матрица поворота</a>
+<br>
+<a href="http://vmk.ugatu.ac.ru/labkg51.htm">Геометрические преобразования в трёхмерном пространстве</a>
+<br>
+<a href="http://compgraph.tpu.ru/3d.htm">Трехмерные преобразования и проекции</a>
+
+</body>
+
+</html>

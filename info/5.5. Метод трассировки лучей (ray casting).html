@@ -1,0 +1,75 @@
+
+<!-- saved from url=(0031)http://compgraph.tpu.ru/ray.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+
+<title>5.5. Метод трассировки лучей (ray casting)</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<style>
+<!--
+h2
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:justify;
+	text-indent:0cm;
+	page-break-after:avoid;
+	tab-stops:list 0cm;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic}
+ p.MsoNormal
+	{mso-style-parent:"";
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-indent:1.0cm;
+	font-size:14.0pt;
+	font-family:"Times New Roman";
+	margin-left:0cm; margin-right:0cm; margin-top:0cm}
+-->
+</style>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="./5.5. Метод трассировки лучей (ray casting)_files/comp1011-1251.css"><meta name="Microsoft Theme" content="compass 1011">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+
+<p align="center" style="text-align: center; text-indent: 0cm">
+<span style="font-style: normal; font-weight: 400">
+<font size="4" face="Times New Roman"><span lang="ru">
+<a href="http://compgraph.tpu.ru/zbuffer.htm">Назад</a> | <a href="http://compgraph.tpu.ru/Oglavlenie.htm">
+Оглавление</a> | <a href="http://compgraph.tpu.ru/index.html">Домой</a> |
+<a href="http://compgraph.tpu.ru/priority.htm">Далее</a></span></font></span></p>
+
+<h2 style="margin-left:0cm;text-indent:0cm"><a name="_Toc88449729">5.5.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Метод трассировки лучей (</a><span lang="EN-US">ray casting</span>)</h2>
+<p class="MsoNormal">&nbsp; В этом методе для каждого пиксела картинной плоскости 
+определяется ближайшая к нему грань, для чего через этот пиксел выпускается луч, 
+находятся все его пересечения с гранями и среди них выбирается ближайшая. 
+Алгоритм на псевдокоде можно кратко записать так:</p>
+<p class="MsoNormal"><b>&nbsp; </b></p>
+<p class="MsoNormal"><span lang="EN-US" style="font-family: Courier New">for all 
+pixels</span></p>
+<p class="MsoNormal"><span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span lang="EN-US" style="font-family: Courier New">for all objects</span></p>
+<p class="MsoNormal"><span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span lang="EN-US" style="font-family: Courier New">compare </span><i>
+<span lang="EN-US" style="font-family: Courier New">z</span></i></p>
+<p class="MsoNormal"><span style="font-family: Courier New">&nbsp;</span></p>
+<p class="MsoNormal">&nbsp; Алгоритм трассировки лучей несколько похож на алгоритм <i>
+<span lang="EN-US">z</span></i>-буфера, однако здесь циклы по пикселам и по 
+объектам меняются местами.</p>
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal" style="text-align: center">
+<span style="font-style: normal; font-weight: 400">
+<font size="4" face="Times New Roman"><span lang="ru">
+<a href="http://compgraph.tpu.ru/zbuffer.htm">Назад</a> | <a href="http://compgraph.tpu.ru/Oglavlenie.htm">
+Оглавление</a> | <a href="http://compgraph.tpu.ru/index.html">Домой</a> |
+<a href="http://compgraph.tpu.ru/priority.htm">Далее</a></span></font></span></p>
+
+
+
+
+</body></html>
