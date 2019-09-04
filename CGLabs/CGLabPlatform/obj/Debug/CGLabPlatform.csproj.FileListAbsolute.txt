@@ -1,0 +1,6 @@
+C:\Users\Pankratz\Desktop\CGLabs\CGLabPlatform\bin\Debug\CGLabPlatform.dll
+C:\Users\Pankratz\Desktop\CGLabs\CGLabPlatform\bin\Debug\CGLabPlatform.pdb
+C:\Users\Pankratz\Desktop\CGLabs\CGLabPlatform\obj\Debug\CGLabPlatform.csprojResolveAssemblyReference.cache
+C:\Users\Pankratz\Desktop\CGLabs\CGLabPlatform\obj\Debug\CGLabPlatform.csproj.CoreCompileInputs.cache
+C:\Users\Pankratz\Desktop\CGLabs\CGLabPlatform\obj\Debug\CGLabPlatform.dll
+C:\Users\Pankratz\Desktop\CGLabs\CGLabPlatform\obj\Debug\CGLabPlatform.pdb

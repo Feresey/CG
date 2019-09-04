@@ -1,0 +1,4 @@
+/home/lol/Desktop/Labs/KG/CGLabs/cglab-demo/obj/Debug/netcoreapp2.2/cglab-demo.csprojAssemblyReference.cache
+/home/lol/Desktop/Labs/KG/CGLabs/cglab-demo/obj/Debug/netcoreapp2.2/cglab-demo.csproj.CoreCompileInputs.cache
+/home/lol/Desktop/Labs/KG/CGLabs/cglab-demo/obj/Debug/netcoreapp2.2/cglab-demo.AssemblyInfoInputs.cache
+/home/lol/Desktop/Labs/KG/CGLabs/cglab-demo/obj/Debug/netcoreapp2.2/cglab-demo.AssemblyInfo.cs
