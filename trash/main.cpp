@@ -71,7 +71,7 @@ void DrawGrid()
 void DrawFunc()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glColor3d(1, 0, 0);
+    // glColor3d(1, 0, 0);
 
     // glPointSize(10);
     Psinus();
@@ -107,7 +107,8 @@ int main(int argc, char** argv)
     glutInitWindowSize(width, height);
     glutInitWindowPosition(534, 157);
 
-    glutCreateWindow("My");
+    glutCreateWindow("MyOpenGL");
+    // glutWindowClass();
     glutDisplayFunc(&DrawFunc);
     // glutTimerFunc(50, Timer, 0);
     Initialize();
