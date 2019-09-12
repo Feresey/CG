@@ -16,7 +16,7 @@ public:
     ~OGLWidget();
 
     void set(double a, double b, double A, double B, double step);
-
+    void setSeed(double s);
     void resize(double val);
 
 protected:
@@ -27,6 +27,7 @@ protected:
     std::vector<double> calculate(Func&& f, Iter first, Iter last);
     void Psinus();
     double scale=1;
+    double seed = 0.05;
     double a = 5, b = 20, A = -720, B = 720, step = 0.01;
 };
 

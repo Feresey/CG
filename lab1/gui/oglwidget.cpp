@@ -14,16 +14,16 @@ OGLWidget::~OGLWidget()
 void OGLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHTING);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_COLOR_MATERIAL);
+    // glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_LIGHT0);
+    // glEnable(GL_LIGHTING);
+    // glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    // glEnable(GL_COLOR_MATERIAL);
 
-    // glMatrixMode(GL_PROJECTION);
-    // glLoadIdentity();
-    // glOrtho(-(width() / 2), (width() / 2), -(height() / 2), (height() / 2), -5, 5);
-    // glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-(width() / 2), (width() / 2), -(height() / 2), (height() / 2), -5, 5);
+    glMatrixMode(GL_MODELVIEW);
     glScaled(0.25, 0.25, 1);
 }
 
@@ -48,10 +48,8 @@ void OGLWidget::Psinus()
 
     glBegin(GL_LINE_STRIP);
 
-    for (size_t i = 0; i + 1 < size; i += 1) {
-        glVertex2d(0.05 * scale * x[i], 0.05 * scale * y[i]);
-        // glVertex2d( * x[i + 1],  * y[i + 1]);
-    }
+    for (size_t i = 0; i + 1 < size; i += 1)
+        glVertex2d(seed * scale * x[i], seed * scale * y[i]);
     glEnd();
 }
 
@@ -60,14 +58,16 @@ void OGLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Psinus();
 
-glPushMatrix();
-glBegin(GL_LINES);
-    glVertex2d(0,-width());
-    glVertex2d(0,width());
-    glVertex2d(-height() / 2,0);
-    glVertex2d(height() / 2,0);
-glEnd();
-glPopMatrix();
+    glPushMatrix();
+    glBegin(GL_LINES);
+    glVertex2d(0, -width());
+    glVertex2d(0, width());
+    glVertex2d(-height() / 2, 0);
+    glVertex2d(height() / 2, 0);
+    // glVertex2d(0, 0);
+    // glVertex2d(1, 1);
+    glEnd();
+    glPopMatrix();
 
     // glPushMatrix();
     // glColor3d(1, 1, 1);
@@ -100,10 +100,12 @@ void OGLWidget::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45, (float)w / h, 0.01, 100.0);
+    gluPerspective(90, (float)w / h, 0.01, 100.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 0, 5, 0, 0, 0, 10, 0, 0);
+    gluLookAt(0, 0, -5,
+        0, 0, 0,
+        10, 0, -1);
 }
 
 void OGLWidget::set(double aa, double bb, double AA, double BB, double sstep)
@@ -120,5 +122,10 @@ void OGLWidget::resize(double _scale)
 {
     scale = _scale;
     // paintGL();
-    glScaled(scale, scale, 1);
+    // glScaled(scale, scale, 1);
+}
+
+void OGLWidget::setSeed(double s)
+{
+    seed += s;
 }

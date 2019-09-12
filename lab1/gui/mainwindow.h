@@ -18,10 +18,12 @@ public:
 private slots:
     void myslot();
     void resize(int a);
+    void grow();
+    void reduce();
 
 private:
     Ui::MainWindow* ui;
-    QShortcut *close = new QShortcut(this);
+    // QShortcut *close = new QShortcut(this);
 
 };
 

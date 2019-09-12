@@ -6,12 +6,6 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    close->setKey(QKeySequence("Esc"));
-    connect(close, SIGNAL(activated()), this, SLOT(close()));
-    // connect(ui->big, &QPushButton::clicked, &OGLWidget::bigger);
-    // connect(ui->CalculationButton, SIGNAL(clicked()), this, SLOT(myslot()));
-    // connect(ui->big,SIGNAL(clicked(bool)),ui->openGLWidget, SLOT(bigger(bool)));
-    // connect(ui->small,SIGNAL(clicked()),ui->openGLWidget, SLOT(smaller()));
 }
 
 MainWindow::~MainWindow()
@@ -19,39 +13,34 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+#define CHECK(STR)                                                                \
+    if (!ok) {                                                                    \
+        ui->ErrorLabel->setText(QString::fromUtf8("Number " STR " is not double")); \
+        return;                                                                   \
+    }
+
 void MainWindow::myslot()
 {
     ui->ErrorLabel->setText("");
 
     bool ok;
-    double a, b, A, B, scale, step;
+    double a, b, A, B, step;
+
     a = ui->input_a->text().toDouble(&ok);
-    if (!ok)
-        ui->ErrorLabel->setText(QString::fromUtf8("Number a is not double"));
-
+    CHECK("a")
     b = ui->input_b->text().toDouble(&ok);
-    if (!ok)
-        ui->ErrorLabel->setText(QString::fromUtf8("Number b is not double"));
-
+    CHECK("b")
     if (a >= b) {
         ui->ErrorLabel->setText(QString::fromUtf8("'b' should be greater than 'a'"));
         return;
     }
+
     A = ui->input_A->text().toDouble(&ok);
-    if (!ok)
-        ui->ErrorLabel->setText(QString::fromUtf8("Number A is not double"));
-
+    CHECK("A")
     B = ui->input_B->text().toDouble(&ok);
-    if (!ok)
-        ui->ErrorLabel->setText(QString::fromUtf8("Number B is not double"));
-
-    // scale = ui->scale_slider-> ->text().toDouble(&ok);
-    // if (!ok)
-    //     ui->ErrorLabel->setText(QString::fromUtf8("Number Bscale is not double"));
-
+    CHECK("B")
     step = ui->input_step->text().toDouble(&ok);
-    if (!ok)
-        ui->ErrorLabel->setText(QString::fromUtf8("Number step is not double"));
+    CHECK("step")
 
     ui->openGLWidget->set(a, b, A, B, step);
     ui->openGLWidget->update();
@@ -60,5 +49,17 @@ void MainWindow::myslot()
 void MainWindow::resize(int a)
 {
     ui->openGLWidget->resize(1 + double(a) / 100);
+    ui->openGLWidget->update();
+}
+
+void MainWindow::grow()
+{
+    ui->openGLWidget->setSeed(0.001);
+    ui->openGLWidget->update();
+}
+
+void MainWindow::reduce()
+{
+    ui->openGLWidget->setSeed(-0.001);
     ui->openGLWidget->update();
 }
