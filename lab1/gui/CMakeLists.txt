@@ -8,11 +8,14 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_COMPILER zapcc)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-add_link_options(-lGLX_mesa -lGLX -lglut -lGLU)
+find_package(Qt5OpenGL REQUIRED)
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+
 add_compile_options(-O2 -Wall -Wextra -Wpedantic)
 add_executable(gui
                main.cpp
@@ -23,3 +26,5 @@ add_executable(gui
                mainwindow.ui)
 
 target_link_libraries(gui PRIVATE Qt5::Widgets)
+target_link_libraries(gui PRIVATE Qt5::OpenGL)
+target_link_libraries(gui PRIVATE OpenGL::OpenGL GLU)

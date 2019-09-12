@@ -19,7 +19,7 @@ std::vector<double> calculate(Func&& f, Iter first, Iter last)
 void Psinus()
 {
     std::vector<double> phi;
-    for (double i = -2 * M_PI; i < 2 * M_PI; i += 0.01f)
+    for (double i = -2 * M_PI; i < 2 * M_PI; i += 0.01)
         phi.push_back(i);
 
     std::vector<double> y = calculate([](double var) { return a * var + b * sin(var); }, phi.begin(), phi.end()),
@@ -89,7 +89,8 @@ void Initialize()
     glLoadIdentity();
     glOrtho(-width / 2, width / 2, -height / 2, height / 2, -200, 200);
     glMatrixMode(GL_MODELVIEW);
-    glScaled(0.8, 0.8, 1);
+    // glScaled(0.8, 0.8, 1);
+    glScaled(0.3, 0.3, 1);
     // glTranslated(50,50,50);
 }
 

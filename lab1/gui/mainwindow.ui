@@ -199,7 +199,14 @@
          <layout class="QHBoxLayout" name="horizontalLayout_5"/>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox"/>
+         <widget class="QSpinBox" name="spinBox">
+          <property name="minimum">
+           <number>-1000</number>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer">
@@ -394,22 +401,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>resize(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>146</x>
-     <y>256</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>273</x>
-     <y>446</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>input_step</sender>
    <signal>returnPressed()</signal>
    <receiver>MainWindow</receiver>
@@ -505,11 +496,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>horizontalSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rescale(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>243</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>441</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>myslot()</slot>
   <slot>resize(int)</slot>
-  <slot>grow()</slot>
-  <slot>reduce()</slot>
+  <slot>rescale(int)</slot>
  </slots>
 </ui>
