@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 add_link_options(-lGLX_mesa -lGLX -lglut -lGLU)
-add_compile_options(-g3 -Wall -Wextra -Wpedantic)
+add_compile_options(-O2 -Wall -Wextra -Wpedantic)
 add_executable(gui
                main.cpp
                mainwindow.cpp
