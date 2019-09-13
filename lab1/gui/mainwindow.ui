@@ -179,6 +179,12 @@
               <height>0</height>
              </size>
             </property>
+            <property name="cursor">
+             <cursorShape>CrossCursor</cursorShape>
+            </property>
+            <property name="mouseTracking">
+             <bool>false</bool>
+            </property>
             <property name="minimum">
              <number>-50</number>
             </property>
@@ -267,6 +273,9 @@
           </property>
           <property name="cursor">
            <cursorShape>CrossCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>false</bool>
           </property>
          </widget>
         </item>

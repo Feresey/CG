@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "oglwidget.h"
 #include <cmath>
 #include <vector>
@@ -114,7 +116,6 @@ void OGLWidget::set(double aa, double bb, double AA, double BB, double sstep)
     b = bb;
     A = AA;
     B = BB;
-    b = bb;
     step = sstep;
 }
 

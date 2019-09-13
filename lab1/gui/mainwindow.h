@@ -1,8 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include<QtWidgets/QShortcut>
+#include <QtWidgets/QMainWindow>
 
 namespace Ui {
 class MainWindow;
@@ -23,8 +22,6 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-    // QShortcut *close = new QShortcut(this);
-
 };
 
 #endif // MAINWINDOW_H

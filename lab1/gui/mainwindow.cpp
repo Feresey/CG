@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
@@ -48,7 +50,7 @@ void MainWindow::myslot()
 
 void MainWindow::resize(int a)
 {
-    ui->openGLWidget->resize(1 + double(a) / 100);
+    ui->openGLWidget->resize(double(100 + a) / 100);
     ui->openGLWidget->update();
 }
 
