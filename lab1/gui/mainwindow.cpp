@@ -15,10 +15,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-#define CHECK(STR)                                                                \
-    if (!ok) {                                                                    \
+#define CHECK(STR)                                                                  \
+    if (!ok) {                                                                      \
         ui->ErrorLabel->setText(QString::fromUtf8("Number " STR " is not double")); \
-        return;                                                                   \
+        return;                                                                     \
     }
 
 void MainWindow::myslot()
@@ -43,6 +43,10 @@ void MainWindow::myslot()
     CHECK("B")
     step = ui->input_step->text().toDouble(&ok);
     CHECK("step")
+    if (step < 0.00001) {
+        ui->ErrorLabel->setText(QString::fromUtf8("step is too small"));
+        return;
+    }
 
     ui->openGLWidget->set(a, b, A, B, step);
     ui->openGLWidget->update();

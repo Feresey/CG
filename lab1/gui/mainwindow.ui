@@ -173,6 +173,9 @@
           </item>
           <item>
            <widget class="QSlider" name="horizontalSlider">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="minimumSize">
              <size>
               <width>134</width>
@@ -206,8 +209,11 @@
         </item>
         <item>
          <widget class="QSpinBox" name="spinBox">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="minimum">
-           <number>-1000</number>
+           <number>-100</number>
           </property>
           <property name="maximum">
            <number>1000</number>

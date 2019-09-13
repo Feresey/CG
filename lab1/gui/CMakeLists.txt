@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
-find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+find_package(OpenGL COMPONENTS OpenGL REQUIRED)
 
 add_compile_options(-O2 -Wall -Wextra -Wpedantic)
 add_executable(gui
@@ -27,4 +27,6 @@ add_executable(gui
 
 target_link_libraries(gui PRIVATE Qt5::Widgets)
 target_link_libraries(gui PRIVATE Qt5::OpenGL)
-target_link_libraries(gui PRIVATE OpenGL::OpenGL GLU)
+target_link_libraries(gui PRIVATE OpenGL::OpenGL)
+target_link_libraries(gui PRIVATE GLU)
+
