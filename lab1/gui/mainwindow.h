@@ -19,8 +19,6 @@ private slots:
 
     void resize(int a);
     void coord(bool);
-    // void grow();
-    // void reduce();
 
 private:
     Ui::MainWindow* ui;

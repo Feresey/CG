@@ -58,6 +58,7 @@ void OGLWidget::Psinus()
         std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
         std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
     }
+    
     glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < size; i += 1)
         glVertex2d(seed * scale * x[i], seed * scale * y[i]);

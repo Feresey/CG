@@ -15,12 +15,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-#define CHECK(STR)                                                                  \
-    if (!ok) {                                                                      \
-        ui->ErrorLabel->setText(QString::fromUtf8("Number " STR " is not double")); \
-        return;                                                                     \
-    }
-
 void MainWindow::myslot(double)
 {
     ui->input_b->setMinimum(ui->input_a->value());
