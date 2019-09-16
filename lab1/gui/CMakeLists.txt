@@ -10,23 +10,21 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# set(CMAKE_CXX_COMPILER zapcc)
+
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)
 
-add_compile_options(-O2 -Wall -Wextra -Wpedantic)
-add_executable(gui
-               main.cpp
-               mainwindow.cpp
-               mainwindow.h
-               oglwidget.cpp
-               oglwidget.h
-               mainwindow.ui)
+option(POLAR "Change decart coordinates to polar" ON)
+configure_file(config.h.in config.h @ONLY)
 
-target_link_libraries(gui PRIVATE Qt5::Widgets)
-target_link_libraries(gui PRIVATE Qt5::OpenGL)
-target_link_libraries(gui PRIVATE OpenGL::OpenGL)
-target_link_libraries(gui PRIVATE GLU)
+add_executable(${PROJECT_NAME} main.cpp mainwindow.cpp oglwidget.cpp)
 
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::OpenGL)
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::OpenGL)
+target_link_libraries(${PROJECT_NAME} PRIVATE GLU)

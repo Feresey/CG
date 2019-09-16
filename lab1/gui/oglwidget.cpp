@@ -1,8 +1,10 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-#include "oglwidget.h"
 #include <cmath>
 #include <vector>
+
+#include "oglwidget.h"
+#include "config.h"
 
 OGLWidget::OGLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
@@ -16,11 +18,15 @@ OGLWidget::~OGLWidget()
 void OGLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
-    // glEnable(GL_DEPTH_TEST);
+    // glfwWindowHint(GLFW_SAMPLES, 4);
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_DEPTH_TEST);
     // glEnable(GL_LIGHT0);
     // glEnable(GL_LIGHTING);
     // glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    // glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_COLOR_MATERIAL);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -43,9 +49,14 @@ void OGLWidget::Psinus()
     std::vector<double> phi;
     for (double i = M_PI * A / 180; i < M_PI * B / 180; i += step)
         phi.push_back(i);
-
     std::vector<double> y = calculate([&](double var) { return a * var + b * sin(var); }, phi.begin(), phi.end()),
                         x = calculate([&](double var) { return a - b * cos(var); }, phi.begin(), phi.end());
+#ifdef POLAR
+    std::vector<double> ro(phi.size());
+    std::transform(x.begin(), x.end(), y.begin(), ro.begin(), [&](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
+    std::transform(ro.begin(), ro.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
+    std::transform(ro.begin(), ro.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
+#endif
     size_t size = phi.size();
 
     glBegin(GL_LINE_STRIP);
