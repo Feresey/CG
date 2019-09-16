@@ -18,6 +18,7 @@ public:
     void set(double a, double b, double A, double B, double step);
     void setSeed(double s);
     void resize(double val);
+    bool polar;
 
 protected:
     void initializeGL();

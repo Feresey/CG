@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "oglwidget.h"
-#include "config.h"
 
 OGLWidget::OGLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
+    , polar(false)
 {
 }
 
@@ -49,18 +49,16 @@ void OGLWidget::Psinus()
     std::vector<double> phi;
     for (double i = M_PI * A / 180; i < M_PI * B / 180; i += step)
         phi.push_back(i);
-    std::vector<double> y = calculate([&](double var) { return a * var + b * sin(var); }, phi.begin(), phi.end()),
-                        x = calculate([&](double var) { return a - b * cos(var); }, phi.begin(), phi.end());
-#ifdef POLAR
-    std::vector<double> ro(phi.size());
-    std::transform(x.begin(), x.end(), y.begin(), ro.begin(), [&](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
-    std::transform(ro.begin(), ro.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
-    std::transform(ro.begin(), ro.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
-#endif
     size_t size = phi.size();
 
+    std::vector<double> y = calculate([&](double var) { return a * var + b * sin(var); }, phi.begin(), phi.end()),
+                        x = calculate([&](double var) { return a - b * cos(var); }, phi.begin(), phi.end());
+    if (polar) {
+        std::transform(x.begin(), x.end(), y.begin(), x.begin(), [&](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
+        std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
+        std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
+    }
     glBegin(GL_LINE_STRIP);
-
     for (size_t i = 0; i + 1 < size; i += 1)
         glVertex2d(seed * scale * x[i], seed * scale * y[i]);
     glEnd();

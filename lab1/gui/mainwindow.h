@@ -15,10 +15,12 @@ public:
     ~MainWindow();
 
 private slots:
-    void myslot();
+    void myslot(double = 0);
+
     void resize(int a);
-    void grow();
-    void reduce();
+    void coord(bool);
+    // void grow();
+    // void reduce();
 
 private:
     Ui::MainWindow* ui;

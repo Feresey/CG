@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>906</width>
-    <height>679</height>
+    <width>1022</width>
+    <height>665</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,322 +18,354 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>10</number>
-    </property>
-    <property name="topMargin">
-     <number>10</number>
-    </property>
-    <property name="rightMargin">
-     <number>10</number>
-    </property>
-    <property name="bottomMargin">
-     <number>10</number>
-    </property>
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_7">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
-        <item>
-         <layout class="QFormLayout" name="formLayout">
-          <property name="labelAlignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-          <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>a</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="input_a">
-              <property name="minimumSize">
-               <size>
-                <width>119</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>5.0</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="1">
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>b</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="input_b">
-              <property name="minimumSize">
-               <size>
-                <width>119</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>20.0</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>A</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="input_A">
-              <property name="text">
-               <string>-720.0</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="1">
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>B</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="input_B">
-              <property name="minimumSize">
-               <size>
-                <width>119</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>720.0</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2">
+       <layout class="QFormLayout" name="formLayout">
+        <property name="labelAlignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_11">
-            <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;step&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="input_step">
-              <property name="minimumSize">
-               <size>
-                <width>88</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>0.01</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_9">
-          <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;scale&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="textFormat">
-             <enum>Qt::AutoText</enum>
+             <string>a</string>
             </property>
            </widget>
           </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5"/>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="minimum">
-           <number>-100</number>
-          </property>
-          <property name="maximum">
-           <number>1000</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>14</width>
-          <height>609</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Display function&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="ErrorLabel">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="OGLWidget" name="openGLWidget">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>533</width>
-            <height>533</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>CrossCursor</cursorShape>
-          </property>
-          <property name="mouseTracking">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
+           <widget class="QDoubleSpinBox" name="input_a">
+            <property name="maximumSize">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>119</width>
+              <height>16777215</height>
              </size>
             </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="ExitButton">
-            <property name="text">
-             <string>Exit</string>
+            <property name="minimum">
+             <double>-10000.000000000000000</double>
             </property>
-            <property name="shortcut">
-             <string>Esc</string>
+            <property name="maximum">
+             <double>10000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>5.000000000000000</double>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="0" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>b</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="input_b">
+            <property name="maximumSize">
+             <size>
+              <width>119</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <double>-10000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>20.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>A</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="input_A">
+            <property name="minimumSize">
+             <size>
+              <width>119</width>
+              <height>33</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>119</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <double>-10000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>-720.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>B</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="input_B">
+            <property name="minimumSize">
+             <size>
+              <width>119</width>
+              <height>33</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>119</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <double>-10000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>720.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;step&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="input_step">
+            <property name="value">
+             <double>0.010000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;scale&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="minimum">
+         <number>-100</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton">
+          <property name="text">
+           <string>Radial</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="4">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ExitButton">
+          <property name="text">
+           <string>Exit</string>
+          </property>
+          <property name="shortcut">
+           <string>Esc</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
      </layout>
+    </item>
+    <item row="0" column="2">
+     <widget class="OGLWidget" name="openGLWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>533</width>
+        <height>533</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>1</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>533</width>
+        <height>533</height>
+       </size>
+      </property>
+      <property name="cursor">
+       <cursorShape>CrossCursor</cursorShape>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>96</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="1">
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>45</width>
+        <height>609</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
@@ -342,7 +374,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>906</width>
+     <width>1022</width>
      <height>26</height>
     </rect>
    </property>
@@ -384,88 +416,8 @@
      <y>643</y>
     </hint>
     <hint type="destinationlabel">
-     <x>616</x>
-     <y>558</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>input_step</sender>
-   <signal>returnPressed()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>myslot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>45</x>
-     <y>194</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>61</x>
-     <y>365</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>input_b</sender>
-   <signal>returnPressed()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>myslot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>186</x>
-     <y>65</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>141</x>
-     <y>288</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>input_a</sender>
-   <signal>returnPressed()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>myslot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>114</x>
-     <y>73</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>108</x>
-     <y>265</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>input_A</sender>
-   <signal>returnPressed()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>myslot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>80</x>
-     <y>132</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>25</x>
-     <y>257</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>input_B</sender>
-   <signal>returnPressed()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>myslot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>157</x>
-     <y>125</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>112</x>
-     <y>328</y>
+     <x>868</x>
+     <y>578</y>
     </hint>
    </hints>
   </connection>
@@ -476,8 +428,8 @@
    <slot>resize(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>213</x>
-     <y>290</y>
+     <x>225</x>
+     <y>273</y>
     </hint>
     <hint type="destinationlabel">
      <x>204</x>
@@ -485,9 +437,107 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>coord(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>294</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>141</x>
+     <y>506</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>input_a</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>myslot(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>16</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>input_b</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>myslot(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>156</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>36</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>input_A</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>myslot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>86</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>57</x>
+     <y>371</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>input_B</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>myslot(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>100</x>
+     <y>380</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>input_step</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>myslot(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>94</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>354</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>myslot()</slot>
   <slot>resize(int)</slot>
+  <slot>coord(bool)</slot>
+  <slot>myslot(double)</slot>
  </slots>
 </ui>
