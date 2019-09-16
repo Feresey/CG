@@ -172,6 +172,9 @@
           </item>
           <item>
            <widget class="QDoubleSpinBox" name="input_step">
+            <property name="singleStep">
+             <double>0.010000000000000</double>
+            </property>
             <property name="value">
              <double>0.010000000000000</double>
             </property>
@@ -489,7 +492,7 @@
    <sender>input_A</sender>
    <signal>valueChanged(double)</signal>
    <receiver>MainWindow</receiver>
-   <slot>myslot()</slot>
+   <slot>myslot(double)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>86</x>

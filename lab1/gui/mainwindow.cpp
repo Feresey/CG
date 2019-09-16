@@ -18,6 +18,7 @@ MainWindow::~MainWindow()
 void MainWindow::myslot(double)
 {
     ui->input_b->setMinimum(ui->input_a->value());
+    ui->input_a->setMaximum(ui->input_b->value());
     double a, b, A, B, step;
 
     a = ui->input_a->value();

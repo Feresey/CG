@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.15)
 
 project(gui LANGUAGES CXX)
 
@@ -18,9 +18,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)
-
-option(POLAR "Change decart coordinates to polar" ON)
-configure_file(config.h.in config.h @ONLY)
 
 add_executable(${PROJECT_NAME} main.cpp mainwindow.cpp oglwidget.cpp)
 
