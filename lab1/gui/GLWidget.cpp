@@ -42,7 +42,7 @@ void OGLWidget::wheelEvent(QWheelEvent* event)
 void OGLWidget::initializeGL()
 {
     // qglClearColor(Qt::black);
-        glClearColor(0, 0, 0, 1);
+    glClearColor(0, 0, 0, 1);
 }
 
 void OGLWidget::Psinus()
@@ -58,18 +58,19 @@ void OGLWidget::Psinus()
     std::transform(phi.begin(), phi.end(), y.begin(), [&](double var) { return a - b * cos(var); });
 
     if (polar) {
-        std::transform(x.begin(), x.end(), y.begin(), x.begin(), [&](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
-        std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
-        std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
+        std::transform(x.begin(), x.end(), y.begin(), x.begin(), [](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
+        std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [](double _ro, double _phi) { return _ro * sin(_phi); });
+        std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [](double _ro, double _phi) { return _ro * cos(_phi); });
     }
-    auto xmax = std::minmax_element(x.begin(), x.end());
-    double xx = abs(*xmax.first) + abs(*xmax.second);
-    auto ymax = std::minmax_element(x.begin(), x.end());
-    double yy = abs(*ymax.first) + abs(*ymax.second);
-    scale = width() * 0.5 / std::max(xx,yy);
+    auto _abs = [](double a, double b) { return abs(a) < abs(b); };
+
+    double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
+    double ymax = abs(*std::max_element(x.begin(), x.end(), _abs));
+
+    scale = width() * 0.45 / std::max(xmax, ymax);
     glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < size; i += 1)
-        glVertex2d(scale * y[i] + width() / 2, -scale * x[i] + width() / 2);
+        glVertex2d(scale * x[i] + width() / 2, -scale * y[i] + width() / 2);
     glEnd();
 }
 
@@ -82,6 +83,15 @@ void OGLWidget::paintGL()
     glOrtho(0, width(), height(), 0, 1, 0); // подготавливаем плоскости для матрицы
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    glEnable(GL_MULTISAMPLE);
+    glShadeModel(GL_SMOOTH);
+
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_FASTEST);
+    glEnable(GL_POLYGON_SMOOTH);
+
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_ALPHA_TEST);
 
     Psinus();
 
