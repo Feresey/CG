@@ -17,8 +17,6 @@ public:
 
 private slots:
     void myslot(double = 0);
-
-    void resize(int a);
     void coord(bool);
 
 private:

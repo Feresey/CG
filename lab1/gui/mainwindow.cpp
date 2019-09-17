@@ -40,12 +40,6 @@ void MainWindow::myslot(double)
     ui->statusbar->showMessage("");
 }
 
-void MainWindow::resize(int a)
-{
-    ui->openGLWidget->resize(static_cast<double>(100 + a) / 100);
-    ui->openGLWidget->update();
-}
-
 void MainWindow::coord(bool a)
 {
     ui->openGLWidget->polar = a;
