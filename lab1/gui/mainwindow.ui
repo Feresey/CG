@@ -42,6 +42,12 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
             <property name="minimum">
              <double>-10000.000000000000000</double>
             </property>
@@ -49,7 +55,7 @@
              <double>10000.000000000000000</double>
             </property>
             <property name="value">
-             <double>5.000000000000000</double>
+             <double>1.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -72,6 +78,12 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
             <property name="minimum">
              <double>-10000.000000000000000</double>
             </property>
@@ -79,7 +91,7 @@
              <double>10000.000000000000000</double>
             </property>
             <property name="value">
-             <double>20.000000000000000</double>
+             <double>2.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -107,6 +119,12 @@
               <width>119</width>
               <height>16777215</height>
              </size>
+            </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
              <double>-10000.000000000000000</double>
@@ -144,6 +162,12 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
             <property name="minimum">
              <double>-10000.000000000000000</double>
             </property>
@@ -172,6 +196,12 @@
           </item>
           <item>
            <widget class="QDoubleSpinBox" name="input_step">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
             <property name="singleStep">
              <double>0.010000000000000</double>
             </property>
@@ -202,6 +232,12 @@
        <widget class="QSpinBox" name="spinBox">
         <property name="enabled">
          <bool>true</bool>
+        </property>
+        <property name="locale">
+         <locale language="English" country="UnitedStates"/>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
         </property>
         <property name="minimum">
          <number>-100</number>
@@ -400,7 +436,7 @@
   <customwidget>
    <class>OGLWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header>oglwidget.h</header>
+   <header>GLWidget.hpp</header>
    <slots>
     <slot>run()</slot>
    </slots>

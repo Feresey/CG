@@ -1,6 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
+#pragma once
 #include <QtWidgets/QMainWindow>
 
 namespace Ui {
@@ -12,6 +10,9 @@ class MainWindow : public QMainWindow {
 
 public:
     explicit MainWindow(QWidget* parent = 0);
+    MainWindow(const MainWindow&) = delete;
+    MainWindow& operator=(const MainWindow&) = delete;
+    MainWindow& operator=(MainWindow&&) = delete;
     ~MainWindow();
 
 private slots:
@@ -23,5 +24,3 @@ private slots:
 private:
     Ui::MainWindow* ui;
 };
-
-#endif // MAINWINDOW_H

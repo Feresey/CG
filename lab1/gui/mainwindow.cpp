@@ -42,7 +42,7 @@ void MainWindow::myslot(double)
 
 void MainWindow::resize(int a)
 {
-    ui->openGLWidget->resize(double(100 + a) / 100);
+    ui->openGLWidget->resize(static_cast<double>(100 + a) / 100);
     ui->openGLWidget->update();
 }
 

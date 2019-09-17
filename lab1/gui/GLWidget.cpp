@@ -3,11 +3,26 @@
 #include <cmath>
 #include <vector>
 
-#include "oglwidget.h"
+#include "GLWidget.hpp"
 
 OGLWidget::OGLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
     , polar(false)
+    , geese_size(30)
+    , point(0)
+    , gdx()
+    , gdy()
+    , cax()
+    , cay()
+    , cbx()
+    , cby()
+    , singling(false)
+    , scale(1)
+    , a(1)
+    , b(2)
+    , A(-720)
+    , B(720)
+    , step(0.001)
 {
 }
 
@@ -30,9 +45,10 @@ void OGLWidget::initializeGL()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-(width() / 2), (width() / 2), -(height() / 2), (height() / 2), -5, 5);
+    // glOrtho(-(width() / 2), (width() / 2), -(height() / 2), (height() / 2), -5, 5);
+    glOrtho(0.0f, width(), height(), 0.0f, 0.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
-    glScaled(0.25, 0.25, 1);
+    // glScaled(0.25, 0.25, 1);
 }
 
 template <class Func, class Iter>
@@ -47,7 +63,8 @@ std::vector<double> OGLWidget::calculate(Func&& f, Iter first, Iter last)
 void OGLWidget::Psinus()
 {
     std::vector<double> phi;
-    for (double i = M_PI * A / 180; i < M_PI * B / 180; i += step)
+    double last = M_PI * B / 180;
+    for (double i = M_PI * A / 180; i < last; i += step)
         phi.push_back(i);
     size_t size = phi.size();
 
@@ -58,10 +75,10 @@ void OGLWidget::Psinus()
         std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
         std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
     }
-    
+
     glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < size; i += 1)
-        glVertex2d(seed * scale * x[i], seed * scale * y[i]);
+        glVertex2d(scale * x[i], scale * y[i]);
     glEnd();
 }
 
@@ -81,21 +98,21 @@ void OGLWidget::paintGL()
     glEnd();
     glPopMatrix();
 
-    // glPushMatrix();
-    // glColor3d(1, 1, 1);
-    // glBegin(GL_LINES);
-    // for (double i = -(width() / 2); i <= (width() / 2); i += 20) {
-    //     glVertex2d(0, 0);
-    //     glVertex2d(1, 1);
-    //     glVertex2d(scale * i, scale * (-height() / 2));
-    //     glVertex2d(scale * i, scale * (height() / 2));
-    // }
-    // for (double i = -(height() / 2); i <= (height() / 2); i += 20) {
-    //     glVertex2d(scale * -(width() / 2), scale * i);
-    //     glVertex2d(scale * (width() / 2), scale * i);
-    // }
-    // glEnd();
-    // glPopMatrix();
+    glPushMatrix();
+    glColor3d(1, 1, 1);
+    glBegin(GL_LINES);
+    for (int i = -(width() / 2); i <= (width() / 2); i += 1) {
+        /*glVertex2d(0, 0);
+        glVertex2d(1, 1);*/
+        glVertex2d(scale * i, scale * (-height() / 2));
+        glVertex2d(scale * i, scale * (height() / 2));
+    }
+    for (int i = -(height() / 2); i <= (height() / 2); i += 1) {
+        glVertex2d(scale * -(width() / 2), scale * i);
+        glVertex2d(scale * (width() / 2), scale * i);
+    }
+    glEnd();
+    glPopMatrix();
 
     // glBegin(GL_TRIANGLES);
     // glColor3f(1.0, 0.0, 0.0);
@@ -105,6 +122,7 @@ void OGLWidget::paintGL()
     // glColor3f(0.0, 0.0, 1.0);
     // glVertex3f(0.0, 0.5, 0);
     // glEnd();
+    // swapBuffers();
 }
 
 void OGLWidget::resizeGL(int w, int h)
@@ -112,7 +130,7 @@ void OGLWidget::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90, (float)w / h, 0.01, 100.0);
+    gluPerspective(90, static_cast<GLdouble>(w) / h, 0.01, 100.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0, 0, -5,
