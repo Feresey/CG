@@ -26,38 +26,23 @@ OGLWidget::OGLWidget(QWidget* parent)
 {
 }
 
-OGLWidget::~OGLWidget()
+void OGLWidget::wheelEvent(QWheelEvent* event)
 {
+    int delta = event->delta();
+    auto rescale = (delta > 0 ? 0.9 : 1.1);
+    delta = abs(delta);
+    while (delta--) {
+        // std::cout << "here" << std::endl;
+        // resizeGL(width(), height());
+        // glScaled(rescale,rescale,1);
+        // updateGL();
+    }
 }
 
 void OGLWidget::initializeGL()
 {
-    glClearColor(0, 0, 0, 1);
-    // glfwWindowHint(GLFW_SAMPLES, 4);
-    glEnable(GL_MULTISAMPLE);
-    glEnable(GL_LINE_SMOOTH);
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_LIGHT0);
-    // glEnable(GL_LIGHTING);
-    // glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_COLOR_MATERIAL);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    // glOrtho(-(width() / 2), (width() / 2), -(height() / 2), (height() / 2), -5, 5);
-    glOrtho(0.0f, width(), height(), 0.0f, 0.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
-    // glScaled(0.25, 0.25, 1);
-}
-
-template <class Func, class Iter>
-std::vector<double> OGLWidget::calculate(Func&& f, Iter first, Iter last)
-{
-    std::vector<double> res;
-    for (Iter it = first; it != last; ++it)
-        res.push_back(f(*it));
-    return res;
+    // qglClearColor(Qt::black);
+        glClearColor(0, 0, 0, 1);
 }
 
 void OGLWidget::Psinus()
@@ -68,75 +53,113 @@ void OGLWidget::Psinus()
         phi.push_back(i);
     size_t size = phi.size();
 
-    std::vector<double> y = calculate([&](double var) { return a * var + b * sin(var); }, phi.begin(), phi.end()),
-                        x = calculate([&](double var) { return a - b * cos(var); }, phi.begin(), phi.end());
+    std::vector<double> y(size), x(size);
+    std::transform(phi.begin(), phi.end(), x.begin(), [&](double var) { return a * var + b * sin(var); });
+    std::transform(phi.begin(), phi.end(), y.begin(), [&](double var) { return a - b * cos(var); });
+
     if (polar) {
         std::transform(x.begin(), x.end(), y.begin(), x.begin(), [&](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
         std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [&](double _ro, double _phi) { return _ro * sin(_phi); });
         std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [&](double _ro, double _phi) { return _ro * cos(_phi); });
     }
-
+    auto xmax = std::minmax_element(x.begin(), x.end());
+    double xx = abs(*xmax.first) + abs(*xmax.second);
+    auto ymax = std::minmax_element(x.begin(), x.end());
+    double yy = abs(*ymax.first) + abs(*ymax.second);
+    scale = width() * 0.5 / std::max(xx,yy);
     glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < size; i += 1)
-        glVertex2d(scale * x[i], scale * y[i]);
+        glVertex2d(scale * y[i] + width() / 2, -scale * x[i] + width() / 2);
     glEnd();
 }
 
 void OGLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
+    glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
+    glLoadIdentity(); // загружаем матрицу
+    glOrtho(0, width(), height(), 0, 1, 0); // подготавливаем плоскости для матрицы
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     Psinus();
 
-    glPushMatrix();
-    glBegin(GL_LINES);
-    glVertex2d(0, -width());
-    glVertex2d(0, width());
-    glVertex2d(-height() / 2, 0);
-    glVertex2d(height() / 2, 0);
-    // glVertex2d(0, 0);
-    // glVertex2d(1, 1);
-    glEnd();
-    glPopMatrix();
-
-    glPushMatrix();
-    glColor3d(1, 1, 1);
-    glBegin(GL_LINES);
-    for (int i = -(width() / 2); i <= (width() / 2); i += 1) {
-        /*glVertex2d(0, 0);
-        glVertex2d(1, 1);*/
-        glVertex2d(scale * i, scale * (-height() / 2));
-        glVertex2d(scale * i, scale * (height() / 2));
-    }
-    for (int i = -(height() / 2); i <= (height() / 2); i += 1) {
-        glVertex2d(scale * -(width() / 2), scale * i);
-        glVertex2d(scale * (width() / 2), scale * i);
-    }
-    glEnd();
-    glPopMatrix();
-
-    // glBegin(GL_TRIANGLES);
-    // glColor3f(1.0, 0.0, 0.0);
-    // glVertex3f(-0.5, -0.5, 0);
-    // glColor3f(0.0, 1.0, 0.0);
-    // glVertex3f(0.5, -0.5, 0);
-    // glColor3f(0.0, 0.0, 1.0);
-    // glVertex3f(0.0, 0.5, 0);
+    // glBegin(GL_POLYGON);
+    // glColor3f(1, 0, 0); // Цвет курсора
+    // // Координаты курсора
+    // glVertex2f(cax, cay);
+    // glVertex2f(cax + 20, cay + 20);
+    // glVertex2f(cax + 8, cay + 20);
+    // glVertex2f(cax, cay + 30);
     // glEnd();
-    // swapBuffers();
 }
+// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+// glMatrixMode(GL_PROJECTION);
+//     glLoadIdentity(); // загружаем матрицу
 
+// glOrtho(0, width(), height(), 0, 1, 0); // подготавливаем плоскости для матрицы
+// glEnable(GL_BLEND);
+// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+// Psinus();
+
+// glPushMatrix();
+// glBegin(GL_LINES);
+// glVertex2d(0, -width());
+// glVertex2d(0, width());
+// glVertex2d(-height() / 2, 0);
+// glVertex2d(height() / 2, 0);
+// // glVertex2d(0, 0);
+// // glVertex2d(1, 1);
+// glEnd();
+// glPopMatrix();
+
+// glPushMatrix();
+// glColor3d(1, 1, 1);
+// glBegin(GL_LINES);
+// for (int i = -(width() / 2); i <= (width() / 2); i += 1) {
+//     /*glVertex2d(0, 0);
+//     glVertex2d(1, 1);*/
+//     glVertex2d(scale * i, scale * (-height() / 2));
+//     glVertex2d(scale * i, scale * (height() / 2));
+// }
+// for (int i = -(height() / 2); i <= (height() / 2); i += 1) {
+//     glVertex2d(scale * -(width() / 2), scale * i);
+//     glVertex2d(scale * (width() / 2), scale * i);
+// }
+// glEnd();
+// glPopMatrix();
+
+// glBegin(GL_TRIANGLES);
+// glColor3f(1.0, 0.0, 0.0);
+// glVertex3f(-0.5, -0.5, 0);
+// glColor3f(0.0, 1.0, 0.0);
+// glVertex3f(0.5, -0.5, 0);
+// glColor3f(0.0, 0.0, 1.0);
+// glVertex3f(0.0, 0.5, 0);
+// glEnd();
+// swapBuffers();
+// }
 void OGLWidget::resizeGL(int w, int h)
 {
-    glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90, static_cast<GLdouble>(w) / h, 0.01, 100.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(0, 0, -5,
-        0, 0, 0,
-        10, 0, -1);
+    // glOrtho(0.0f, width(), height(), 0.0f, 0.0f, 1.0f);
+    // glOrtho(-(w / 2), (w / 2), -(h / 2), (h / 2), -5, 5);
+
+    glViewport(0, 0, w, h);
 }
+//     glViewport(0, 0, w, h);
+//     glMatrixMode(GL_PROJECTION);
+//     glLoadIdentity();
+//     gluPerspective(90, static_cast<GLdouble>(w) / h, 0.01, 100.0);
+//     glMatrixMode(GL_MODELVIEW);
+//     glLoadIdentity();
+//     gluLookAt(0, 0, -5,
+//         0, 0, 0,
+//         10, 0, -1);
+//     glFlush();
+// }
 
 void OGLWidget::set(double aa, double bb, double AA, double BB, double sstep)
 {

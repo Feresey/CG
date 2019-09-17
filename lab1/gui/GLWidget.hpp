@@ -1,19 +1,21 @@
 #pragma once
 
-#include <GL/glu.h>
-#include <QOpenGLWidget>
 #include <QWidget>
+
+#include <QOpenGLWidget>
 #include <QtOpenGL>
+#include <QGLWidget>
+#include <GL/glu.h>
 
 #include <algorithm>
 #include <cmath>
-#include <functional>
+// #include <functional>
 #include <vector>
 
 class OGLWidget : public QOpenGLWidget {
 public:
     OGLWidget(QWidget* parent = 0);
-    ~OGLWidget();
+    ~OGLWidget() =default;
 
     void set(double a, double b, double A, double B, double step);
     void setSeed(double s);
@@ -28,11 +30,12 @@ protected:
     int geese_size; // Сторона квадрата
     int point; // набранные очки
     int gdx, gdy; // Координаты квадрата
-    int cax, cay, cbx, cby;
+    int cax, cay, cbx, cby,wax,way;
     bool singling; // Для выделение области, если true то рисуем прямоугольник по координатам cax, cay, cbx, cby
     // void self_cursor(); // метод для рисования своего курсора
     // void keyPressEvent(QKeyEvent* ke); // Для перехвата нажатия клавиш на клавиатуре
     // void mouseMoveEvent(QMouseEvent* me); // Метод реагирует на перемещение указателя, но по умолчанию setMouseTracking(false)
+    void wheelEvent(QWheelEvent*) override;
     // void mousePressEvent(QMouseEvent* me); // Реагирует на нажатие кнопок мыши
     // void mouseReleaseEvent(QMouseEvent* me); // Метод реагирует на "отжатие" кнопки мыши
     // void singling_lb(); // Рисуем рамку выделенной области
