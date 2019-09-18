@@ -19,6 +19,9 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic\
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
 
+option(GIRO "Use giroscope to rotate image" OFF)
+configure_file(config.h.in config.h @ONLY)
+
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)
 
