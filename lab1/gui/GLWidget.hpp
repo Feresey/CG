@@ -1,16 +1,9 @@
 #pragma once
 
 #include <QWidget>
-
 #include <QOpenGLWidget>
-// #include <QtOpenGL>
-#include <QGLWidget>
-// #include <GL/glu.h>
 
 #include <algorithm>
-#include <cmath>
-// #include <functional>
-#include <vector>
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT

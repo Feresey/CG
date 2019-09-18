@@ -311,19 +311,6 @@
       <item row="0" column="2">
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
            <spacer name="horizontalSpacer_4">
@@ -337,16 +324,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="ExitButton">
-            <property name="text">
-             <string>Exit</string>
-            </property>
-            <property name="shortcut">
-             <string>Esc</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>
@@ -365,13 +342,6 @@
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Файл</string>
-    </property>
-    <addaction name="action"/>
-   </widget>
-   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
@@ -392,22 +362,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>ExitButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1014</x>
-     <y>635</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>868</x>
-     <y>578</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>input_a</sender>
    <signal>valueChanged(double)</signal>
