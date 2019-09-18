@@ -13,7 +13,7 @@ OGLWidget::OGLWidget(QWidget* parent)
     , b(2)
     , A(-720)
     , B(720)
-    , step(0.001)
+    , step(0.005)
 {
 }
 
@@ -83,7 +83,8 @@ void OGLWidget::Psinus()
     double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
     double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
 
-    scale = width() * 0.45 / std::max(xmax, ymax);
+    scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
+
     glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < size; i += 1)
         glVertex2d(scale * x[i], scale * y[i]);
