@@ -29,3 +29,4 @@ add_executable(${PROJECT_NAME} main.cpp mainwindow.cpp GLWidget.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::OpenGL)
+target_link_libraries(${PROJECT_NAME} PRIVATE pthread)

@@ -1,33 +1,39 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "GLWidget.hpp"
+
 #include <cmath>
 #include <vector>
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
-    , polar(false)
     , scale(1)
-    , a(1)
-    , b(2)
-    , A(-720)
-    , B(720)
-    , step(0.005)
+    , save_scale(1)
     , phi()
     , x()
-    , y() 
-    , x0()
-    , y0()
+    , y()
+    , zero(width() / 2, -height() / 2)
+    , prev_pos()
+    , mouse_tapped(false)
 #ifdef GIRO
     , launch(std::async(std::bind(&GLWidget::inf, this)))
 #endif
 {
 }
 
+GLWidget::~GLWidget()
+{
+#ifdef GIRO
+    bol = false;
+#endif
+}
+
 void GLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
     calculate();
+    normalize = QPoint(width() / 2, -height() / 2);
+    restore_position();
 }
 
 void GLWidget::paintGL()
@@ -36,15 +42,15 @@ void GLWidget::paintGL()
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
     glLoadIdentity(); // загружаем матрицу
     glOrtho(-width() / 2, width() / 2, -height() / 2, height() / 2, 1, 0); // подготавливаем плоскости для матрицы
-    // gluPerspective(45.0f, (float)width() / (float)height(),0.01,100);
-    // gluLookAt(5,5,-5,0,0,0,10,0,-1);
 #ifdef GIRO
     std::ifstream in("/sys/devices/platform/lis3lv02d/position");
     in.get();
     std::string a;
     std::getline(in, a, ',');
-    glRotated(-double(atoi(a.c_str())) / 12, 0, 0, 1);
+    glRotated(-double(atoi(a.c_str()) / 10) / 1.2222222, 0, 0, 1);
 #endif
+
+    glRotated(angle, 0, 0, 1);
 
     Psinus();
 
@@ -62,56 +68,117 @@ void GLWidget::resizeGL(int w, int h)
     glLoadIdentity();
     glViewport(0, 0, w, h);
 
-    auto _abs = [](double a, double b) { return abs(a) < abs(b); };
-
-    double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
-    double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
-
-    scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
+    findScale();
+    normalize = QPoint(width() / 2, -height() / 2);
 }
 
-void GLWidget::set(double aa, double bb, double AA, double BB, double sstep)
+void GLWidget::wheelEvent(QWheelEvent* we)
 {
-    a = aa;
-    b = bb;
-    A = AA;
-    B = BB;
-    step = sstep;
-    calculate();
-}
+    int dl = we->delta();
+    scale *= 1 + 0.001 * dl;
 
-void GLWidget::coord(int a)
-{
-    polar = a;
+    if (scale < 0.0000001)
+        scale_is_small();
+    else
+        scale_is_normal();
+
     update();
+    scale_changed(scale);
 }
 
-void GLWidget::calculate()
+void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
-    double last = M_PI * B / 180;
-    phi.resize(0);
-    phi.push_back(M_PI * A / 180);
+    if (mouse_tapped) {
+        switch (button_pressed) {
+        case Qt::MouseButton::LeftButton:
+            zero += prev_pos - me->pos();
+            break;
+        case Qt::MouseButton::RightButton:
+            angle += (prev_pos - me->pos()).x() * 0.2;
+            angle_changed(angle);
+            break;
+        default:
+            break;
+        }
+        QPoint tmp = zero - normalize;
+        x_changed(tmp.x());
+        y_changed(tmp.y());
+        prev_pos = me->pos();
+        update();
+    }
+}
 
-    for (double i = M_PI * A / 180; i < last; i += step)
-        phi.push_back(i);
+void GLWidget::mousePressEvent(QMouseEvent* me)
+{
+    mouse_tapped = true;
+    button_pressed = me->button();
+    prev_pos = me->pos();
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent* me)
+{
+    mouse_tapped = false;
+    prev_pos = me->pos();
+}
+
+void GLWidget::calculate(double a, double b, double A, double B, int points)
+{
+    phi = {};
+    double first = M_PI * A / 180,
+           last = M_PI * B / 180;
+    double delta = (last - first) / points;
+    double curr = first;
+
+    for (int i = 0; i <= points; ++i, curr += delta)
+        phi.push_back(curr);
+    phi.push_back(last);
+
     size_t size = phi.size();
 
     y.resize(size);
     x.resize(size);
-    std::transform(phi.begin(), phi.end(), x.begin(), [&](double var) { return a * var + b * sin(var); });
-    std::transform(phi.begin(), phi.end(), y.begin(), [&](double var) { return a - b * cos(var); });
+    auto th1 = std::async(
+        [&]() { return std::transform(phi.begin(), phi.end(), x.begin(),
+                    [&](double var) { return a * var + b * sin(var); }); });
+    auto th2 = std::async(
+        [&]() { return std::transform(phi.begin(), phi.end(), y.begin(),
+                    [&](double var) { return a - b * cos(var); }); });
 
-    // if (polar) {
-    std::transform(x.begin(), x.end(), y.begin(), x.begin(), [](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
-    std::transform(x.begin(), x.end(), phi.begin(), y.begin(), [](double _ro, double _phi) { return _ro * sin(_phi); });
-    std::transform(x.begin(), x.end(), phi.begin(), x.begin(), [](double _ro, double _phi) { return _ro * cos(_phi); });
-    // }
+    th1.wait();
+    th2.wait();
+
+    std::transform(x.begin(), x.end(), y.begin(), x.begin(),
+        [](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
+
+    std::transform(x.begin(), x.end(), phi.begin(), y.begin(),
+        [](double _ro, double _phi) { return _ro * sin(_phi); });
+    std::transform(x.begin(), x.end(), phi.begin(), x.begin(),
+        [](double _ro, double _phi) { return _ro * cos(_phi); });
+
+    findScale();
 }
+
+void GLWidget::findScale()
+{
+    auto _abs = [](double l, double r) { return abs(l) < abs(r); };
+
+    double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
+    double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
+
+    save_scale = scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
+    scale_changed(scale);
+}
+#include <iostream>
 
 void GLWidget::Psinus()
 {
-    glBegin(GL_LINE_LOOP);
+    QPoint tmp = zero - normalize;
+    // tmp *= -1;
+    tmp.setX(-tmp.x());
+    // std::cout << tmp.x() << ' ' << tmp.y() << std::endl;
+
+    glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < phi.size(); i += 1)
-        glVertex2d(scale * x[i] + x0, scale * y[i] + y0);
+        glVertex2d(scale * x[i] + tmp.x(), scale * y[i] + tmp.y());
     glEnd();
 }

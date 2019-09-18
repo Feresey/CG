@@ -39,13 +39,6 @@
           <item row="0" column="0">
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>a</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QDoubleSpinBox" name="input_a">
               <property name="maximumSize">
                <size>
@@ -58,6 +51,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="prefix">
+               <string>a=</string>
               </property>
               <property name="minimum">
                <double>-10000.000000000000000</double>
@@ -75,13 +71,6 @@
           <item row="0" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>b</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QDoubleSpinBox" name="input_b">
               <property name="maximumSize">
                <size>
@@ -94,6 +83,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="prefix">
+               <string>b=</string>
               </property>
               <property name="minimum">
                <double>-10000.000000000000000</double>
@@ -110,13 +102,6 @@
           </item>
           <item row="1" column="0">
            <layout class="QVBoxLayout" name="verticalLayout_6">
-            <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>A</string>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QDoubleSpinBox" name="input_A">
               <property name="minimumSize">
@@ -137,6 +122,9 @@
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
               </property>
+              <property name="prefix">
+               <string>A=</string>
+              </property>
               <property name="minimum">
                <double>-10000.000000000000000</double>
               </property>
@@ -152,13 +140,6 @@
           </item>
           <item row="1" column="1">
            <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>B</string>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QDoubleSpinBox" name="input_B">
               <property name="minimumSize">
@@ -178,6 +159,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="prefix">
+               <string>B=</string>
               </property>
               <property name="minimum">
                <double>-10000.000000000000000</double>
@@ -199,28 +183,57 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_11">
             <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;step&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <widget class="QSpinBox" name="input_points">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="prefix">
+               <string>points=</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+              <property name="value">
+               <number>5000</number>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="input_step">
+             <widget class="QDoubleSpinBox" name="doubleSpinBox">
               <property name="locale">
                <locale language="English" country="UnitedStates"/>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
               </property>
-              <property name="decimals">
-               <number>3</number>
+              <property name="prefix">
+               <string>scale=</string>
               </property>
-              <property name="singleStep">
-               <double>0.001000000000000</double>
+              <property name="decimals">
+               <number>7</number>
+              </property>
+              <property name="maximum">
+               <double>1000000000.000000000000000</double>
               </property>
               <property name="value">
-               <double>0.005000000000000</double>
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Restore scale</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="text">
+               <string>Restore position</string>
               </property>
              </widget>
             </item>
@@ -231,27 +244,57 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Coordinate system:</string>
+           <widget class="QSpinBox" name="x_spin">
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="prefix">
+             <string>x=</string>
+            </property>
+            <property name="minimum">
+             <number>-1000000</number>
+            </property>
+            <property name="maximum">
+             <number>1000000</number>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox">
-            <item>
-             <property name="text">
-              <string>Cartesian</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Polar</string>
-             </property>
-            </item>
+           <widget class="QSpinBox" name="y_spin">
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="prefix">
+             <string>y=</string>
+            </property>
+            <property name="minimum">
+             <number>-1000000</number>
+            </property>
+            <property name="maximum">
+             <number>1000000</number>
+            </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="angle_spin">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="suffix">
+           <string>°</string>
+          </property>
+          <property name="minimum">
+           <double>-180.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>180.000000000000000</double>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer">
@@ -356,7 +399,17 @@
    <extends>QOpenGLWidget</extends>
    <header>GLWidget.hpp</header>
    <slots>
-    <slot>coord(int)</slot>
+    <signal>scale_changed(double)</signal>
+    <signal>scale_is_small(QString)</signal>
+    <signal>scale_is_normal()</signal>
+    <signal>x_changed(int)</signal>
+    <signal>y_changed(int)</signal>
+    <signal>angle_changed(double)</signal>
+    <slot>restore_scale()</slot>
+    <slot>restore_position()</slot>
+    <slot>set_x(int)</slot>
+    <slot>set_y(int)</slot>
+    <slot>set_angle(double)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -369,8 +422,8 @@
    <slot>myslot(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>71</x>
-     <y>79</y>
+     <x>79</x>
+     <y>66</y>
     </hint>
     <hint type="destinationlabel">
      <x>16</x>
@@ -385,8 +438,8 @@
    <slot>myslot(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>156</x>
-     <y>78</y>
+     <x>250</x>
+     <y>66</y>
     </hint>
     <hint type="destinationlabel">
      <x>36</x>
@@ -401,8 +454,8 @@
    <slot>myslot(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>86</x>
-     <y>139</y>
+     <x>94</x>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel">
      <x>57</x>
@@ -417,8 +470,8 @@
    <slot>myslot(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>190</x>
-     <y>135</y>
+     <x>250</x>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel">
      <x>100</x>
@@ -427,34 +480,162 @@
    </hints>
   </connection>
   <connection>
-   <sender>input_step</sender>
-   <signal>valueChanged(double)</signal>
+   <sender>input_points</sender>
+   <signal>valueChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>myslot(double)</slot>
+   <slot>myslot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>94</x>
-     <y>196</y>
+     <x>216</x>
+     <y>144</y>
     </hint>
     <hint type="destinationlabel">
-     <x>118</x>
-     <y>354</y>
+     <x>205</x>
+     <y>300</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>comboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
    <receiver>openGLWidget</receiver>
-   <slot>coord(int)</slot>
+   <slot>restore_scale()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>144</x>
-     <y>228</y>
+     <x>140</x>
+     <y>216</y>
     </hint>
     <hint type="destinationlabel">
-     <x>483</x>
-     <y>284</y>
+     <x>380</x>
+     <y>272</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>scale_changed(double)</signal>
+   <receiver>doubleSpinBox</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>217</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>scale_is_small(QString)</signal>
+   <receiver>statusbar</receiver>
+   <slot>showMessage(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>544</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>265</x>
+     <y>657</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>scale_is_normal()</signal>
+   <receiver>statusbar</receiver>
+   <slot>clearMessage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>437</x>
+     <y>570</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>652</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>restore_position()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>236</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>525</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>x_changed(int)</signal>
+   <receiver>x_spin</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>402</x>
+     <y>403</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>y_changed(int)</signal>
+   <receiver>y_spin</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>460</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>278</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>angle_changed(double)</signal>
+   <receiver>angle_spin</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>484</x>
+     <y>360</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>125</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>angle_spin</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>set_angle(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>154</x>
+     <y>326</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>293</x>
+     <y>491</y>
     </hint>
    </hints>
   </connection>

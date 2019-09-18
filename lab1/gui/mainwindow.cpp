@@ -22,12 +22,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::myslot(double)
 {
-    ui->input_b->setMinimum(ui->input_a->value());
-    ui->input_a->setMaximum(ui->input_b->value());
-    double a, b, A, B, step;
+    double a, b, A, B;
+    int points;
 
     a = ui->input_a->value();
     b = ui->input_b->value();
+    ui->input_b->setMinimum(a);
+    ui->input_a->setMaximum(b);
     if (a >= b) {
         ui->statusbar->showMessage("'b' should be greater than 'a'");
         return;
@@ -35,12 +36,9 @@ void MainWindow::myslot(double)
 
     A = ui->input_A->value();
     B = ui->input_B->value();
-    step = ui->input_step->value();
-    if (step < 0.00001) {
-        ui->statusbar->showMessage("step is too small");
-        return;
-    }
-    ui->openGLWidget->set(a, b, A, B, step);
+    points = ui->input_points->value();
+
+    ui->openGLWidget->calculate(a, b, A, B, points);
     ui->openGLWidget->update();
     ui->statusbar->showMessage("");
 }
