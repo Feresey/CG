@@ -226,14 +226,7 @@
             <item>
              <widget class="QPushButton" name="pushButton">
               <property name="text">
-               <string>Restore scale</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_2">
-              <property name="text">
-               <string>Restore position</string>
+               <string>Restore</string>
               </property>
              </widget>
             </item>
@@ -245,6 +238,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QSpinBox" name="x_spin">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
@@ -261,6 +257,9 @@
           </item>
           <item>
            <widget class="QSpinBox" name="y_spin">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
@@ -405,11 +404,11 @@
     <signal>x_changed(int)</signal>
     <signal>y_changed(int)</signal>
     <signal>angle_changed(double)</signal>
-    <slot>restore_scale()</slot>
-    <slot>restore_position()</slot>
     <slot>set_x(int)</slot>
     <slot>set_y(int)</slot>
     <slot>set_angle(double)</slot>
+    <slot>restore()</slot>
+    <slot>set_scale(double)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -499,7 +498,7 @@
    <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>openGLWidget</receiver>
-   <slot>restore_scale()</slot>
+   <slot>restore()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>140</x>
@@ -560,22 +559,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>restore_position()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>196</x>
-     <y>236</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>525</x>
-     <y>288</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>openGLWidget</sender>
    <signal>x_changed(int)</signal>
    <receiver>x_spin</receiver>
@@ -587,7 +570,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>58</x>
-     <y>279</y>
+     <y>243</y>
     </hint>
    </hints>
   </connection>
@@ -603,7 +586,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>189</x>
-     <y>278</y>
+     <y>242</y>
     </hint>
    </hints>
   </connection>
@@ -619,7 +602,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>125</x>
-     <y>317</y>
+     <y>281</y>
     </hint>
    </hints>
   </connection>
@@ -631,11 +614,27 @@
    <hints>
     <hint type="sourcelabel">
      <x>154</x>
-     <y>326</y>
+     <y>290</y>
     </hint>
     <hint type="destinationlabel">
      <x>293</x>
      <y>491</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>set_scale(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>115</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>181</y>
     </hint>
    </hints>
   </connection>

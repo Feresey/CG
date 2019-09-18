@@ -18,32 +18,46 @@
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
-    void restore_scale()
+    void restore()
     {
         scale = save_scale;
         update();
         scale_is_normal();
         scale_changed(scale);
-    }
-    void restore_position()
-    {
+
         zero = normalize;
         angle = 0.0;
+        x_changed(0);
+        y_changed(0);
+        angle_changed(0.0);
         update();
     }
-    void set_x(int val)
-    {
-        zero.setX(val - normalize.x());
-        update();
-    }
-    void set_y(int val)
-    {
-        zero.setY(val - normalize.y());
-        update();
-    }
+
+    // void set_x(int val)
+    // {
+    //     zero.setX(val + normalize.x());
+    //     update();
+    // }
+
+    // void set_y(int val)
+    // {
+    //     zero.setY(val + normalize.y());
+    //     update();
+    // }
+
     void set_angle(double val)
     {
         angle = val;
+        update();
+    }
+
+    void set_scale(double var)
+    {
+        scale = var;
+        if (scale < 0.0000001)
+            scale_is_small();
+        else
+            scale_is_normal();
         update();
     }
 

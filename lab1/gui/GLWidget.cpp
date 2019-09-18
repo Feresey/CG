@@ -33,7 +33,7 @@ void GLWidget::initializeGL()
     glClearColor(0, 0, 0, 1);
     calculate();
     normalize = QPoint(width() / 2, -height() / 2);
-    restore_position();
+    restore();
 }
 
 void GLWidget::paintGL()
@@ -89,9 +89,13 @@ void GLWidget::wheelEvent(QWheelEvent* we)
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
     if (mouse_tapped) {
+        QPoint tmp = zero - normalize;
+
         switch (button_pressed) {
         case Qt::MouseButton::LeftButton:
             zero += prev_pos - me->pos();
+            x_changed(tmp.x());
+            y_changed(tmp.y());
             break;
         case Qt::MouseButton::RightButton:
             angle += (prev_pos - me->pos()).x() * 0.2;
@@ -100,9 +104,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
         default:
             break;
         }
-        QPoint tmp = zero - normalize;
-        x_changed(tmp.x());
-        y_changed(tmp.y());
+
         prev_pos = me->pos();
         update();
     }
@@ -165,8 +167,8 @@ void GLWidget::findScale()
     double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
     double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
 
-    save_scale = scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
-    scale_changed(scale);
+    save_scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
+    // scale_changed(scale);
 }
 #include <iostream>
 
