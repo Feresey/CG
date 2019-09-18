@@ -4,7 +4,7 @@
 
 #include <QOpenGLWidget>
 // #include <QtOpenGL>
-// #include <QGLWidget>
+#include <QGLWidget>
 // #include <GL/glu.h>
 
 #include <algorithm>
@@ -12,10 +12,14 @@
 // #include <functional>
 #include <vector>
 
-class OGLWidget : public QOpenGLWidget {
+class GLWidget : public QOpenGLWidget {
+    Q_OBJECT
+public slots:
+    void coord(int a);
+
 public:
-    OGLWidget(QWidget* parent = 0);
-    ~OGLWidget() =default;
+    GLWidget(QWidget* parent = 0);
+    ~GLWidget() = default;
 
     void set(double a, double b, double A, double B, double step);
     bool polar;

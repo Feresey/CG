@@ -17,7 +17,6 @@ public:
 
 private slots:
     void myslot(double = 0);
-    void coord(bool);
 
 private:
     Ui::MainWindow* ui;

@@ -5,7 +5,7 @@
 
 #include "GLWidget.hpp"
 
-OGLWidget::OGLWidget(QWidget* parent)
+GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
     , polar(false)
     , scale(1)
@@ -17,13 +17,13 @@ OGLWidget::OGLWidget(QWidget* parent)
 {
 }
 
-void OGLWidget::initializeGL()
+void GLWidget::initializeGL()
 {
     // qglClearColor(Qt::black);
     glClearColor(0, 0, 0, 1);
 }
 
-void OGLWidget::paintGL()
+void GLWidget::paintGL()
 {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
@@ -45,14 +45,14 @@ void OGLWidget::paintGL()
     Psinus();
 }
 
-void OGLWidget::resizeGL(int w, int h)
+void GLWidget::resizeGL(int w, int h)
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
 }
 
-void OGLWidget::set(double aa, double bb, double AA, double BB, double sstep)
+void GLWidget::set(double aa, double bb, double AA, double BB, double sstep)
 {
     a = aa;
     b = bb;
@@ -61,7 +61,13 @@ void OGLWidget::set(double aa, double bb, double AA, double BB, double sstep)
     step = sstep;
 }
 
-void OGLWidget::Psinus()
+void GLWidget::coord(int a)
+{
+    polar = a;
+    update();
+}
+
+void GLWidget::Psinus()
 {
     std::vector<double> phi;
     double last = M_PI * B / 180;

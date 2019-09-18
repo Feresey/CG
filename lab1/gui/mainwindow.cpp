@@ -39,9 +39,3 @@ void MainWindow::myslot(double)
     ui->openGLWidget->update();
     ui->statusbar->showMessage("");
 }
-
-void MainWindow::coord(bool a)
-{
-    ui->openGLWidget->polar = a;
-    ui->openGLWidget->update();
-}
