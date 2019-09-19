@@ -41,10 +41,14 @@ void GLWidget::initializeGL()
 
 void GLWidget::paintGL()
 {
+    QPoint tmp = zero - normalize;
+    tmp.setX(-tmp.x());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
     glLoadIdentity(); // загружаем матрицу
-    glOrtho(-width() / 2, width() / 2, -height() / 2, height() / 2, 1, 0); // подготавливаем плоскости для матрицы
+    glOrtho(-width() / 2 - tmp.x(), width() / 2 - tmp.x(),
+        -height() / 2 - tmp.y(), height() / 2 - tmp.y(),
+        1, 0); // подготавливаем плоскости для матрицы
 #ifdef GIRO
     std::ifstream in("/sys/devices/platform/lis3lv02d/position");
     in.get();
@@ -134,17 +138,17 @@ void GLWidget::findScale()
     double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
 
     save_scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
-    restore(false);
+    restore();
 }
 
 void GLWidget::Psinus()
 {
-    QPoint tmp = zero - normalize;
-    tmp.setX(-tmp.x());
+    // QPoint tmp = zero - normalize;
+    // tmp.setX(-tmp.x());
 
     glBegin(GL_LINE_STRIP);
     for (size_t i = 0; i + 1 < phi.size(); i += 1)
-        glVertex2d(scale * x[i] + tmp.x(), scale * y[i] + tmp.y());
+        glVertex2d(scale * x[i], scale * y[i]);
     glEnd();
 }
 

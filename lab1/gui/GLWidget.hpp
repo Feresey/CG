@@ -18,18 +18,17 @@
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
-    void restore(bool coord = true)
+    void restore()
     {
         scale = save_scale;
         update();
         scale_is_normal();
         scale_changed(scale);
 
-        if (coord) {
-            zero = normalize;
-            x_changed(0);
-            y_changed(0);
-        }
+        zero = normalize;
+        x_changed(0);
+        y_changed(0);
+
         angle = 0.0;
         angle_changed(0.0);
         update();
