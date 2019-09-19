@@ -18,17 +18,19 @@
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
-    void restore()
+    void restore(bool coord = true)
     {
         scale = save_scale;
         update();
         scale_is_normal();
         scale_changed(scale);
 
-        zero = normalize;
+        if (coord) {
+            zero = normalize;
+            x_changed(0);
+            y_changed(0);
+        }
         angle = 0.0;
-        x_changed(0);
-        y_changed(0);
         angle_changed(0.0);
         update();
     }
@@ -103,7 +105,7 @@ private:
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;
-    double angle = 0;
+    double angle;
 
 #ifdef GIRO
     bool bol = true;

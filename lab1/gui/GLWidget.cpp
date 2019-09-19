@@ -12,9 +12,12 @@ GLWidget::GLWidget(QWidget* parent)
     , phi()
     , x()
     , y()
-    , zero(width() / 2, -height() / 2)
-    , prev_pos()
+    , zero(0, 0)
+    , prev_pos(0, 0)
+    , normalize(0, 0)
     , mouse_tapped(false)
+    , button_pressed()
+    , angle(0)
 #ifdef GIRO
     , launch(std::async(std::bind(&GLWidget::inf, this)))
 #endif
@@ -123,9 +126,32 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
     prev_pos = me->pos();
 }
 
+void GLWidget::findScale()
+{
+    auto _abs = [](double l, double r) { return abs(l) < abs(r); };
+
+    double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
+    double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
+
+    save_scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
+    restore(false);
+}
+
+void GLWidget::Psinus()
+{
+    QPoint tmp = zero - normalize;
+    tmp.setX(-tmp.x());
+
+    glBegin(GL_LINE_STRIP);
+    for (size_t i = 0; i + 1 < phi.size(); i += 1)
+        glVertex2d(scale * x[i] + tmp.x(), scale * y[i] + tmp.y());
+    glEnd();
+}
+
 void GLWidget::calculate(double a, double b, double A, double B, int points)
 {
-    phi = {};
+    phi.reserve(static_cast<size_t>(points));
+    phi.resize(0);
     double first = M_PI * A / 180,
            last = M_PI * B / 180;
     double delta = (last - first) / points;
@@ -158,29 +184,4 @@ void GLWidget::calculate(double a, double b, double A, double B, int points)
         [](double _ro, double _phi) { return _ro * cos(_phi); });
 
     findScale();
-}
-
-void GLWidget::findScale()
-{
-    auto _abs = [](double l, double r) { return abs(l) < abs(r); };
-
-    double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
-    double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
-
-    save_scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
-    // scale_changed(scale);
-}
-#include <iostream>
-
-void GLWidget::Psinus()
-{
-    QPoint tmp = zero - normalize;
-    // tmp *= -1;
-    tmp.setX(-tmp.x());
-    // std::cout << tmp.x() << ' ' << tmp.y() << std::endl;
-
-    glBegin(GL_LINE_STRIP);
-    for (size_t i = 0; i + 1 < phi.size(); i += 1)
-        glVertex2d(scale * x[i] + tmp.x(), scale * y[i] + tmp.y());
-    glEnd();
 }
