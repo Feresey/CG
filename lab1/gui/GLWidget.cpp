@@ -42,11 +42,10 @@ void GLWidget::initializeGL()
 void GLWidget::paintGL()
 {
     QPoint tmp = zero - normalize;
-    tmp.setX(-tmp.x());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
     glLoadIdentity(); // загружаем матрицу
-    glOrtho(-width() / 2 - tmp.x(), width() / 2 - tmp.x(),
+    glOrtho(-width() / 2 + tmp.x(), width() / 2 + tmp.x(),
         -height() / 2 - tmp.y(), height() / 2 - tmp.y(),
         1, 0); // подготавливаем плоскости для матрицы
 #ifdef GIRO
@@ -154,7 +153,6 @@ void GLWidget::Psinus()
 
 void GLWidget::calculate(double a, double b, double A, double B, int points)
 {
-    phi.reserve(static_cast<size_t>(points));
     phi.resize(0);
     double first = M_PI * A / 180,
            last = M_PI * B / 180;
