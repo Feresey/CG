@@ -69,6 +69,7 @@ signals:
     void x_changed(int);
     void y_changed(int);
     void angle_changed(double);
+    void point_pos(QPointF);
 
 public:
     GLWidget(QWidget* parent = 0);

@@ -25,7 +25,7 @@ configure_file(config.h.in config.h @ONLY)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp mainwindow.cpp GLWidget.cpp)
+add_executable(${PROJECT_NAME} main.cpp mainwindow.cpp GLWidget.cpp pointview.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::OpenGL)

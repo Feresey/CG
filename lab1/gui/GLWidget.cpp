@@ -61,10 +61,10 @@ void GLWidget::paintGL()
     Psinus();
 
     glBegin(GL_LINES);
-    glVertex2d(-width(), 0);
-    glVertex2d(width(), 0);
-    glVertex2d(0, -height());
-    glVertex2d(0, height());
+    glVertex2d(-2 * width() + zero.x(), 0);
+    glVertex2d(2 * width() + zero.x(), 0);
+    glVertex2d(0, -2 * height() - zero.y());
+    glVertex2d(0, 2 * height() - zero.y());
     glEnd();
 }
 
@@ -84,7 +84,7 @@ void GLWidget::wheelEvent(QWheelEvent* we)
     scale *= 1 + 0.001 * dl;
 
     if (scale < 0.0000001)
-        scale_is_small();
+        emit scale_is_small();
     else
         scale_is_normal();
 
@@ -114,6 +114,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
         prev_pos = me->pos();
         update();
     }
+    QPoint tmp = me->pos() + zero;
+    tmp.setX(tmp.x() - width());
+    tmp.setY(-tmp.y());
+    point_pos({ 1. * tmp.x() / scale, 1. * tmp.y() / scale });
 }
 
 void GLWidget::mousePressEvent(QMouseEvent* me)

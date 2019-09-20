@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto collapse = new QShortcut(this);
     collapse->setKey(QKeySequence("Esc"));
     connect(collapse, SIGNAL(activated()), this, SLOT(close()));
+    ui->y_box->setX(false);
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +37,10 @@ void MainWindow::myslot(double)
 
     A = ui->input_A->value();
     B = ui->input_B->value();
+    if (A > B) {
+        ui->statusbar->showMessage("'B' should be greater than 'A'");
+        return;
+    }
     points = ui->input_points->value();
 
     ui->openGLWidget->calculate(a, b, A, B, points);
