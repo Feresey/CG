@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MAINWINDOW_HPP
+#define MAINWINDOW_HPP
+
 
 #include <QtWidgets/QMainWindow>
 
@@ -22,3 +24,5 @@ private slots:
 private:
     Ui::MainWindow* ui;
 };
+
+#endif

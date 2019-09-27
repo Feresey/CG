@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POINTVIEW_HPP
+#define POINTVIEW_HPP
 
 #include <QDoubleSpinBox>
 
@@ -17,3 +18,6 @@ public:
     PointView(bool x = true);
     ~PointView() = default;
 };
+
+#endif
+

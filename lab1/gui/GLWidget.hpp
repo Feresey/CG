@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GLWIDGET_HPP
+#define GLWIDGET_HPP
 
 #include <QOpenGLWidget>
 #include <QWheelEvent>
@@ -112,7 +113,7 @@ private:
     void inf()
     {
         sleep(1);
-        timespec ts = { 0, 1000 }, tv;
+        timespec ts = { 1, 10000 }, tv;
         while (bol) {
             nanosleep(&ts, &tv);
             paintGL();
@@ -123,3 +124,5 @@ private:
     std::future<void> launch;
 #endif
 };
+
+#endif

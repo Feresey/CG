@@ -53,7 +53,7 @@ void GLWidget::paintGL()
     in.get();
     std::string a;
     std::getline(in, a, ',');
-    glRotated(-double(atoi(a.c_str()) / 10) / 1.2222222, 0, 0, 1);
+    glRotated(-double(atoi(a.c_str()) / 100) / 0.12222222, 0, 0, 1);
 #endif
 
     glRotated(angle, 0, 0, 1);
