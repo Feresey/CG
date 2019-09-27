@@ -18,9 +18,6 @@ public:
     MainWindow& operator=(MainWindow&&) = delete;
     ~MainWindow();
 
-private slots:
-    void myslot(double = 0);
-
 private:
     Ui::MainWindow* ui;
 };

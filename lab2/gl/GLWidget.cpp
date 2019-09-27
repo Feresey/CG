@@ -18,24 +18,16 @@ GLWidget::GLWidget(QWidget* parent)
     , mouse_tapped(false)
     , button_pressed()
     , angle(0)
-#ifdef GIRO
-    , launch(std::async(std::bind(&GLWidget::inf, this)))
-#endif
 {
 }
 
 GLWidget::~GLWidget()
 {
-#ifdef GIRO
-    bol = false;
-#endif
 }
 
 void GLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
-    calculate();
-    normalize = QPoint(width() / 2, -height() / 2);
     restore();
 }
 
@@ -48,17 +40,9 @@ void GLWidget::paintGL()
     glOrtho(-width() / 2 + tmp.x(), width() / 2 + tmp.x(),
         -height() / 2 - tmp.y(), height() / 2 - tmp.y(),
         1, 0); // подготавливаем плоскости для матрицы
-#ifdef GIRO
-    std::ifstream in("/sys/devices/platform/lis3lv02d/position");
-    in.get();
-    std::string a;
-    std::getline(in, a, ',');
-    glRotated(-double(atoi(a.c_str()) / 100) / 0.12222222, 0, 0, 1);
-#endif
-
     glRotated(angle, 0, 0, 1);
 
-    Psinus();
+    Draw();
 
     glBegin(GL_LINES);
     glVertex2d(-2 * width() + zero.x(), 0);
@@ -74,8 +58,7 @@ void GLWidget::resizeGL(int w, int h)
     glLoadIdentity();
     glViewport(0, 0, w, h);
 
-    findScale();
-    normalize = QPoint(width() / 2, -height() / 2);
+    restore();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* we)
@@ -84,9 +67,9 @@ void GLWidget::wheelEvent(QWheelEvent* we)
     scale *= 1 + 0.001 * dl;
 
     if (scale < 0.0000001)
-        emit scale_is_small();
+        scale_message();
     else
-        scale_is_normal();
+        scale_message("");
 
     update();
     scale_changed(scale);
@@ -133,61 +116,45 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
     prev_pos = me->pos();
 }
 
-void GLWidget::findScale()
+double GLWidget::findScale()
 {
-    auto _abs = [](double l, double r) { return abs(l) < abs(r); };
+    // auto _abs = [](double l, double r) { return abs(l) < abs(r); };
 
-    double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
-    double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
+    // double xmax = abs(*std::max_element(x.begin(), x.end(), _abs));
+    // double ymax = abs(*std::max_element(y.begin(), y.end(), _abs));
 
-    save_scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
-    restore();
+    // return std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
+    return 1;
 }
 
-void GLWidget::Psinus()
+void GLWidget::restore()
 {
-    // QPoint tmp = zero - normalize;
-    // tmp.setX(-tmp.x());
+    scale = save_scale = findScale();
+    update();
+    scale_message("");
+    scale_changed(scale);
 
-    glBegin(GL_LINE_STRIP);
-    for (size_t i = 0; i + 1 < phi.size(); i += 1)
-        glVertex2d(scale * x[i], scale * y[i]);
-    glEnd();
+    zero = normalize = { width() / 2, -height() / 2 };
+    x_changed(0);
+    y_changed(0);
+
+    angle = 0.0;
+    angle_changed(0.0);
+    update();
 }
 
-void GLWidget::calculate(double a, double b, double A, double B, int points)
+void GLWidget::set_angle(double val)
 {
-    phi.resize(0);
-    double first = M_PI * A / 180,
-           last = M_PI * B / 180;
-    double delta = (last - first) / points;
-    double curr = first;
+    angle = val;
+    update();
+}
 
-    for (int i = 0; i <= points; ++i, curr += delta)
-        phi.push_back(curr);
-    phi.push_back(last);
-
-    size_t size = phi.size();
-
-    y.resize(size);
-    x.resize(size);
-    auto th1 = std::async(
-        [&]() { return std::transform(phi.begin(), phi.end(), x.begin(),
-                    [&](double var) { return a * var + b * sin(var); }); });
-    auto th2 = std::async(
-        [&]() { return std::transform(phi.begin(), phi.end(), y.begin(),
-                    [&](double var) { return a - b * cos(var); }); });
-
-    th1.wait();
-    th2.wait();
-
-    std::transform(x.begin(), x.end(), y.begin(), x.begin(),
-        [](double _x, double _y) { return sqrt(_x * _x + _y * _y); });
-
-    std::transform(x.begin(), x.end(), phi.begin(), y.begin(),
-        [](double _ro, double _phi) { return _ro * sin(_phi); });
-    std::transform(x.begin(), x.end(), phi.begin(), x.begin(),
-        [](double _ro, double _phi) { return _ro * cos(_phi); });
-
-    findScale();
+void GLWidget::set_scale(double val)
+{
+    scale = val;
+    if (scale < 0.0000001)
+        scale_message();
+    else
+        scale_message("");
+    update();
 }
