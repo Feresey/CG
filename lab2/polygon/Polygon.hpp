@@ -1,13 +1,17 @@
 #ifndef POLYGON_HPP
 #define POLYGON_HPP
 
-#include <array>
-#include <QPoint>
+#include <QPointF>
+#include <QVector3D>
+#include <QVector>
 
-template<size_t N>
 class Polygon {
-    std::array<QPoint, N>
-    public:
+    QVector<QVector3D> points;
+
+public:
+    explicit Polygon(int num_points = 4);
+    explicit Polygon(const QVector<QVector3D>& points);
+    QVector<QPointF> display(QVector3D point);
 };
 
 #endif /*POLYGON_HPP*/

@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <vector>
 
+#include "Polygon.hpp"
+
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
@@ -41,14 +43,12 @@ private:
     void Draw();
     double findScale();
 
-    double scale;
-    double save_scale;
-    std::vector<double> phi;
-    std::vector<double> x, y;
+    QVector<Polygon> figures;
+
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;
-    double angle;
+    double scale, save_scale, angle;
 };
 
 #endif

@@ -7,16 +7,28 @@
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
-    , scale(1)
-    , save_scale(1)
-    , phi()
-    , x()
-    , y()
+    , figures(
+          QVector{
+              Polygon{
+                  { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 1, 0 }, { 1, 0, 0 } } }, // bottom
+              Polygon{
+                  { { 0, 0, 1 }, { 0, 1, 1 }, { 1, 1, 1 }, { 1, 0, 1 } } }, // top
+              Polygon{
+                  { { 1, 0, 0 }, { 1, 1, 0 }, { 1, 1, 1 }, { 1, 0, 1 } } }, // front
+              Polygon{
+                  { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 1, 1 }, { 0, 0, 1 } } }, // back
+              Polygon{
+                  { { 0, 0, 0 }, { 1, 0, 0 }, { 1, 0, 1 }, { 0, 0, 1 } } }, // left
+              Polygon{
+                  { { 0, 1, 0 }, { 1, 1, 0 }, { 1, 1, 1 }, { 0, 1, 1 } } }, // right
+          })
     , zero(0, 0)
     , prev_pos(0, 0)
     , normalize(0, 0)
     , mouse_tapped(false)
     , button_pressed()
+    , scale(1)
+    , save_scale(1)
     , angle(0)
 {
 }
