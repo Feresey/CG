@@ -32,7 +32,6 @@ add_executable(${PROJECT_NAME}
                main.cpp
                mainwindow/mainwindow.cpp
                gl/GLWidget.cpp
-               gl/Draw.cpp
                point/pointview.cpp
                polygon/Polygon.cpp)
 
