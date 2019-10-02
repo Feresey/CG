@@ -46,7 +46,7 @@ private:
     bool mouse_tapped;
     Qt::MouseButton button_pressed;
 
-    Matrix<4> m;
+    Matrix m;
 
     double scale;
 

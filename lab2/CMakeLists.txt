@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.15)
-project(gui LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.0)
+
+project(lab2 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -18,23 +19,4 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic\
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3 -fsanitize=address")
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-find_package(OpenGL COMPONENTS OpenGL REQUIRED)
-
-include_directories(BEFORE
-                    gl
-                    ui
-                    point
-                    polygon
-                    mainwindow)
-
-add_executable(${PROJECT_NAME}
-               main.cpp
-               mainwindow/mainwindow.cpp
-               gl/GLWidget.cpp
-               point/pointview.cpp
-               polygon/Polygon.cpp)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
-target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::OpenGL)
-target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
+add_subdirectory(src)

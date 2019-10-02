@@ -21,21 +21,8 @@ GLWidget::GLWidget(QWidget* parent)
     , normalize()
     , mouse_tapped(false)
     , button_pressed()
+    , m(4, 4)
     , scale(1)
-    , matrix(
-          {
-              { 1, 0, 0, 0 },
-              { 0, 1, 0, 0 },
-              { 0, 0, 1, 0 },
-              { 0, 0, 0, 1 } //
-          })
-    , default_matrix(
-          {
-              { 1, 0, 0, 0 },
-              { 0, 1, 0, 0 },
-              { 0, 0, 1, 0 },
-              { 0, 0, 0, 1 } //
-          })
     , angle_phi()
     , angle_theta()
     , Z_x()
@@ -63,13 +50,11 @@ void GLWidget::paintGL()
         -height() / 2, height() / 2,
         1, 0); // подготавливаем плоскости для матрицы
 
-    // Draw();
-
     for (auto i : figures) {
         glBegin(GL_LINE_LOOP);
         for (auto j : i) {
-            
-            glVertex2d(j)
+
+            // glVertex2d(j)
         }
         glEnd();
     }
