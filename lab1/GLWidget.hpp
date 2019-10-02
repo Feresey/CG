@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include <algorithm>
+#include <cmath>
 #include <vector>
 
 #include "config.h"
@@ -30,26 +31,15 @@ public slots:
         x_changed(0);
         y_changed(0);
 
-        angle = 0.0;
+        _angle = angle = 0.0;
         angle_changed(0.0);
         update();
     }
 
-    // void set_x(int val)
-    // {
-    //     zero.setX(val + normalize.x());
-    //     update();
-    // }
-
-    // void set_y(int val)
-    // {
-    //     zero.setY(val + normalize.y());
-    //     update();
-    // }
-
     void set_angle(double val)
     {
         angle = val;
+        _angle = angle * M_PI / 180;
         update();
     }
 
@@ -97,7 +87,6 @@ protected:
     // void geese(); // Рисуем квадрат по которому кликать для получения очков
 
 private:
-    void Psinus();
     void findScale();
     double scale;
     double save_scale;
@@ -106,14 +95,14 @@ private:
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;
-    double angle;
+    double angle, _angle;
 
 #ifdef GIRO
     bool bol = true;
     void inf()
     {
         sleep(1);
-        timespec ts = { 1, 10000 }, tv;
+        timespec ts = { 0, 10000 }, tv;
         while (bol) {
             nanosleep(&ts, &tv);
             paintGL();

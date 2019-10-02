@@ -5,6 +5,8 @@
 #include <cmath>
 #include <vector>
 
+#define ROTATE(X, Y, ANGLE) X *cos(ANGLE) - Y *sin(ANGLE), X *sin(ANGLE) + Y *cos(ANGLE)
+
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
     , scale(1)
@@ -18,6 +20,7 @@ GLWidget::GLWidget(QWidget* parent)
     , mouse_tapped(false)
     , button_pressed()
     , angle(0)
+    , _angle(0)
 #ifdef GIRO
     , launch(std::async(std::bind(&GLWidget::inf, this)))
 #endif
@@ -41,12 +44,12 @@ void GLWidget::initializeGL()
 
 void GLWidget::paintGL()
 {
-    QPoint tmp = zero - normalize;
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
     glLoadIdentity(); // загружаем матрицу
-    glOrtho(-width() / 2 + tmp.x(), width() / 2 + tmp.x(),
-        -height() / 2 - tmp.y(), height() / 2 - tmp.y(),
+    glOrtho(-width() / 2, width() / 2,
+        -height() / 2, height() / 2,
         1, 0); // подготавливаем плоскости для матрицы
 #ifdef GIRO
     std::ifstream in("/sys/devices/platform/lis3lv02d/position");
@@ -56,15 +59,28 @@ void GLWidget::paintGL()
     glRotated(-double(atoi(a.c_str()) / 100) / 0.12222222, 0, 0, 1);
 #endif
 
-    glRotated(angle, 0, 0, 1);
+    QPoint tmp = zero - normalize;
+    QPointF _tmp = { ROTATE(tmp.x(), tmp.y(), _angle) };
 
-    Psinus();
+    glBegin(GL_LINE_STRIP);
+    for (size_t i = 0; i + 1 < phi.size(); i += 1) {
+        double x1 = scale * x[i] - _tmp.x(),
+               y1 = scale * y[i] + _tmp.y();
+        glVertex2d(ROTATE(x1, y1, _angle));
+    }
+    glEnd();
+
+    // axes
+    double x1 = -2 * width() + zero.x() - _tmp.x(), x2 = x1 + 4 * width(),
+           x3 = -_tmp.x(), x4 = x3,
+           y1 = +_tmp.y(), y2 = y1,
+           y3 = -2 * height() - zero.y() + _tmp.y(), y4 = y3 + 4 * height();
 
     glBegin(GL_LINES);
-    glVertex2d(-2 * width() + zero.x(), 0);
-    glVertex2d(2 * width() + zero.x(), 0);
-    glVertex2d(0, -2 * height() - zero.y());
-    glVertex2d(0, 2 * height() - zero.y());
+    glVertex2d(ROTATE(x1, y1, _angle));
+    glVertex2d(ROTATE(x2, y2, _angle));
+    glVertex2d(ROTATE(x3, y3, _angle));
+    glVertex2d(ROTATE(x4, y4, _angle));
     glEnd();
 }
 
@@ -105,6 +121,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
             break;
         case Qt::MouseButton::RightButton:
             angle += (prev_pos - me->pos()).x() * 0.2;
+            _angle = angle * M_PI / 180;
             angle_changed(angle);
             break;
         default:
@@ -117,7 +134,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
     QPoint tmp = me->pos() + zero;
     tmp.setX(tmp.x() - width());
     tmp.setY(-tmp.y());
-    point_pos({ 1. * tmp.x() / scale, 1. * tmp.y() / scale });
+    point_pos({ double( tmp.x()) / scale, double(tmp.y() )/ scale });
 }
 
 void GLWidget::mousePressEvent(QMouseEvent* me)
@@ -142,17 +159,6 @@ void GLWidget::findScale()
 
     save_scale = std::min(width(), height()) * 0.9 / (std::max(xmax, ymax) * 2);
     restore();
-}
-
-void GLWidget::Psinus()
-{
-    // QPoint tmp = zero - normalize;
-    // tmp.setX(-tmp.x());
-
-    glBegin(GL_LINE_STRIP);
-    for (size_t i = 0; i + 1 < phi.size(); i += 1)
-        glVertex2d(scale * x[i], scale * y[i]);
-    glEnd();
 }
 
 void GLWidget::calculate(double a, double b, double A, double B, int points)
