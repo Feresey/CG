@@ -2,6 +2,7 @@
 #define GLWIDGET_HPP
 
 #include <QOpenGLWidget>
+#include <QVector2D>
 #include <QVector3D>
 #include <QWheelEvent>
 #include <QWidget>
@@ -9,14 +10,18 @@
 #include <algorithm>
 #include <array>
 #include <vector>
+#include <memory>
+#include <cmath>
 
 #include "Matrix.hpp"
+#include "Polygon.hpp"
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
     void restore();
     void set_scale(double);
+    void redraw();
 
 signals:
     void scale_changed(double);
@@ -39,8 +44,10 @@ protected:
 private:
     void Draw();
     double findScale();
+    void LoadMatrix();
 
-    std::vector<std::vector<QVector3D>> figures;
+    std::vector<Polygon> figures;
+    std::vector<std::vector<QVector2D>> display_figures;
 
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
@@ -52,6 +59,8 @@ private:
 
     double angle_phi, angle_theta;
     double Z_x, Z_y, Z_z;
+
+    std::unique_ptr<unsigned int> seed;
 };
 
 #endif

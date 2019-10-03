@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget* parent)
     auto collapse = new QShortcut(this);
     collapse->setKey(QKeySequence("Esc"));
     connect(collapse, SIGNAL(activated()), this, SLOT(close()));
-    ui->y_box->setX(false);
 }
 
 MainWindow::~MainWindow()

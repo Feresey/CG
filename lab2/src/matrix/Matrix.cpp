@@ -40,7 +40,9 @@ Matrix& Matrix::operator*=(const Matrix& second)
 
 QVector3D Matrix::operator*(const QVector3D& v) const
 {
-    Matrix tmp = *this * Matrix({ v.x(), v.y(), v.z(), 1 }, 4, 1);
+    Matrix tmp(4, 4);
+    tmp[2 + 4 * 2] = 0;
+    tmp *= *this * Matrix({ v.x(), v.y(), v.z(), 1 }, 4, 1);
     return {
         tmp[0] / tmp[3],
         tmp[1] / tmp[3],

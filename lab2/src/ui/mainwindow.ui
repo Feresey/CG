@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>797</width>
-    <height>627</height>
+    <width>800</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Lab2</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -23,197 +23,77 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="0">
     <property name="sizeConstraint">
      <enum>QLayout::SetMaximumSize</enum>
     </property>
-    <item row="1" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="PointView" name="x_box">
+    <item row="1" column="0">
+     <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
+      <item row="1" column="1">
+       <widget class="GLWidget" name="openGLWidget">
         <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
-        <property name="readOnly">
          <bool>true</bool>
         </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="prefix">
-         <string>x:</string>
+        <property name="minimumSize">
+         <size>
+          <width>533</width>
+          <height>533</height>
+         </size>
         </property>
-        <property name="decimals">
-         <number>5</number>
+        <property name="sizeIncrement">
+         <size>
+          <width>1</width>
+          <height>1</height>
+         </size>
         </property>
-        <property name="minimum">
-         <double>-1000000.000000000000000</double>
+        <property name="baseSize">
+         <size>
+          <width>533</width>
+          <height>533</height>
+         </size>
         </property>
-        <property name="maximum">
-         <double>1000000.000000000000000</double>
+        <property name="cursor">
+         <cursorShape>CrossCursor</cursorShape>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="PointView" name="y_box">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
-        <property name="readOnly">
+        <property name="mouseTracking">
          <bool>true</bool>
         </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="prefix">
-         <string>y:</string>
-        </property>
-        <property name="decimals">
-         <number>5</number>
-        </property>
-        <property name="minimum">
-         <double>-1000000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>1000000.000000000000000</double>
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
         </property>
        </widget>
       </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+      <item row="1" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Change colors</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
-    </item>
-    <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBox">
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="prefix">
-         <string>scale=</string>
-        </property>
-        <property name="decimals">
-         <number>7</number>
-        </property>
-        <property name="maximum">
-         <double>1000000000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>1.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Restore</string>
-        </property>
-        <property name="shortcut">
-         <string>R</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="angle_spin">
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="suffix">
-         <string>°</string>
-        </property>
-        <property name="minimum">
-         <double>-180.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>180.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="1">
-     <widget class="GLWidget" name="openGLWidget">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>533</width>
-        <height>533</height>
-       </size>
-      </property>
-      <property name="sizeIncrement">
-       <size>
-        <width>1</width>
-        <height>1</height>
-       </size>
-      </property>
-      <property name="baseSize">
-       <size>
-        <width>533</width>
-        <height>533</height>
-       </size>
-      </property>
-      <property name="cursor">
-       <cursorShape>CrossCursor</cursorShape>
-      </property>
-      <property name="mouseTracking">
-       <bool>true</bool>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::StrongFocus</enum>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
@@ -222,7 +102,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>797</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>
@@ -246,149 +126,27 @@
     <signal>y_changed(int)</signal>
     <signal>angle_changed(double)</signal>
     <signal>point_pos(QPointF)</signal>
-    <slot>set_x(int)</slot>
-    <slot>set_y(int)</slot>
-    <slot>set_angle(double)</slot>
     <slot>restore()</slot>
     <slot>set_scale(double)</slot>
-   </slots>
-  </customwidget>
-  <customwidget>
-   <class>PointView</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>pointview.hpp</header>
-   <slots>
-    <slot>new_point(QPointF)</slot>
+    <slot>redraw()</slot>
    </slots>
   </customwidget>
  </customwidgets>
  <resources/>
  <connections>
   <connection>
-   <sender>openGLWidget</sender>
-   <signal>angle_changed(double)</signal>
-   <receiver>angle_spin</receiver>
-   <slot>setValue(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>484</x>
-     <y>360</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>125</x>
-     <y>281</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>angle_spin</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>set_angle(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>154</x>
-     <y>290</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>623</x>
-     <y>521</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>openGLWidget</receiver>
-   <slot>restore()</slot>
+   <slot>redraw()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>216</y>
+     <x>77</x>
+     <y>56</y>
     </hint>
     <hint type="destinationlabel">
-     <x>380</x>
-     <y>272</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>scale_changed(double)</signal>
-   <receiver>doubleSpinBox</receiver>
-   <slot>setValue(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>413</x>
-     <y>217</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>238</x>
-     <y>177</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>doubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>set_scale(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>115</x>
-     <y>158</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>392</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>point_pos(QPointF)</signal>
-   <receiver>y_box</receiver>
-   <slot>new_point(QPointF)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>740</x>
-     <y>556</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>761</x>
-     <y>653</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>point_pos(QPointF)</signal>
-   <receiver>x_box</receiver>
-   <slot>new_point(QPointF)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>611</x>
-     <y>546</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>574</x>
-     <y>645</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>scale_message(QString)</signal>
-   <receiver>statusbar</receiver>
-   <slot>showMessage(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>437</x>
-     <y>570</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>390</x>
-     <y>701</y>
+     <x>278</x>
+     <y>148</y>
     </hint>
    </hints>
   </connection>
