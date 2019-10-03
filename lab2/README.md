@@ -1,26 +1,21 @@
-## prepare
+# lab2
 
+Прямоугольная пирамида
+
+## подготовка
 
 ```bash
 mkdir build && cd build
 ```
 
-## compile
+## компиляция
 
 ```bash
 cmake .. && make -j8
 ```
 
-## options
-
-If you have giroscope on your laptop, you can enable one feature.
+## запуск
 
 ```bash
-cmake .. -DGIRO=on && make -j8
-```
-
-## launch
-
-```
-./gui
+./lab2
 ```
