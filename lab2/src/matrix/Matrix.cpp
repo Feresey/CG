@@ -40,14 +40,25 @@ Matrix& Matrix::operator*=(const Matrix& second)
 
 QVector3D Matrix::operator*(const QVector3D& v) const
 {
-    Matrix tmp(4, 4);
-    tmp[2 + 4 * 2] = 0;
-    tmp *= *this * Matrix({ v.x(), v.y(), v.z(), 1 }, 4, 1);
-    return {
+    Matrix tmp = *this * Matrix({ v.x(), v.y(), v.z(), 1 }, 4, 1);
+    return QVector3D{
         tmp[0] / tmp[3],
         tmp[1] / tmp[3],
         tmp[2] / tmp[3]
     };
+}
+
+Polygon Matrix::operator*(const Polygon& v) const
+{
+    Polygon res(v);
+    std::transform(v.cbegin(), v.cend(), res.begin(), [&](const QVector3D& p) { return *this * p; });
+    return res;
+}
+
+QVector2D Matrix::projection(const QVector3D& point) const
+{
+    QVector3D tmp = *this * point;
+    return QVector2D{ tmp.x(), tmp.y() };
 }
 
 float Matrix::operator[](size_t i) const { return _m[i]; }

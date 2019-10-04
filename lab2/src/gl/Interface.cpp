@@ -7,12 +7,12 @@ void GLWidget::wheelEvent(QWheelEvent* we)
 
     set_scale(scale);
     scale_changed(scale);
+    update();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
     if (mouse_tapped) {
-        QPoint tmp = zero - normalize;
         zero += prev_pos - me->pos();
 
         switch (button_pressed) {
@@ -30,7 +30,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
 
         prev_pos = me->pos();
         LoadMatrix();
-        update();
     }
 }
 

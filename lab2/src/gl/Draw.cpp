@@ -44,34 +44,24 @@ void GLWidget::redraw()
         i.setColor(QVector3D{ static_cast<float>(rand()) / static_cast<float>(RAND_MAX),
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX),
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX) });
-    update();
+    LoadMatrix();
 }
 
 void GLWidget::LoadMatrix()
 {
-    m = Matrix(4, 4);
-    // m[2 + 4 * 2] = 0;
     m = Sh(0, 0, 0) * Rx(angle_phi) * Ry(angle_theta);
 
-    Matrix _tmp = m * Matrix({ 5, 5, 5, 1 }, 4, 1);
-    QVector3D Z = { _tmp[0], _tmp[1], _tmp[2] };
-    std::sort(figures.begin(), figures.end(),
-        [&](const Polygon& l, const Polygon& r) { return l.max_distance(Z) > r.max_distance(Z); });
+    std::transform(figures.begin(), figures.end(), changed_figures.begin(),
+        [&](const Polygon& p) { return m * p; });
+    std::sort(changed_figures.begin(), changed_figures.end(),
+        [&](const Polygon& l, const Polygon& r) { return l.max_distance() > r.max_distance(); });
 
-    for (size_t i = 0; i < figures.size(); ++i)
-        for (size_t j = 0; j < figures[i].size(); ++j) {
-            QVector3D tmp = m * figures[i][j];
-            display_figures[i][j] = QVector2D{
-                static_cast<float>(tmp.x() * scale),
-                static_cast<float>(tmp.y() * scale)
-            };
-        }
-    // std::transform(figures[i].begin(), figures[i].end(), display_figures[i].begin(),
-    //     [&](const QVector3D& point) {
-    //         QVector3D tmp = m * point;
-    //         return QVector2D{ static_cast<float>(tmp.x() * scale),
-    //             static_cast<float>(tmp.y() * scale) };
-    //     });
+    Matrix project_z(4, 4);
+    project_z[2 + 4 * 2] = 0;
+
+    for (size_t i = 0; i < changed_figures.size(); ++i)
+        for (size_t j = 0; j < changed_figures[i].size(); ++j)
+            display_figures[i][j] = project_z.projection(changed_figures[i][j]);
 
     update();
 }

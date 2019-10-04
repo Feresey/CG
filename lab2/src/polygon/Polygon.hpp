@@ -18,14 +18,16 @@ public:
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX) });
     Polygon(std::initializer_list<QVector3D> list);
 
-    float max_distance(const QVector3D& point) const;
+    float max_distance() const;
     void setColor(QVector3D col);
-    float r() const ;
-    float g() const ;
-    float b() const ;
+    float r() const;
+    float g() const;
+    float b() const;
 
-    Points::const_iterator begin() const;
-    Points::const_iterator end() const;
+    Points::iterator begin();
+    Points::iterator end();
+    Points::const_iterator cbegin() const;
+    Points::const_iterator cend() const;
 
     size_t size() const;
     QVector3D& operator[](size_t index);

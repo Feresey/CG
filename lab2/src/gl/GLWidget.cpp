@@ -20,6 +20,7 @@ GLWidget::GLWidget(QWidget* parent)
           //   { { 0, 0, 0 }, { 1, 0, 0 }, { 1, 0, 1 }, { 0, 0, 1 } }, // left
           //   { { 0, 1, 0 }, { 1, 1, 0 }, { 1, 1, 1 }, { 0, 1, 1 } } // right
       })
+    , changed_figures(figures)
     , display_figures({
           { {}, {}, {}, {} },
           { {}, {}, {}, {} },
@@ -52,6 +53,8 @@ GLWidget::~GLWidget()
 void GLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_POLYGON_SMOOTH);
     restore();
     redraw();
     LoadMatrix();
@@ -66,11 +69,11 @@ void GLWidget::paintGL()
         -height() / 2, height() / 2,
         1, 0); // подготавливаем плоскости для матрицы
 
-    for (size_t i = 0; i < figures.size(); ++i) {
+    for (size_t i = 0; i < changed_figures.size(); ++i) {
         glBegin(GL_POLYGON);
-        glColor3d(figures[i].r(), figures[i].g(), figures[i].b());
+        glColor3d(changed_figures[i].r(), changed_figures[i].g(), changed_figures[i].b());
         for (auto j : display_figures[i]) {
-            glVertex2d(j.x(), j.y());
+            glVertex2d(j.x() * scale, j.y() * scale);
         }
         glEnd();
     }

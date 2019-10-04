@@ -47,6 +47,7 @@ private:
     void LoadMatrix();
 
     std::vector<Polygon> figures;
+    std::vector<Polygon> changed_figures;
     std::vector<std::vector<QVector2D>> display_figures;
 
     QPoint zero, prev_pos, normalize;
