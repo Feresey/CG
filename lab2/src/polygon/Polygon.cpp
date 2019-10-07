@@ -59,35 +59,44 @@ std::ostream& operator<<(std::ostream& os, const QVector3D& src)
     return os;
 }
 
-// bool Polygon::operator<(const Polygon& other) const
-// {
-//     // std::vector<float> anus;
-//     for (auto i : figurePoints) {
-//         bool ind = true;
-//         for (auto j : other.figurePoints)
-//             if (i.distanceToPoint(j) < 0.0001f)
-//                 ind = false;
-//         if (ind) {
-//             // float tmp[] = {
-//             //     i.x() - other[0].x(), i.y() - other[0].y(), i.z() - other[0].z(),
-//             //     other[1].x() - other[0].x(), other[1].y() - other[0].y(), other[1].z() - other[0].z(),
-//             //     other[2].x() - other[0].x(), other[2].y() - other[0].y(), other[2].z() - other[0].z() //
-//             // };
-//             // float pr = (tmp[0] * tmp[4] * tmp[8]
-//             //                + tmp[1] * tmp[5] * tmp[6]
-//             //                - tmp[0] * tmp[5] * tmp[7]
-//             //                - tmp[8] * tmp[1] * tmp[3])
-//             //     / (tmp[3] * tmp[7] - tmp[4] * tmp[6]);
-//             // std::cout << i << ":" << pr << " ; " << i. distanceToPlane(other[0], other[1], other[2]) << std::endl;
-//             return (i[2] - other[0][2]) > 0.0f;
-//         }
-//     }
-//     // std::cout << figurePoints.size() << " : ";
-//     // for (auto i : anus)
-//     //     std::cout << i << ' ';
-//     // std::cout << std::endl;
-//     // return std::accumulate(anus.begin(), anus.end(), 0.0f);
-// }
+bool Polygon::operator<(const Polygon& other) const
+{
+    float mx = 0;
+    for (auto i : figurePoints)
+        for (auto j : other.figurePoints) {
+            float tmp = i.z() - j.z();
+            if (abs(tmp) > abs(mx)) {
+                mx = tmp;
+            }
+        }
+    return mx > 0;
+    // std::vector<float> anus;
+    // for (auto i : figurePoints) {
+    //     bool ind = true;
+    //     for (auto j : other.figurePoints)
+    //         if (i.distanceToPoint(j) < 0.0001f)
+    //             ind = false;
+    //     if (ind) {
+    //         // float tmp[] = {
+    //         //     i.x() - other[0].x(), i.y() - other[0].y(), i.z() - other[0].z(),
+    //         //     other[1].x() - other[0].x(), other[1].y() - other[0].y(), other[1].z() - other[0].z(),
+    //         //     other[2].x() - other[0].x(), other[2].y() - other[0].y(), other[2].z() - other[0].z() //
+    //         // };
+    //         // float pr = (tmp[0] * tmp[4] * tmp[8]
+    //         //                + tmp[1] * tmp[5] * tmp[6]
+    //         //                - tmp[0] * tmp[5] * tmp[7]
+    //         //                - tmp[8] * tmp[1] * tmp[3])
+    //         //     / (tmp[3] * tmp[7] - tmp[4] * tmp[6]);
+    //         // std::cout << i << ":" << pr << " ; " << i. distanceToPlane(other[0], other[1], other[2]) << std::endl;
+    //         return (i[2] - other[0][2]) > 0.0f;
+    //     }
+    // }
+    // std::cout << figurePoints.size() << " : ";
+    // for (auto i : anus)
+    //     std::cout << i << ' ';
+    // std::cout << std::endl;
+    // return std::accumulate(anus.begin(), anus.end(), 0.0f);
+}
 
 std::ostream& operator<<(std::ostream& os, const Polygon& src)
 {

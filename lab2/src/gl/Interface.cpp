@@ -13,10 +13,10 @@ void GLWidget::wheelEvent(QWheelEvent* we)
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
     if (mouse_tapped) {
-        zero += prev_pos - me->pos();
 
         switch (button_pressed) {
         case Qt::MouseButton::LeftButton:
+			zero += prev_pos - me->pos();
             break;
         case Qt::MouseButton::RightButton:
             angle_phi += ((prev_pos - me->pos()).x() * 0.2) * M_PI / 180;

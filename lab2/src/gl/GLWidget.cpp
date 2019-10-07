@@ -16,19 +16,21 @@ GLWidget::GLWidget(QWidget* parent)
     , button_pressed()
     , m(4, 4)
     , scale(100)
-    , angle_phi(30.0)
-    , angle_theta(45.0)
+    , angle_phi(0.0)
+    , angle_theta(180.0)
     , color_enabled(true)
     , edges_enabled(true)
     , seed(new unsigned int())
 {
     rand_r(seed.get());
     std::vector<QVector3D> base;
-    for (size_t i = 0; i < 5; ++i) {
-        float tmp = static_cast<float>(i) * 2.0f / 5.0f * M_PIf32;
+    int number = 5;
+    for (size_t i = 0; i < number; ++i) {
+        float tmp = static_cast<float>(i) * 2.0f / number * M_PIf32;
         base.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
-    QVector3D top = { 0, 0, 1 }, bottom = { 0, 0, 0 };
+    QVector3D top = { 0, 0, 3 }, 
+			  bottom = { 0, 0, 0 };
     figures.push_back({ base.front(), base.back(), bottom });
 
     figures.push_back({ base.front(), base.back(), top });
