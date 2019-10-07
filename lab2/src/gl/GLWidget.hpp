@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <cmath>
+#include <numeric>
 
 #include "Matrix.hpp"
 #include "Polygon.hpp"
@@ -22,6 +23,8 @@ public slots:
     void restore();
     void set_scale(double);
     void redraw();
+    void color(bool);
+    void edges(bool);
 
 signals:
     void scale_changed(double);
@@ -46,9 +49,10 @@ private:
     double findScale();
     void LoadMatrix();
 
+    std::vector<int> z_buffer;
     std::vector<Polygon> figures;
     std::vector<Polygon> changed_figures;
-    std::vector<std::vector<QVector2D>> display_figures;
+    // std::vector<std::vector<QVector2D>> display_figures;
 
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
@@ -59,8 +63,7 @@ private:
     double scale;
 
     double angle_phi, angle_theta;
-    double Z_x, Z_y, Z_z;
-
+    bool color_enabled, edges_enabled;
     std::unique_ptr<unsigned int> seed;
 };
 

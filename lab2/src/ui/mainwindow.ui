@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>695</height>
+    <width>898</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,72 @@
     </property>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
+      <item row="1" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Change colors</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="doubleSpinBox">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="prefix">
+           <string>scale=</string>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>100.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>Color</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="text">
+           <string>Edges</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
       <item row="1" column="1">
        <widget class="GLWidget" name="openGLWidget">
         <property name="enabled">
@@ -69,30 +135,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>Change colors</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
      </layout>
     </item>
    </layout>
@@ -102,7 +144,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>898</width>
      <height>26</height>
     </rect>
    </property>
@@ -122,13 +164,11 @@
    <slots>
     <signal>scale_changed(double)</signal>
     <signal>scale_message(QString)</signal>
-    <signal>x_changed(int)</signal>
-    <signal>y_changed(int)</signal>
-    <signal>angle_changed(double)</signal>
-    <signal>point_pos(QPointF)</signal>
     <slot>restore()</slot>
     <slot>set_scale(double)</slot>
     <slot>redraw()</slot>
+    <slot>color(bool)</slot>
+    <slot>edges(bool)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -147,6 +187,70 @@
     <hint type="destinationlabel">
      <x>278</x>
      <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>set_scale(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>439</x>
+     <y>110</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>scale_changed(double)</signal>
+   <receiver>doubleSpinBox</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>152</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>color(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>389</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>edges(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>45</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>

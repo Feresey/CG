@@ -4,12 +4,13 @@
 #include <QVector3D>
 
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 class Polygon {
     using Points = std::vector<QVector3D>;
     Points figurePoints;
-    QVector3D color;
+    float color[3];
 
 public:
     Polygon(Points src = {},
@@ -18,11 +19,8 @@ public:
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX) });
     Polygon(std::initializer_list<QVector3D> list);
 
-    float max_distance() const;
     void setColor(QVector3D col);
-    float r() const;
-    float g() const;
-    float b() const;
+    float* getColor();
 
     Points::iterator begin();
     Points::iterator end();
@@ -32,6 +30,8 @@ public:
     size_t size() const;
     QVector3D& operator[](size_t index);
     QVector3D operator[](size_t index) const;
+    bool operator<(const Polygon& other) const;
+    friend std::ostream& operator<<(std::ostream& os, const Polygon& src);
 };
 
 #endif /* POLYGON_HPP */

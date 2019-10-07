@@ -7,7 +7,7 @@ void GLWidget::wheelEvent(QWheelEvent* we)
 
     set_scale(scale);
     scale_changed(scale);
-    update();
+    LoadMatrix();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
@@ -64,5 +64,17 @@ void GLWidget::set_scale(double val)
         scale_message();
     else
         scale_message("");
+    update();
+}
+
+void GLWidget::color(bool ind)
+{
+    color_enabled = ind;
+    update();
+}
+
+void GLWidget::edges(bool ind)
+{
+    edges_enabled = ind;
     update();
 }
