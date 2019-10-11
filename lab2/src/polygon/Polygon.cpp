@@ -191,7 +191,7 @@ int Polygon::cmp(const Polygon& other) const
     // std::cout << '\n';
     if (diff.empty())
         return 0;
-    return std::accumulate(diff.begin(), diff.end(), 0.0f) / diff.size() > 0 ? 1 : -1;
+    return std::accumulate(diff.begin(), diff.end(), 0.0f) / static_cast<float>(diff.size()) > 0 ? 1 : -1;
 }
 
 bool Polygon::operator<(const Polygon& other) const

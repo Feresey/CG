@@ -1,11 +1,7 @@
 #include "GLWidget.hpp"
 #include "Polygon.hpp"
-#include "Vector3I.hpp"
 
 #include <iostream>
-#include <iomanip>
-
-const float EPS = 1e-4f;
 
 Matrix Rx(float phi)
 {
@@ -70,24 +66,24 @@ void GLWidget::LoadMatrix()
 
     std::transform(figures.begin(), figures.end(), changed_figures.begin(),
         [&](const Polygon& p) { return m * p; });
-	
-	// for(size_t i = 0; i < changed_figures.size(); ++i)
+
+    // for(size_t i = 0; i < changed_figures.size(); ++i)
     for (auto& i : changed_figures)
         for (auto& j : changed_figures) {
             int res = i.cmp(j);
             if (res == 1)
                 std::swap(i, j);
         }
-	// std::cout.precision(2);
-	// std::cout.width(2);
-	for(auto i: changed_figures){
-		for(auto j: changed_figures){
-			int tmp = i.cmp(j);
-			std::cout << (tmp < 0? "" : " ") << tmp << ' ';
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "\n\n";
+    // std::cout.precision(2);
+    // std::cout.width(2);
+    for (auto i : changed_figures) {
+        for (auto j : changed_figures) {
+            int tmp = i.cmp(j);
+            std::cout << (tmp < 0 ? "" : " ") << tmp << ' ';
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "\n\n";
     // changed_figures.sort();
     // for(size_t i = 0; i < changed_figures.size(); ++i)
     // std::stable_sort(changed_figures.begin(), changed_figures.end());
@@ -95,7 +91,7 @@ void GLWidget::LoadMatrix()
     update();
 }
 
-double GLWidget::findScale()
+float GLWidget::findScale()
 {
     return 100;
 }

@@ -1,10 +1,8 @@
 include_directories(BEFORE
                     gl
-                    ui
                     polygon
                     matrix
-                    mainwindow
-                    vector3i)
+                    mainwindow)
 
 add_subdirectory(polygon)
 
@@ -14,8 +12,7 @@ add_executable(${PROJECT_NAME}
                gl/GLWidget.cpp
                gl/Draw.cpp
                gl/Interface.cpp
-               matrix/Matrix.cpp
-               vector3i/Vector3I.cpp)
+               matrix/Matrix.cpp)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)

@@ -45,10 +45,10 @@ protected:
 
 private:
     void Draw();
-    double findScale();
+    float findScale();
     void LoadMatrix();
 
-    std::vector<int> z_buffer;
+    // std::vector<int> z_buffer;
     std::vector<Polygon> figures;
     std::vector<Polygon> changed_figures;
     // std::vector<std::vector<QVector2D>> display_figures;
@@ -59,9 +59,9 @@ private:
 
     Matrix m;
 
-    double scale;
+    float scale;
 
-    double angle_phi, angle_theta;
+    float angle_phi, angle_theta;
     bool color_enabled, edges_enabled;
     std::unique_ptr<unsigned int> seed;
 };

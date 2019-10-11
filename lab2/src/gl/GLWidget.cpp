@@ -7,7 +7,6 @@ GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
     , figures()
     , changed_figures()
-    // , display_figures()
     , zero()
     , prev_pos()
     , normalize()
@@ -23,15 +22,15 @@ GLWidget::GLWidget(QWidget* parent)
 {
     rand_r(seed.get());
     std::vector<QVector3D> base;
-    int number = 5;
+    size_t number = 5;
     for (size_t i = 0; i < number; ++i) {
-        float tmp = static_cast<float>(i) * 2.0f / number * M_PIf32;
+        float tmp = float(i) * 2.0f / float(number) * M_PIf32;
         base.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
     QVector3D top = { 0, 0, 3 }, bottom = { 0, 0, 0 };
     figures.push_back({ base.front(), base.back(), bottom });
     figures.push_back({ base.front(), base.back(), top });
-	// int i = 2;
+    // int i = 2;
     for (size_t i = 1; i < base.size(); ++i) {
         figures.push_back({ base[i - 1], base[i], top });
         figures.push_back({ base[i - 1], base[i], bottom });
@@ -49,7 +48,7 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     restore();
     redraw();
-    z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
+    // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 }
 
 void GLWidget::paintGL()
@@ -60,7 +59,7 @@ void GLWidget::paintGL()
     glOrtho(-width() / 2, width() / 2,
         -height() / 2, height() / 2,
         -1000, 1000); // подготавливаем плоскости для матрицы
-    z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
+    // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 
     Draw();
 
@@ -73,7 +72,7 @@ void GLWidget::resizeGL(int w, int h)
     glLoadIdentity();
     glViewport(0, 0, w, h);
 
-    z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
+    // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 
     restore();
 }

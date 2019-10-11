@@ -2,8 +2,8 @@
 
 void GLWidget::wheelEvent(QWheelEvent* we)
 {
-    int dl = we->delta();
-    scale *= 1 + 0.001 * dl;
+    float dl = float(we->delta());
+    scale *= 1.0f + 4e-4f * dl;
 
     set_scale(scale);
     scale_changed(scale);
@@ -18,8 +18,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
             zero += prev_pos - me->pos();
             break;
         case Qt::MouseButton::RightButton:
-            angle_phi += ((prev_pos - me->pos()).x() * 0.2) * M_PI / 180;
-            angle_theta -= ((prev_pos - me->pos()).y() * 0.2) * M_PI / 180;
+            angle_phi += float((prev_pos - me->pos()).x()) * 0.2f * M_PIf32 / 180.0f;
+            angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * M_PIf32 / 180.0f;
             break;
         case Qt::MouseButton::MiddleButton:
             break;
@@ -58,8 +58,8 @@ void GLWidget::restore()
 
 void GLWidget::set_scale(double val)
 {
-    scale = val;
-    if (scale < 0.0000001)
+    scale = static_cast<float>(val);
+    if (scale < 1e-6f)
         scale_message();
     else
         scale_message("");
