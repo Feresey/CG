@@ -12,7 +12,8 @@ add_executable(${PROJECT_NAME}
                gl/GLWidget.cpp
                gl/Draw.cpp
                gl/Interface.cpp
-               matrix/Matrix.cpp)
+               matrix/Matrix.cpp
+               matrix/Transform.cpp)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)

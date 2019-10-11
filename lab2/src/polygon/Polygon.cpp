@@ -1,5 +1,4 @@
 #include <cmath>
-#include <map>
 #include <numeric>
 
 #include "Polygon.hpp"
@@ -28,7 +27,13 @@ void Polygon::setColor(QVector3D col)
     color[2] = col.z();
 }
 
-float* Polygon::getColor() { return color; }
+const float* Polygon::getColor()
+{
+    shared_color[0] = color[0];
+    shared_color[1] = color[1];
+    shared_color[2] = color[2];
+    return shared_color;
+}
 
 Polygon::Points::iterator Polygon::begin() { return points.begin(); }
 Polygon::Points::iterator Polygon::end() { return points.end(); }

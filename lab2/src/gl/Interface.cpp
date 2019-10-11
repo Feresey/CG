@@ -51,9 +51,10 @@ void GLWidget::restore()
     update();
     scale_message("");
     scale_changed(scale);
-
+    angle_phi = 0;
+    angle_theta = 180.0f;
     zero = normalize = { width() / 2, -height() / 2 };
-    update();
+    LoadMatrix();
 }
 
 void GLWidget::set_scale(double val)
@@ -63,7 +64,7 @@ void GLWidget::set_scale(double val)
         scale_message();
     else
         scale_message("");
-    update();
+    LoadMatrix();
 }
 
 void GLWidget::color(bool ind)

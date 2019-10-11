@@ -12,7 +12,6 @@ GLWidget::GLWidget(QWidget* parent)
     , normalize()
     , mouse_tapped(false)
     , button_pressed()
-    , m(4, 4)
     , scale(100)
     , angle_phi(0.0)
     , angle_theta(180.0)
@@ -71,6 +70,7 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
+
 
     // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 

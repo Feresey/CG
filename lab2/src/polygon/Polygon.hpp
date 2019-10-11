@@ -1,16 +1,17 @@
 #ifndef POLYGON_HPP
 #define POLYGON_HPP
 
-#include <vector>
-#include <cmath>
-
 #include <QVector3D>
 #include <QVector2D>
+
+#include <vector>
+#include <cmath>
 
 class Polygon {
     using Points = std::vector<QVector3D>;
     Points points;
     float color[3];
+    float shared_color[3];
 
 public:
     Polygon(Points src = {},
@@ -21,7 +22,7 @@ public:
     Polygon(std::initializer_list<QVector3D> list);
 
     void setColor(QVector3D col);
-    float* getColor();
+    const float* getColor();
 
     Points::iterator begin();
     Points::iterator end();

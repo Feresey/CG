@@ -14,7 +14,7 @@
 #include <cmath>
 #include <numeric>
 
-#include "Matrix.hpp"
+class Polygon;
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
@@ -56,8 +56,6 @@ private:
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;
-
-    Matrix m;
 
     float scale;
 
