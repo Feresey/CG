@@ -1,6 +1,8 @@
-#include "Vector3I.hpp"
+#include <QVector3D>
 
 #include <cmath>
+
+#include "Vector3I.hpp"
 
 Vector3I::Vector3I(int x, int y, int z)
 {
@@ -82,8 +84,8 @@ Vector3I Vector3I::operator+(const Vector3I& src) const { return Vector3I(*this)
 Vector3I Vector3I::operator-(const Vector3I& src) const { return Vector3I(*this) -= src; }
 Vector3I Vector3I::operator*(float value) const { return Vector3I(*this) *= value; }
 
-std::ostream& operator<<(std::ostream& os, const Vector3I& src)
-{
-    os << "(" << src[0] << ", " << src[1] << ", " << src[2] << ")";
-    return os;
-}
+// std::ostream& operator<<(std::ostream& os, const Vector3I& src)
+// {
+//     os << "(" << src[0] << ", " << src[1] << ", " << src[2] << ")";
+//     return os;
+// }

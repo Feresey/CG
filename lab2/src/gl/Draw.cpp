@@ -1,4 +1,6 @@
 #include "GLWidget.hpp"
+#include "Polygon.hpp"
+#include "Vector3I.hpp"
 
 Matrix Rx(double _phi)
 {
@@ -40,11 +42,11 @@ Matrix Sh(double _x, double _y, double _z)
 
 Matrix Move(QPointF delta)
 {
-	    return Matrix({
+    return Matrix({
                       1, 0, 0, 0,
                       0, 1, 0, 0,
                       0, 0, 1, 0,
-                      delta.x(), delta.y(), 0, 1 //
+                      float(delta.x()), float(delta.y()), 0, 1 //
                   },
         4, 4);
 }
@@ -57,35 +59,17 @@ void GLWidget::redraw()
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX) });
     LoadMatrix();
 }
-// #include <iostream>
 
 void GLWidget::LoadMatrix()
 {
-	QPointF tmp = zero - normalize;
-	tmp.setX(-tmp.x());
+    QPointF tmp = zero - normalize;
+    tmp.setX(-tmp.x());
     m = Move(tmp) * Sh(scale, scale, scale) * Rx(angle_phi) * Ry(angle_theta);
 
     std::transform(figures.begin(), figures.end(), changed_figures.begin(),
         [&](const Polygon& p) { return m * p; });
 
-    std::stable_sort(changed_figures.begin(), changed_figures.end());
-
-    // std::stable_sort(changed_figures.begin(), changed_figures.end());
-
-    // std::stable_sort(changed_figures.begin(), changed_figures.end(),
-    //     [&](const Polygon& l, const Polygon& r) { return l.max() < r.max(); });
-    // std::stable_sort(changed_figures.begin(), changed_figures.end(),
-    //     [&](const Polygon& l, const Polygon& r) { return l.min() < r.min(); });
-
-    // std::cout << "first:\t" << changed_figures.front() << "\nlast:\t" << changed_figures.back() << std::endl;
-    // Matrix project_z(4, 4);
-    // project_z[2 + 4 * 2] = 0;
-    // display_figures.resize(figures.size());
-    // for (size_t i = 0; i < changed_figures.size(); ++i) {
-    //     display_figures[i].resize(changed_figures[i].size());
-    //     for (size_t j = 0; j < changed_figures[i].size(); ++j)
-    //         display_figures[i][j] = project_z.projection(changed_figures[i][j]);
-    // }
+    std::sort(changed_figures.begin(), changed_figures.end());
 
     update();
 }
@@ -94,10 +78,6 @@ double GLWidget::findScale()
 {
     return 100;
 }
-
-#include "Vector3I.hpp"
-
-#include <iostream>
 
 void GLWidget::Draw()
 {
@@ -108,6 +88,7 @@ void GLWidget::Draw()
         //*
         glBegin(GL_POLYGON);
         for (auto point : poly)
+            // glVertex3d(point[0],point[1],point[2]);
             glVertex2d(point[0], point[1]);
         glEnd();
         /*/
@@ -121,12 +102,12 @@ void GLWidget::Draw()
                 std::swap(poly[1], poly[2]);
             int total_height = static_cast<int>(poly[2].y() - poly[0].y());
             if (total_height == 0) continue;
-			for (int i = 0; i < total_height; ++i) {
+for (int i = 0; i < total_height; ++i) {
                 bool second_half = (float(i) > poly[1].y() - poly[0].y())
                     || (poly[1].y() == poly[0].y());
                 int segment_height = static_cast<int>(second_half ? poly[2].y() - poly[1].y()
                                                                   : poly[1].y() - poly[0].y());
-				if (segment_height == 0 ) continue;
+if (segment_height == 0 ) continue;
                 float alpha = float(i) / float(total_height);
                 float beta = float((float(i) - (second_half ? poly[1].y() - poly[0].y() : 0)) / float(segment_height));
                 // be careful: with above conditions no division by zero here

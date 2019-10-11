@@ -1,8 +1,8 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include <QVector2D>
 #include <QVector3D>
+#include <QVector2D>
 
 #include <vector>
 

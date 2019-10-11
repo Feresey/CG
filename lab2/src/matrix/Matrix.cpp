@@ -1,4 +1,9 @@
+#include <QVector3D>
+#include <QVector2D>
+
 #include "Matrix.hpp"
+#include "Polygon.hpp"
+
 
 Matrix::Matrix(size_t N, size_t M)
     : N(N)

@@ -15,7 +15,6 @@
 #include <numeric>
 
 #include "Matrix.hpp"
-#include "Polygon.hpp"
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT

@@ -32,7 +32,7 @@ public:
     Vector3I operator-(const Vector3I& src) const;
     Vector3I operator*(float value) const;
 
-    friend std::ostream& operator<<(std::ostream& os, const Vector3I& src);
+    // friend std::ostream& operator<<(std::ostream& os, const Vector3I& src);
 };
 
 #endif /* VECTOR3I_H */
