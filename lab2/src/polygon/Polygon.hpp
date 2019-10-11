@@ -36,6 +36,8 @@ public:
     QVector3D& operator[](size_t index);
     QVector3D operator[](size_t index) const;
     bool operator<(const Polygon& other) const;
+    int cmp(const Polygon& other) const;
+
 };
 
 #endif /* POLYGON_HPP */

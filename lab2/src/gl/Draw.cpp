@@ -2,9 +2,13 @@
 #include "Polygon.hpp"
 #include "Vector3I.hpp"
 
-Matrix Rx(double _phi)
+#include <iostream>
+#include <iomanip>
+
+const float EPS = 1e-4f;
+
+Matrix Rx(float phi)
 {
-    float phi = float(_phi);
     return Matrix(
         {
             cosf(phi), 0, -sinf(phi), 0,
@@ -15,9 +19,8 @@ Matrix Rx(double _phi)
         4, 4);
 }
 
-Matrix Ry(double _theta)
+Matrix Ry(float theta)
 {
-    float theta = float(_theta);
     return Matrix(
         {
             1, 0, 0, 0,
@@ -28,9 +31,8 @@ Matrix Ry(double _theta)
         4, 4);
 }
 
-Matrix Sh(double _x, double _y, double _z)
+Matrix Sh(float x, float y, float z)
 {
-    float x = static_cast<float>(_x), y = static_cast<float>(_y), z = static_cast<float>(_z);
     return Matrix({
                       x, 0, 0, 0,
                       0, y, 0, 0,
@@ -68,8 +70,27 @@ void GLWidget::LoadMatrix()
 
     std::transform(figures.begin(), figures.end(), changed_figures.begin(),
         [&](const Polygon& p) { return m * p; });
-
-    std::sort(changed_figures.begin(), changed_figures.end());
+	
+	// for(size_t i = 0; i < changed_figures.size(); ++i)
+    for (auto& i : changed_figures)
+        for (auto& j : changed_figures) {
+            int res = i.cmp(j);
+            if (res == 1)
+                std::swap(i, j);
+        }
+	// std::cout.precision(2);
+	// std::cout.width(2);
+	for(auto i: changed_figures){
+		for(auto j: changed_figures){
+			int tmp = i.cmp(j);
+			std::cout << (tmp < 0? "" : " ") << tmp << ' ';
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "\n\n";
+    // changed_figures.sort();
+    // for(size_t i = 0; i < changed_figures.size(); ++i)
+    // std::stable_sort(changed_figures.begin(), changed_figures.end());
 
     update();
 }

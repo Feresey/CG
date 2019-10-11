@@ -31,11 +31,11 @@ GLWidget::GLWidget(QWidget* parent)
     QVector3D top = { 0, 0, 3 }, bottom = { 0, 0, 0 };
     figures.push_back({ base.front(), base.back(), bottom });
     figures.push_back({ base.front(), base.back(), top });
-
-    // for (size_t i = 1; i < base.size(); ++i) {
-    //     figures.push_back({ base[i - 1], base[i], top });
-    //     figures.push_back({ base[i - 1], base[i], bottom });
-    // }
+	// int i = 2;
+    for (size_t i = 1; i < base.size(); ++i) {
+        figures.push_back({ base[i - 1], base[i], top });
+        figures.push_back({ base[i - 1], base[i], bottom });
+    }
     changed_figures.resize(figures.size());
 }
 

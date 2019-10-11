@@ -1,9 +1,10 @@
 #include <cmath>
 #include <map>
+#include <numeric>
 
 #include "Polygon.hpp"
 
-float EPS = 1e-9f;
+float EPS = 1e-4f;
 
 Polygon::Polygon(Points src, QVector3D col)
     : points(src)
@@ -43,30 +44,23 @@ size_t Polygon::size() const { return points.size(); }
 QVector3D& Polygon::operator[](size_t index) { return points[index]; }
 QVector3D Polygon::operator[](size_t index) const { return points[index]; }
 
-#include <iostream>
+// #include <iostream>
 
-std::ostream& operator<<(std::ostream& os, const QVector3D src)
+// std::ostream& operator<<(std::ostream& os, const QVector3D src)
+// {
+//     os << "(" << src[0] << ',' << src[1] << ',' << src[2] << ')';
+//     return os;
+// }
+
+int Polygon::cmp(const Polygon& other) const
 {
-    os << "(" << src[0] << ',' << src[1] << ',' << src[2] << ')';
-    return os;
-}
-
-bool Polygon::operator<(const Polygon& other) const
-{
-    /*
-    std::vector<QVector3D> common;
-    {
-        std::vector<bool> _common(std::max(points.size(), other.points.size()), false);
-        for (size_t i = 0; i < points.size(); ++i)
-            for (size_t j = 0; j < other.points.size(); ++j)
-                if (!_common[i] && !_common[j]
-                    && ((*this)[i] - other[j]).length() < 0.0001)
-                    _common[i] = true;
-
-        for (size_t i = 0; i < _common.size(); ++i)
-            if (_common[i])
-                common.push_back((*this)[i]);
-    }*/
+    // std::cout.precision(10);
+    // for (auto i : (*this))
+    //     std::cout << i << ' ';
+    // std::cout << std::endl;
+    // for (auto i : other)
+    //     std::cout << i << ' ';
+    // std::cout << std::endl;
 
     auto det = [](float a, float b, float c, float d) -> float {
         return a * d - b * c;
@@ -112,16 +106,10 @@ bool Polygon::operator<(const Polygon& other) const
     };
 
     auto in_triangle = [](const QVector3D& p, const std::vector<QVector3D>& points) -> bool {
-        auto square = [](const QVector3D& a, const QVector3D& b, const QVector3D& c) -> float {
-            return abs(
-                       (b.x() - a.x()) * (c.y() - a.y()) - (c.x() - a.x()) * (b.y() - a.y()))
-                / 2.0f;
-        };
-        float a = square(points[0], points[1], p),
-              b = square(points[0], points[2], p),
-              c = square(points[1], points[2], p),
-              all = square(points[0], points[1], points[2]);
-        return (a + b + c) < all + EPS;
+        float a = (points[0].x() - p.x()) * (points[1].y() - points[0].y()) - (points[1].x() - points[0].x()) * (points[0].y() - p.y()),
+              b = (points[1].x() - p.x()) * (points[2].y() - points[1].y()) - (points[2].x() - points[1].x()) * (points[1].y() - p.y()),
+              c = (points[2].x() - p.x()) * (points[0].y() - points[2].y()) - (points[0].x() - points[2].x()) * (points[2].y() - p.y());
+        return (a < 0.5f && b < 0.5f && c < 0.5f) || (a > -0.5f && b > -0.5f && c > -0.5f);
     };
 
     QVector3D circle_this = circle(points),
@@ -139,7 +127,9 @@ bool Polygon::operator<(const Polygon& other) const
                     bool tmp = intersect(n, m, cross);
                     if (tmp
                         && (cross - circle_this.toVector2D()).length() < circle_this[2] + EPS
-                        && (cross - circle_other.toVector2D()).length() < circle_other[2] + EPS)
+                        && (cross - circle_other.toVector2D()).length() < circle_other[2] + EPS
+                        && in_triangle(cross.toVector3D(), points)
+                        && in_triangle(cross.toVector3D(), other.points))
                         inter_lines.push_back(cross);
                 }
             }
@@ -156,10 +146,17 @@ bool Polygon::operator<(const Polygon& other) const
     // common points for both polygons
     std::vector<QVector2D> common_points;
     for (auto i : (*this)) {
-        bool all = true;
-        for (auto j : other)
-            if ((i.toVector2D() - j.toVector2D()).length() > EPS)
-                all = false;
+        bool all = false;
+        for (auto j : other) {
+            QVector2D ii = i.toVector2D(),
+                      jj = j.toVector2D(),
+                      res = ii - jj;
+
+            if (res.length() < EPS) {
+                all = true;
+                break;
+            }
+        }
         if (all)
             common_points.push_back(i.toVector2D());
     }
@@ -174,12 +171,6 @@ bool Polygon::operator<(const Polygon& other) const
             cross.push_back(i);
     }
 
-    std::cout.precision(5);
-    std::cout << "points" << std::endl;
-    for (auto i : cross)
-        std::cout << i << ' ';
-    std::cout << '\n';
-
     std::vector<float> diff;
     for (auto i : cross) {
         //normalize
@@ -188,14 +179,22 @@ bool Polygon::operator<(const Polygon& other) const
         float p1 = points[0].z() - (norm1.x() * (i.x() - points[0].x()) + norm1.y() * (i.y() - points[0].y())) / norm1.z(),
               p2 = other[0].z() - (norm2.x() * (i.x() - other[0].x()) + norm2.y() * (i.y() - other[0].y())) / norm2.z(),
               pp = p2 - p1;
-        if (abs(pp) > 0.001)
-            diff.push_back(pp);
+        diff.push_back(pp);
     }
+    // std::cout << "points" << std::endl;
+    // for (auto i : cross)
+    //     std::cout << i << ' ';
+    // std::cout << '\n';
+    // std::cout << "diff" << std::endl;
+    // for (auto i : diff)
+    //     std::cout << i << ' ';
+    // std::cout << '\n';
+    if (diff.empty())
+        return 0;
+    return std::accumulate(diff.begin(), diff.end(), 0.0f) / diff.size() > 0 ? 1 : -1;
+}
 
-    std::cout << "diff" << std::endl;
-    for (auto i : diff)
-        std::cout << i << ' ';
-    std::cout << '\n';
-
-    return *std::max_element(diff.begin(), diff.end(), [](float a, float b) { return abs(a) < abs(b); }) > 0;
+bool Polygon::operator<(const Polygon& other) const
+{
+    return cmp(other) == -1;
 }
