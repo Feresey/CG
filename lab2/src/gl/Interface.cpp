@@ -52,7 +52,7 @@ void GLWidget::restore()
     scale_message("");
     scale_changed(scale);
     angle_phi = 0;
-    angle_theta = 180.0f;
+    angle_theta = 0.0f;
     zero = normalize = { width() / 2, -height() / 2 };
     LoadMatrix();
 }

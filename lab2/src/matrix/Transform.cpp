@@ -26,12 +26,12 @@ Matrix Ry(float theta)
         4, 4);
 }
 
-Matrix Sh(float x, float y, float z)
+Matrix Sh(float scale)
 {
     return Matrix({
-                      x, 0, 0, 0,
-                      0, y, 0, 0,
-                      0, 0, z, 0,
+                      scale, 0, 0, 0,
+                      0, scale, 0, 0,
+                      0, 0, scale, 0,
                       0, 0, 0, 1 //
                   },
         4, 4);

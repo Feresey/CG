@@ -9,12 +9,13 @@
 
 #include <algorithm>
 #include <array>
-#include <vector>
-#include <memory>
 #include <cmath>
+#include <memory>
 #include <numeric>
+#include <vector>
 
 class Polygon;
+class Matrix;
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
@@ -48,10 +49,9 @@ private:
     float findScale();
     void LoadMatrix();
 
-    // std::vector<int> z_buffer;
+    const QVector3D inside;
     std::vector<Polygon> figures;
-    std::vector<Polygon> changed_figures;
-    // std::vector<std::vector<QVector2D>> display_figures;
+    std::vector<Polygon> display_figures;
 
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;

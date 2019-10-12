@@ -15,7 +15,8 @@ class Matrix {
 
 public:
     Matrix(size_t N, size_t M);
-    Matrix(std::vector<float> m, size_t N, size_t M);
+    Matrix(const std::vector<float>& m, size_t N, size_t M);
+    Matrix(const std::vector<Polygon> & src, const QVector3D& inside);
 
     Matrix operator*(const Matrix& second) const;
     Matrix& operator*=(const Matrix& second);
@@ -30,7 +31,7 @@ public:
 
 Matrix Rx(float phi);
 Matrix Ry(float theta);
-Matrix Sh(float x, float y, float z);
+Matrix Sh(float scale);
 Matrix Move(QPointF delta);
 
 #endif /* MATRIX_HPP */

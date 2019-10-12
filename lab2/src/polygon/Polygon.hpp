@@ -36,8 +36,11 @@ public:
     size_t size() const;
     QVector3D& operator[](size_t index);
     QVector3D operator[](size_t index) const;
-    bool operator<(const Polygon& other) const;
-    int cmp(const Polygon& other) const;
+
+    QVector3D min() const;
+    QVector3D max() const;
+
+    std::vector<float> to_plane() const;
 
 };
 

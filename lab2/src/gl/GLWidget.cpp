@@ -1,12 +1,14 @@
 #include <vector>
 
 #include "GLWidget.hpp"
+#include "Matrix.hpp"
 #include "Polygon.hpp"
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
+    , inside(0, 0, 0)
     , figures()
-    , changed_figures()
+    , display_figures()
     , zero()
     , prev_pos()
     , normalize()
@@ -14,12 +16,24 @@ GLWidget::GLWidget(QWidget* parent)
     , button_pressed()
     , scale(100)
     , angle_phi(0.0)
-    , angle_theta(180.0)
+    , angle_theta(0.0)
     , color_enabled(true)
     , edges_enabled(true)
     , seed(new unsigned int())
 {
     rand_r(seed.get());
+    //*
+    figures = {
+        { { 1, -1, -1 }, { 1, 1, -1 }, { 1, 1, 1 }, { 1, -1, 1 } }, // front
+        { { -1, -1, -1 }, { -1, 1, -1 }, { -1, 1, 1 }, { -1, -1, 1 } }, // back
+        { { 1, 1, -1 }, { -1, 1, -1 }, { -1, 1, 1 }, { 1, 1, 1 } }, //right
+        { { 1, -1, -1 }, { -1, -1, -1 }, { -1, -1, 1 }, { 1, -1, 1 } }, //left
+        { { 1, -1, 1 }, { 1, 1, 1 }, { -1, 1, 1 }, { -1, -1, 1 } }, // top
+        { { 1, -1, -1 }, { 1, 1, -1 }, { -1, 1, -1 }, { -1, -1, -1 } } //bottom
+    };
+
+    // figures.push_back();
+    /*/
     std::vector<QVector3D> base;
     size_t number = 5;
     for (size_t i = 0; i < number; ++i) {
@@ -31,10 +45,10 @@ GLWidget::GLWidget(QWidget* parent)
     figures.push_back({ base.front(), base.back(), top });
     // int i = 2;
     for (size_t i = 1; i < base.size(); ++i) {
-        figures.push_back({ base[i - 1], base[i], top });
-        figures.push_back({ base[i - 1], base[i], bottom });
+        figures.push_back({ base[i], base[i - 1], top });
+        figures.push_back({ base[i], base[i - 1], bottom });
     }
-    changed_figures.resize(figures.size());
+    //*/
 }
 
 GLWidget::~GLWidget()
@@ -70,7 +84,6 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
-
 
     // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 

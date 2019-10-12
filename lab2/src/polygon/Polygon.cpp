@@ -3,7 +3,7 @@
 
 #include "Polygon.hpp"
 
-float EPS = 1e-4f;
+float EPS = 1e-9f;
 
 Polygon::Polygon(Points src, QVector3D col)
     : points(src)
@@ -49,6 +49,38 @@ size_t Polygon::size() const { return points.size(); }
 QVector3D& Polygon::operator[](size_t index) { return points[index]; }
 QVector3D Polygon::operator[](size_t index) const { return points[index]; }
 
+QVector3D Polygon::min() const
+{
+    float a = points[0].x(),
+          b = points[0].y(),
+          c = points[0].z();
+    for (const auto& i : points) {
+        if (i.x() < a)
+            a = i.x();
+        if (i.y() < b)
+            b = i.y();
+        if (i.z() < c)
+            c = i.z();
+    }
+    return { a, b, c };
+}
+
+QVector3D Polygon::max() const
+{
+    float a = points[0].x(),
+          b = points[0].y(),
+          c = points[0].z();
+    for (const auto& i : points) {
+        if (i.x() > a)
+            a = i.x();
+        if (i.y() > b)
+            b = i.y();
+        if (i.z() > c)
+            c = i.z();
+    }
+    return { a, b, c };
+}
+
 // #include <iostream>
 
 // std::ostream& operator<<(std::ostream& os, const QVector3D src)
@@ -57,149 +89,177 @@ QVector3D Polygon::operator[](size_t index) const { return points[index]; }
 //     return os;
 // }
 
-int Polygon::cmp(const Polygon& other) const
+std::vector<float> Polygon::to_plane() const
 {
-    // std::cout.precision(10);
-    // for (auto i : (*this))
-    //     std::cout << i << ' ';
-    // std::cout << std::endl;
-    // for (auto i : other)
-    //     std::cout << i << ' ';
-    // std::cout << std::endl;
-
-    auto det = [](float a, float b, float c, float d) -> float {
-        return a * d - b * c;
-    };
-
-    auto create_line = [](const QVector3D& l, const QVector3D& r) -> QVector3D {
-        return {
-            r.y() - l.y(),
-            l.x() - r.x(),
-            (l.y() - r.y()) * l.x() + (r.x() - l.x()) * l.y()
-        };
-    };
-
-    auto create_perp = [](const QVector3D& l, const QVector3D& r) -> QVector3D {
-        return {
-            l.x() - r.x(),
-            l.y() - r.y(),
-            -(l.x() * l.x() - r.x() * r.x() + l.y() * l.y() - r.y() * r.y()) / 2.0f
-        };
-    };
-
-    // point of intersection
-    auto intersect = [det](const QVector3D& n, const QVector3D& m, QVector2D& res) -> bool {
-        float zn = det(m.x(), m.y(), n.x(), n.y());
-        if (abs(zn) < EPS)
-            return false;
-        res = QVector2D{
-            -det(m.z(), m.y(), n.z(), n.y()) / zn,
-            -det(m.x(), m.z(), n.x(), n.z()) / zn
-        };
-        return true;
-    };
-
-    // (x,y,r): (x,y) - circle coord, r - circle radius
-    auto circle = [create_perp, intersect](const std::vector<QVector3D>& points) -> QVector3D {
-        QVector3D p1 = create_perp(points[0], points[1]),
-                  p2 = create_perp(points[0], points[2]);
-        QVector2D point;
-        if (intersect(p1, p2, point))
-            return { point.x(), point.y(), (point - points[0].toVector2D()).length() };
-        else
-            return {};
-    };
-
-    auto in_triangle = [](const QVector3D& p, const std::vector<QVector3D>& points) -> bool {
-        float a = (points[0].x() - p.x()) * (points[1].y() - points[0].y()) - (points[1].x() - points[0].x()) * (points[0].y() - p.y()),
-              b = (points[1].x() - p.x()) * (points[2].y() - points[1].y()) - (points[2].x() - points[1].x()) * (points[1].y() - p.y()),
-              c = (points[2].x() - p.x()) * (points[0].y() - points[2].y()) - (points[0].x() - points[2].x()) * (points[2].y() - p.y());
-        return (a < 0.5f && b < 0.5f && c < 0.5f) || (a > -0.5f && b > -0.5f && c > -0.5f);
-    };
-
-    QVector3D circle_this = circle(points),
-              circle_other = circle(other.points);
-
-    // points of intersection for all lines and loacted into both circles
-    std::vector<QVector2D> inter_lines;
-    for (size_t i = 0; i < other.size(); ++i) {
-        for (size_t j = i + 1; j < other.size(); ++j) {
-            for (size_t l = 0; l < size(); ++l) {
-                for (size_t k = l + 1; k < size(); ++k) {
-                    QVector3D n = create_line(other[i], other[j]),
-                              m = create_line((*this)[l], (*this)[k]);
-                    QVector2D cross;
-                    bool tmp = intersect(n, m, cross);
-                    if (tmp
-                        && (cross - circle_this.toVector2D()).length() < circle_this[2] + EPS
-                        && (cross - circle_other.toVector2D()).length() < circle_other[2] + EPS
-                        && in_triangle(cross.toVector3D(), points)
-                        && in_triangle(cross.toVector3D(), other.points))
-                        inter_lines.push_back(cross);
+    std::vector<float> res(4, 0.0f);
+    QVector3D v1, v2, p;
+    bool ind = false;
+    for (size_t i = 0; i < points.size(); ++i)
+        for (size_t j = 0; j < points.size(); ++j)
+            for (size_t k = 0; k < points.size(); ++k) {
+                if (i == j || i == k || j == k)
+                    continue;
+                p = points[k];
+                v1 = points[i] - p;
+                v2 = points[j] - p;
+                if (v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z() > EPS) {
+                    ind = true;
+                    goto end;
                 }
             }
-        }
-    }
-
-    for (auto i : (*this))
-        if (in_triangle(i, other.points))
-            inter_lines.push_back(i.toVector2D());
-    for (auto i : other)
-        if (in_triangle(i, points))
-            inter_lines.push_back(i.toVector2D());
-
-    // common points for both polygons
-    std::vector<QVector2D> common_points;
-    for (auto i : (*this)) {
-        bool all = false;
-        for (auto j : other) {
-            QVector2D ii = i.toVector2D(),
-                      jj = j.toVector2D(),
-                      res = ii - jj;
-
-            if (res.length() < EPS) {
-                all = true;
-                break;
-            }
-        }
-        if (all)
-            common_points.push_back(i.toVector2D());
-    }
-
-    std::vector<QVector2D> cross;
-    for (auto i : inter_lines) {
-        bool all = true;
-        for (auto j : common_points)
-            if ((i - j).length() < EPS)
-                all = false;
-        if (all)
-            cross.push_back(i);
-    }
-
-    std::vector<float> diff;
-    for (auto i : cross) {
-        //normalize
-        QVector3D norm1 = QVector3D::normal(points[0], points[1], points[2]),
-                  norm2 = QVector3D::normal(other[0], other[1], other[2]);
-        float p1 = points[0].z() - (norm1.x() * (i.x() - points[0].x()) + norm1.y() * (i.y() - points[0].y())) / norm1.z(),
-              p2 = other[0].z() - (norm2.x() * (i.x() - other[0].x()) + norm2.y() * (i.y() - other[0].y())) / norm2.z(),
-              pp = p2 - p1;
-        diff.push_back(pp);
-    }
-    // std::cout << "points" << std::endl;
-    // for (auto i : cross)
-    //     std::cout << i << ' ';
-    // std::cout << '\n';
-    // std::cout << "diff" << std::endl;
-    // for (auto i : diff)
-    //     std::cout << i << ' ';
-    // std::cout << '\n';
-    if (diff.empty())
-        return 0;
-    return std::accumulate(diff.begin(), diff.end(), 0.0f) / static_cast<float>(diff.size()) > 0 ? 1 : -1;
+end:
+    if (!ind)
+        throw std::logic_error("incorrect figure");
+    res[0] = v1.y() * v2.z() - v2.y() * v1.z();
+    res[1] = v1.x() * v2.z() - v2.x() * v1.z();
+    res[2] = v1.x() * v2.y() - v2.x() * v1.y();
+    res[3] = -(p.x() * res[0] + p.y() * res[1] + p.z() * res[2]);
+    return res;
 }
 
-bool Polygon::operator<(const Polygon& other) const
-{
-    return cmp(other) == -1;
-}
+// int Polygon::cmp(const Polygon& other) const
+// {
+//     // std::cout.precision(10);
+//     // for (auto i : (*this))
+//     //     std::cout << i << ' ';
+//     // std::cout << std::endl;
+//     // for (auto i : other)
+//     //     std::cout << i << ' ';
+//     // std::cout << std::endl;
+
+//     auto det = [](float a, float b, float c, float d) -> float {
+//         return a * d - b * c;
+//     };
+
+//     auto create_line = [](const QVector3D& l, const QVector3D& r) -> QVector3D {
+//         return {
+//             r.y() - l.y(),
+//             l.x() - r.x(),
+//             (l.y() - r.y()) * l.x() + (r.x() - l.x()) * l.y()
+//         };
+//     };
+
+//     auto create_perp = [](const QVector3D& l, const QVector3D& r) -> QVector3D {
+//         return {
+//             l.x() - r.x(),
+//             l.y() - r.y(),
+//             -(l.x() * l.x() - r.x() * r.x() + l.y() * l.y() - r.y() * r.y()) / 2.0f
+//         };
+//     };
+
+//     // point of intersection
+//     auto intersect = [det](const QVector3D& n, const QVector3D& m, QVector2D& res) -> bool {
+//         float zn = det(m.x(), m.y(), n.x(), n.y());
+//         if (abs(zn) < EPS)
+//             return false;
+//         res = QVector2D{
+//             -det(m.z(), m.y(), n.z(), n.y()) / zn,
+//             -det(m.x(), m.z(), n.x(), n.z()) / zn
+//         };
+//         return true;
+//     };
+
+//     // (x,y,r): (x,y) - circle coord, r - circle radius
+//     auto circle = [create_perp, intersect](const std::vector<QVector3D>& points) -> QVector3D {
+//         QVector3D p1 = create_perp(points[0], points[1]),
+//                   p2 = create_perp(points[0], points[2]);
+//         QVector2D point;
+//         if (intersect(p1, p2, point))
+//             return { point.x(), point.y(), (point - points[0].toVector2D()).length() };
+//         else
+//             return {};
+//     };
+
+//     auto in_triangle = [](const QVector3D& p, const std::vector<QVector3D>& points) -> bool {
+//         float a = (points[0].x() - p.x()) * (points[1].y() - points[0].y()) - (points[1].x() - points[0].x()) * (points[0].y() - p.y()),
+//               b = (points[1].x() - p.x()) * (points[2].y() - points[1].y()) - (points[2].x() - points[1].x()) * (points[1].y() - p.y()),
+//               c = (points[2].x() - p.x()) * (points[0].y() - points[2].y()) - (points[0].x() - points[2].x()) * (points[2].y() - p.y());
+//         return (a < 0.5f && b < 0.5f && c < 0.5f) || (a > -0.5f && b > -0.5f && c > -0.5f);
+//     };
+
+//     QVector3D circle_this = circle(points),
+//               circle_other = circle(other.points);
+
+//     // points of intersection for all lines and loacted into both circles
+//     std::vector<QVector2D> inter_lines;
+//     for (size_t i = 0; i < other.size(); ++i) {
+//         for (size_t j = i + 1; j < other.size(); ++j) {
+//             for (size_t l = 0; l < size(); ++l) {
+//                 for (size_t k = l + 1; k < size(); ++k) {
+//                     QVector3D n = create_line(other[i], other[j]),
+//                               m = create_line((*this)[l], (*this)[k]);
+//                     QVector2D cross;
+//                     bool tmp = intersect(n, m, cross);
+//                     if (tmp
+//                         && (cross - circle_this.toVector2D()).length() < circle_this[2] + EPS
+//                         && (cross - circle_other.toVector2D()).length() < circle_other[2] + EPS
+//                         && in_triangle(cross.toVector3D(), points)
+//                         && in_triangle(cross.toVector3D(), other.points))
+//                         inter_lines.push_back(cross);
+//                 }
+//             }
+//         }
+//     }
+
+//     for (auto i : (*this))
+//         if (in_triangle(i, other.points))
+//             inter_lines.push_back(i.toVector2D());
+//     for (auto i : other)
+//         if (in_triangle(i, points))
+//             inter_lines.push_back(i.toVector2D());
+
+//     // common points for both polygons
+//     std::vector<QVector2D> common_points;
+//     for (auto i : (*this)) {
+//         bool all = false;
+//         for (auto j : other) {
+//             QVector2D ii = i.toVector2D(),
+//                       jj = j.toVector2D(),
+//                       res = ii - jj;
+
+//             if (res.length() < EPS) {
+//                 all = true;
+//                 break;
+//             }
+//         }
+//         if (all)
+//             common_points.push_back(i.toVector2D());
+//     }
+
+//     std::vector<QVector2D> cross;
+//     for (auto i : inter_lines) {
+//         bool all = true;
+//         for (auto j : common_points)
+//             if ((i - j).length() < EPS)
+//                 all = false;
+//         if (all)
+//             cross.push_back(i);
+//     }
+
+//     std::vector<float> diff;
+//     for (auto i : cross) {
+//         //normalize
+//         QVector3D norm1 = QVector3D::normal(points[0], points[1], points[2]),
+//                   norm2 = QVector3D::normal(other[0], other[1], other[2]);
+//         float p1 = points[0].z() - (norm1.x() * (i.x() - points[0].x()) + norm1.y() * (i.y() - points[0].y())) / norm1.z(),
+//               p2 = other[0].z() - (norm2.x() * (i.x() - other[0].x()) + norm2.y() * (i.y() - other[0].y())) / norm2.z(),
+//               pp = p2 - p1;
+//         diff.push_back(pp);
+//     }
+//     // std::cout << "points" << std::endl;
+//     // for (auto i : cross)
+//     //     std::cout << i << ' ';
+//     // std::cout << '\n';
+//     // std::cout << "diff" << std::endl;
+//     // for (auto i : diff)
+//     //     std::cout << i << ' ';
+//     // std::cout << '\n';
+//     if (diff.empty())
+//         return 0;
+//     return std::accumulate(diff.begin(), diff.end(), 0.0f) / static_cast<float>(diff.size()) > 0 ? 1 : -1;
+// }
+
+// bool Polygon::operator<(const Polygon& other) const
+// {
+//     return cmp(other) == -1;
+// }

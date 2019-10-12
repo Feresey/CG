@@ -5,15 +5,14 @@ include_directories(BEFORE
                     mainwindow)
 
 add_subdirectory(polygon)
+add_subdirectory(matrix)
 
 add_executable(${PROJECT_NAME}
                main.cpp
                mainwindow/mainwindow.cpp
                gl/GLWidget.cpp
                gl/Draw.cpp
-               gl/Interface.cpp
-               matrix/Matrix.cpp
-               matrix/Transform.cpp)
+               gl/Interface.cpp)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)
@@ -21,4 +20,5 @@ find_package(OpenGL COMPONENTS OpenGL REQUIRED)
 target_link_libraries(${PROJECT_NAME}
                       PRIVATE Qt5::Widgets
                               OpenGL::OpenGL
-                              polygon)
+                              polygon
+                              matrix)
