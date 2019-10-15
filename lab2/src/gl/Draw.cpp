@@ -72,18 +72,18 @@ void GLWidget::Draw()
         }
     }
 
-    std::vector<QVector3D> display_base({ { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
-    float offset = 40.0;
-    QVector3D center = {
-        static_cast<float>(width() / 2 - offset * 2),
-        static_cast<float>(-height() / 2 + offset * 2),
-        0.0f
-    };
-    Matrix m = Ry(angle_theta) * Rx(angle_phi) * Sh(offset) * Move(center);
-    std::transform(display_base.begin(), display_base.end(), display_base.begin(),
-        [m](const QVector3D& v) { return m * v; });
-
     if (base_enabled) {
+        std::vector<QVector3D> display_base({ { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
+        float offset = 40.0;
+        QVector3D center = {
+            static_cast<float>(width() / 2 - offset * 2),
+            static_cast<float>(-height() / 2 + offset * 2),
+            0.0f
+        };
+        Matrix m = Ry(angle_theta) * Rx(angle_phi) * Sh(offset) * Move(center);
+        std::transform(display_base.begin(), display_base.end(), display_base.begin(),
+            [m](const QVector3D& v) { return m * v; });
+
         // x
         glColor3d(1, 0, 0);
         glBegin(GL_LINE_STRIP);

@@ -11,7 +11,6 @@ class Polygon {
     using Points = std::vector<QVector3D>;
     Points points;
     float color[3];
-    float shared_color[3];
 
 public:
     Polygon(Points src = {},
@@ -22,7 +21,7 @@ public:
     Polygon(std::initializer_list<QVector3D> list);
 
     void setColor(QVector3D col);
-    const float* getColor();
+    const float* getColor() const;
 
     Points::iterator begin();
     Points::iterator end();

@@ -27,13 +27,7 @@ void Polygon::setColor(QVector3D col)
     color[2] = col.z();
 }
 
-const float* Polygon::getColor()
-{
-    shared_color[0] = color[0];
-    shared_color[1] = color[1];
-    shared_color[2] = color[2];
-    return shared_color;
-}
+const float* Polygon::getColor() const { return color; }
 
 Polygon::Points::iterator Polygon::begin() { return points.begin(); }
 Polygon::Points::iterator Polygon::end() { return points.end(); }
@@ -84,7 +78,7 @@ QVector3D Polygon::max() const
 std::vector<float> Polygon::to_plane() const
 {
     std::vector<float> res(4, 0.0f);
-    QVector3D v1 = points[0] - points[1],
+    const QVector3D v1 = points[0] - points[1],
               v2 = points[0] - points[2], p = points[0];
 
     res[0] = v1.y() * v2.z() - v2.y() * v1.z();
