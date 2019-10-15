@@ -49,7 +49,6 @@ private:
     float findScale();
     void LoadMatrix();
 
-    const QVector3D inside;
     std::vector<Polygon> figures;
     std::vector<Polygon> display_figures;
 

@@ -6,7 +6,6 @@
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
-    , inside(0, 0, 0)
     , figures()
     , display_figures()
     , zero()
@@ -22,7 +21,7 @@ GLWidget::GLWidget(QWidget* parent)
     , seed(new unsigned int())
 {
     rand_r(seed.get());
-    //*
+    /*
     figures = {
         { { 1, -1, -1 }, { 1, 1, -1 }, { 1, 1, 1 }, { 1, -1, 1 } }, // front
         { { -1, -1, -1 }, { -1, 1, -1 }, { -1, 1, 1 }, { -1, -1, 1 } }, // back

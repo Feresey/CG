@@ -92,26 +92,27 @@ QVector3D Polygon::max() const
 std::vector<float> Polygon::to_plane() const
 {
     std::vector<float> res(4, 0.0f);
-    QVector3D v1, v2, p;
-    bool ind = false;
-    for (size_t i = 0; i < points.size(); ++i)
-        for (size_t j = 0; j < points.size(); ++j)
-            for (size_t k = 0; k < points.size(); ++k) {
-                if (i == j || i == k || j == k)
-                    continue;
-                p = points[k];
-                v1 = points[i] - p;
-                v2 = points[j] - p;
-                if (v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z() > EPS) {
-                    ind = true;
-                    goto end;
-                }
-            }
-end:
-    if (!ind)
-        throw std::logic_error("incorrect figure");
+    QVector3D v1 = points[0] - points[1],
+              v2 = points[0] - points[2], p = points[0];
+    //     bool ind = false;
+    //     for (size_t i = 0; i < points.size(); ++i)
+    //         for (size_t j = 0; j < points.size(); ++j)
+    //             for (size_t k = 0; k < points.size(); ++k) {
+    //                 if (i == j || i == k || j == k)
+    //                     continue;
+    //                 p = points[k];
+    //                 v1 = points[i] - p;
+    //                 v2 = points[j] - p;
+    //                 if (v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z() > EPS) {
+    //                     ind = true;
+    //                     goto end;
+    //                 }
+    //             }
+    // end:
+    //     if (!ind)
+    //         throw std::logic_error("incorrect figure");
     res[0] = v1.y() * v2.z() - v2.y() * v1.z();
-    res[1] = v1.x() * v2.z() - v2.x() * v1.z();
+    res[1] = v1.z() * v2.x() - v2.z() * v1.x();
     res[2] = v1.x() * v2.y() - v2.x() * v1.y();
     res[3] = -(p.x() * res[0] + p.y() * res[1] + p.z() * res[2]);
     return res;

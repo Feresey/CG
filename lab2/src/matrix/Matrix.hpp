@@ -20,8 +20,12 @@ public:
 
     Matrix operator*(const Matrix& second) const;
     Matrix& operator*=(const Matrix& second);
-    QVector3D operator*(const QVector3D& v) const;
+
+    Matrix& operator*=(float prod);
+    Matrix operator*(float prod)const;
+    
     Polygon operator*(const Polygon& v) const;
+    QVector3D operator*(const QVector3D& v) const;
 
     float operator[](size_t i) const;
     float& operator[](size_t i);
