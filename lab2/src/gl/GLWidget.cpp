@@ -18,9 +18,10 @@ GLWidget::GLWidget(QWidget* parent)
     , angle_theta(0.0)
     , color_enabled(true)
     , edges_enabled(true)
-    , seed(new unsigned int())
+    , base_enabled(true)
+    , seed()
 {
-    rand_r(seed.get());
+    rand_r(&seed);
     /*
     figures = {
         { { 1, -1, -1 }, { 1, 1, -1 }, { 1, 1, 1 }, { 1, -1, 1 } }, // front
@@ -33,19 +34,22 @@ GLWidget::GLWidget(QWidget* parent)
 
     // figures.push_back();
     /*/
-    std::vector<QVector3D> base;
+    
+
+    std::vector<QVector3D> bottom_points;
     size_t number = 5;
     for (size_t i = 0; i < number; ++i) {
         float tmp = float(i) * 2.0f / float(number) * M_PIf32;
-        base.push_back({ cosf(tmp), sinf(tmp), 0 });
+        bottom_points.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
+
     QVector3D top = { 0, 0, 3 }, bottom = { 0, 0, 0 };
-    figures.push_back({ base.front(), base.back(), bottom });
-    figures.push_back({ base.front(), base.back(), top });
-    // int i = 2;
-    for (size_t i = 1; i < base.size(); ++i) {
-        figures.push_back({ base[i], base[i - 1], top });
-        figures.push_back({ base[i], base[i - 1], bottom });
+    figures.push_back({ bottom_points.front(), bottom_points.back(), top });
+    figures.push_back({ bottom_points.front(), bottom_points.back(), bottom });
+
+    for (size_t i = 1; i < bottom_points.size(); ++i) {
+        figures.push_back({ bottom_points[i], bottom_points[i - 1], top });
+        figures.push_back({ bottom_points[i], bottom_points[i - 1], bottom });
     }
     //*/
 }
@@ -60,7 +64,6 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     restore();
     redraw();
-    // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 }
 
 void GLWidget::paintGL()
@@ -71,7 +74,6 @@ void GLWidget::paintGL()
     glOrtho(-width() / 2, width() / 2,
         -height() / 2, height() / 2,
         -1000, 1000); // подготавливаем плоскости для матрицы
-    // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 
     Draw();
 
@@ -83,8 +85,6 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
-
-    // z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 
     restore();
 }

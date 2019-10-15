@@ -37,13 +37,14 @@ Matrix Sh(float scale)
         4, 4);
 }
 
-Matrix Move(QPointF delta)
+Matrix Move(const QVector3D& delta)
+
 {
     return Matrix({
                       1, 0, 0, 0,
                       0, 1, 0, 0,
                       0, 0, 1, 0,
-                      float(delta.x()), float(delta.y()), 0, 1 //
+                      delta.x(), delta.y(), delta.z(), 1 //
                   },
         4, 4);
 }

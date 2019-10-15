@@ -7,15 +7,11 @@
 #include <QWheelEvent>
 #include <QWidget>
 
-#include <algorithm>
 #include <array>
 #include <cmath>
-#include <memory>
-#include <numeric>
 #include <vector>
 
 class Polygon;
-class Matrix;
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
@@ -25,6 +21,7 @@ public slots:
     void redraw();
     void color(bool);
     void edges(bool);
+    void base(bool);
 
 signals:
     void scale_changed(double);
@@ -51,7 +48,6 @@ private:
 
     std::vector<Polygon> figures;
     std::vector<Polygon> display_figures;
-
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;
@@ -59,8 +55,8 @@ private:
     float scale;
 
     float angle_phi, angle_theta;
-    bool color_enabled, edges_enabled;
-    std::unique_ptr<unsigned int> seed;
+    bool color_enabled, edges_enabled,base_enabled;
+    unsigned int seed;
 };
 
 #endif

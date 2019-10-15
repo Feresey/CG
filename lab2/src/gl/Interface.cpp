@@ -18,7 +18,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
             zero += prev_pos - me->pos();
             break;
         case Qt::MouseButton::RightButton:
-            angle_phi += float((prev_pos - me->pos()).x()) * 0.2f * M_PIf32 / 180.0f;
+            angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * M_PIf32 / 180.0f;
             angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * M_PIf32 / 180.0f;
             break;
         case Qt::MouseButton::MiddleButton:
@@ -76,5 +76,11 @@ void GLWidget::color(bool ind)
 void GLWidget::edges(bool ind)
 {
     edges_enabled = ind;
+    update();
+}
+
+void GLWidget::base(bool ind)
+{
+    base_enabled = ind;
     update();
 }

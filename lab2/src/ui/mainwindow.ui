@@ -81,6 +81,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>base</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -169,6 +179,7 @@
     <slot>redraw()</slot>
     <slot>color(bool)</slot>
     <slot>edges(bool)</slot>
+    <slot>base(bool)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -251,6 +262,22 @@
     <hint type="destinationlabel">
      <x>268</x>
      <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_3</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>base(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
