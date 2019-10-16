@@ -17,33 +17,16 @@ void GLWidget::redraw()
 
 void GLWidget::LoadMatrix()
 {
-
-    Matrix m = Ry(angle_theta) * Rx(angle_phi);
-
-    // Move figure
     QPoint tmp = zero - normalize;
     tmp.setX(-tmp.x());
-    m *= Sh(scale) * Move({ float(tmp.x()), float(tmp.y()), 0.0f });
+    Matrix m = Ry(angle_theta) * Rx(angle_phi)*Sh(scale) * Move({ float(tmp.x()), float(tmp.y()), 0.0f });
 
-    std::vector<Polygon> changed_figures(figures.size());
     std::transform(figures.begin(), figures.end(), changed_figures.begin(),
         [m](const Polygon& p) { return m * p; });
 
-    QVector3D inside;
-    size_t total = 0;
-    for (const auto& i : changed_figures)
-        for (const auto& j : i) {
-            ++total;
-            inside += j;
-        }
-    inside /= static_cast<float>(total);
-
-    display_figures.clear();
-    Matrix view = Matrix{ changed_figures, inside };
-    view = Matrix{ { 0, 0, 1, 0 }, 1, 4 } * view;
+    Matrix view = Matrix{ { 0, 0, 1, 0 }, 1, 4 } * Matrix{ changed_figures, m * inside };
     for (size_t i = 0; i < changed_figures.size(); ++i)
-        if (view[i] > 0)
-            display_figures.push_back(changed_figures[i]);
+        display_figures[i] = view[i] > 0;
 
     update();
 }
@@ -55,18 +38,20 @@ float GLWidget::findScale()
 
 void GLWidget::Draw()
 {
-    for (auto poly : display_figures) {
+    for (size_t i = 0; i < display_figures.size(); ++i) {
+        if (!display_figures[i])
+            continue;
         if (edges_enabled) {
             glColor3d(1, 1, 1);
             glBegin(GL_LINE_LOOP);
-            for (auto point : poly)
+            for (auto point : changed_figures[i])
                 glVertex2d(point[0], point[1]);
             glEnd();
         }
         if (color_enabled) {
-            glColor3fv(poly.getColor());
+            glColor3fv(changed_figures[i].getColor());
             glBegin(GL_POLYGON);
-            for (auto point : poly)
+            for (auto point : changed_figures[i])
                 glVertex2d(point[0], point[1]);
             glEnd();
         }

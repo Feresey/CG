@@ -47,7 +47,9 @@ private:
     void LoadMatrix();
 
     std::vector<Polygon> figures;
-    std::vector<Polygon> display_figures;
+    std::vector<Polygon> changed_figures;
+    std::vector<bool> display_figures;
+    QVector3D inside;
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;

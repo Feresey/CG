@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_COMPILER clang++)
+# set(CMAKE_CXX_COMPILER clang++)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic\
     -Wno-sign-compare -Wno-long-long -Wctor-dtor-privacy\

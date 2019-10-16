@@ -7,7 +7,9 @@
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
     , figures()
+    , changed_figures()
     , display_figures()
+    , inside(0, 0, 0)
     , zero()
     , prev_pos()
     , normalize()
@@ -34,7 +36,6 @@ GLWidget::GLWidget(QWidget* parent)
 
     // figures.push_back();
     /*/
-    
 
     std::vector<QVector3D> bottom_points;
     size_t number = 5;
@@ -51,6 +52,16 @@ GLWidget::GLWidget(QWidget* parent)
         figures.push_back({ bottom_points[i], bottom_points[i - 1], top });
         figures.push_back({ bottom_points[i], bottom_points[i - 1], bottom });
     }
+    changed_figures.resize(figures.size());
+    display_figures.resize(figures.size());
+
+    size_t total = 0;
+    for (const auto& i : figures)
+        for (const auto& j : i) {
+            ++total;
+            inside += j;
+        }
+    inside /= static_cast<float>(total);
     //*/
 }
 
