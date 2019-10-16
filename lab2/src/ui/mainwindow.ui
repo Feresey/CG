@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>675</height>
+    <width>758</width>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,13 +23,108 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout" columnstretch="0">
-    <property name="sizeConstraint">
-     <enum>QLayout::SetMaximumSize</enum>
-    </property>
-    <item row="1" column="0">
-     <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
-      <item row="1" column="0">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
+        <item>
+         <widget class="GLWidget" name="openGLWidget">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>533</width>
+            <height>533</height>
+           </size>
+          </property>
+          <property name="sizeIncrement">
+           <size>
+            <width>1</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>533</width>
+            <height>533</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>CrossCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QWidget" name="horizontalLayoutWidget">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>Red = x</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>Green = y</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>Blue = z</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QPushButton" name="pushButton">
@@ -54,6 +149,50 @@
           </property>
           <property name="value">
            <double>100.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="prefix">
+           <string>phi=</string>
+          </property>
+          <property name="decimals">
+           <number>5</number>
+          </property>
+          <property name="minimum">
+           <double>-72000.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>72000.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="prefix">
+           <string>theta=</string>
+          </property>
+          <property name="decimals">
+           <number>5</number>
+          </property>
+          <property name="minimum">
+           <double>-72000.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>72000.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -91,6 +230,35 @@
          </widget>
         </item>
         <item>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>Аксонометрическая</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Видовая проекция на плоскость xy</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Видовая проекция на плоскость xz</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Видовая проекция на плоскость yz</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Изометрическая</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -105,46 +273,6 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="1">
-       <widget class="GLWidget" name="openGLWidget">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>533</width>
-          <height>533</height>
-         </size>
-        </property>
-        <property name="sizeIncrement">
-         <size>
-          <width>1</width>
-          <height>1</height>
-         </size>
-        </property>
-        <property name="baseSize">
-         <size>
-          <width>533</width>
-          <height>533</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>CrossCursor</cursorShape>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::StrongFocus</enum>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
@@ -154,7 +282,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
+     <width>758</width>
      <height>26</height>
     </rect>
    </property>
@@ -174,17 +302,39 @@
    <slots>
     <signal>scale_changed(double)</signal>
     <signal>scale_message(QString)</signal>
+    <signal>phi_changed(double)</signal>
+    <signal>theta_changed(double)</signal>
+    <signal>set_project(int)</signal>
     <slot>restore()</slot>
     <slot>set_scale(double)</slot>
     <slot>redraw()</slot>
     <slot>color(bool)</slot>
     <slot>edges(bool)</slot>
     <slot>base(bool)</slot>
+    <slot>project(int)</slot>
+    <slot>set_phi(double)</slot>
+    <slot>set_theta(double)</slot>
    </slots>
   </customwidget>
  </customwidgets>
  <resources/>
  <connections>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>edges(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>45</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
@@ -202,18 +352,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>doubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
+   <sender>checkBox_3</sender>
+   <signal>clicked(bool)</signal>
    <receiver>openGLWidget</receiver>
-   <slot>set_scale(double)</slot>
+   <slot>base(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>130</x>
-     <y>88</y>
+     <x>35</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
-     <x>439</x>
-     <y>110</y>
+     <x>388</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -241,7 +391,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>52</x>
-     <y>114</y>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
      <x>389</x>
@@ -250,34 +400,82 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_2</sender>
-   <signal>clicked(bool)</signal>
+   <sender>doubleSpinBox</sender>
+   <signal>valueChanged(double)</signal>
    <receiver>openGLWidget</receiver>
-   <slot>edges(bool)</slot>
+   <slot>set_scale(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>45</x>
-     <y>140</y>
+     <x>130</x>
+     <y>88</y>
     </hint>
     <hint type="destinationlabel">
-     <x>268</x>
-     <y>255</y>
+     <x>439</x>
+     <y>110</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_3</sender>
-   <signal>clicked(bool)</signal>
+   <sender>comboBox</sender>
+   <signal>activated(int)</signal>
    <receiver>openGLWidget</receiver>
-   <slot>base(bool)</slot>
+   <slot>project(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>35</x>
-     <y>182</y>
+     <x>87</x>
+     <y>287</y>
     </hint>
     <hint type="destinationlabel">
-     <x>388</x>
-     <y>227</y>
+     <x>471</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>theta_changed(double)</signal>
+   <receiver>doubleSpinBox_3</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>137</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>154</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>phi_changed(double)</signal>
+   <receiver>doubleSpinBox_2</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>393</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>78</x>
+     <y>118</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>set_project(int)</signal>
+   <receiver>comboBox</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>546</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>165</x>
+     <y>285</y>
     </hint>
    </hints>
   </connection>

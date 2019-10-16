@@ -9,6 +9,7 @@ void GLWidget::wheelEvent(QWheelEvent* we)
     scale_changed(scale);
     LoadMatrix();
 }
+#include <iostream>
 
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
@@ -26,9 +27,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
         default:
             break;
         }
-
+        phi_changed(angle_phi * 180.0f / M_PIf32);
+        theta_changed(angle_theta * 180.0f / M_PIf32);
+        set_project(0);
         prev_pos = me->pos();
         LoadMatrix();
+
     }
 }
 
@@ -47,12 +51,12 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
 
 void GLWidget::restore()
 {
+    LoadMatrix();
     scale = findScale();
     update();
     scale_message("");
     scale_changed(scale);
-    angle_phi = 0;
-    angle_theta = 0.0f;
+
     zero = normalize = { width() / 2, -height() / 2 };
     LoadMatrix();
 }
@@ -82,5 +86,44 @@ void GLWidget::edges(bool ind)
 void GLWidget::base(bool ind)
 {
     base_enabled = ind;
+    update();
+}
+
+void GLWidget::project(int val)
+{
+    switch (val) {
+    case 1:
+        angle_phi = 0;
+        angle_theta = 0;
+        break;
+    case 2:
+        angle_phi = 0;
+        angle_theta = -90 * M_PIf32 / 180.0f;
+        break;
+    case 3:
+        angle_phi = -90 * M_PIf32 / 180.0f;
+        angle_theta = angle_phi;
+        break;
+    case 4:
+        angle_phi = 35 * M_PIf32 / 180.0f;
+        angle_theta = -45 * M_PIf32 / 180.0f;
+    default:
+        break;
+    }
+    phi_changed(angle_phi * 180.0f / M_PIf32);
+    theta_changed(angle_theta * 180.0f / M_PIf32);
+    restore();
+    update();
+}
+
+void GLWidget::set_phi(double val)
+{
+    angle_phi = val;
+    update();
+}
+
+void GLWidget::set_theta(double val)
+{
+    angle_theta = val;
     update();
 }

@@ -22,10 +22,16 @@ public slots:
     void color(bool);
     void edges(bool);
     void base(bool);
+    void project(int);
+    void set_phi(double);
+    void set_theta(double);
 
 signals:
     void scale_changed(double);
     void scale_message(QString = { "Scale is too small, please restore it" });
+    void phi_changed(double);
+    void theta_changed(double);
+    void set_project(int);
 
 public:
     GLWidget(QWidget* parent = 0);
@@ -49,7 +55,7 @@ private:
     std::vector<Polygon> figures;
     std::vector<Polygon> changed_figures;
     std::vector<bool> display_figures;
-    QVector3D inside;
+    QVector3D inside, changed_inside;
     QPoint zero, prev_pos, normalize;
     bool mouse_tapped;
     Qt::MouseButton button_pressed;

@@ -10,14 +10,15 @@ GLWidget::GLWidget(QWidget* parent)
     , changed_figures()
     , display_figures()
     , inside(0, 0, 0)
+    , changed_inside(0, 0, 0)
     , zero()
     , prev_pos()
     , normalize()
     , mouse_tapped(false)
     , button_pressed()
     , scale(100)
-    , angle_phi(0.0)
-    , angle_theta(0.0)
+    , angle_phi( 35 * M_PIf32 / 180.0f)
+    , angle_theta( -45 * M_PIf32 / 180.0f)
     , color_enabled(true)
     , edges_enabled(true)
     , base_enabled(true)
@@ -62,6 +63,7 @@ GLWidget::GLWidget(QWidget* parent)
             inside += j;
         }
     inside /= static_cast<float>(total);
+    LoadMatrix();
     //*/
 }
 
@@ -75,6 +77,7 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     restore();
     redraw();
+    set_project(4);
 }
 
 void GLWidget::paintGL()

@@ -19,12 +19,14 @@ void GLWidget::LoadMatrix()
 {
     QPoint tmp = zero - normalize;
     tmp.setX(-tmp.x());
-    Matrix m = Ry(angle_theta) * Rx(angle_phi)*Sh(scale) * Move({ float(tmp.x()), float(tmp.y()), 0.0f });
+    // std::cout << scale << '\n';
+    Matrix m = Ry(angle_theta) * Rx(angle_phi) * Sh(scale) * Move({ float(tmp.x()), float(tmp.y()), 0.0f });
 
     std::transform(figures.begin(), figures.end(), changed_figures.begin(),
         [m](const Polygon& p) { return m * p; });
 
-    Matrix view = Matrix{ { 0, 0, 1, 0 }, 1, 4 } * Matrix{ changed_figures, m * inside };
+    changed_inside = m * inside;
+    Matrix view = Matrix{ { 0, 0, 1, 0 }, 1, 4 } * Matrix{ changed_figures, changed_inside };
     for (size_t i = 0; i < changed_figures.size(); ++i)
         display_figures[i] = view[i] > 0;
 
@@ -33,36 +35,33 @@ void GLWidget::LoadMatrix()
 
 float GLWidget::findScale()
 {
-    return 100;
+    const QVector3D& one = changed_figures[0][0];
+    float mx_x = one.x(), mx_y = one.y(), mn_x = one.x(), mn_y = one.y();
+    for (const auto& i : changed_figures) {
+        auto max = i.max(), min = i.min();
+        if (max.x() > mx_x)
+            mx_x = max.x();
+        if (max.y() > mx_y)
+            mx_y = max.y();
+        if (min.x() < mn_x)
+            mn_x = min.x();
+        if (min.y() < mn_y)
+            mn_y = min.y();
+    }
+    std::vector<float> anus = { abs(mn_x), abs(mn_y), abs(mx_x), abs(mx_y) };
+    std::sort(anus.begin(), anus.end());
+    return std::min(width(), height()) * 0.45f / (anus.back() / scale);
 }
 
 void GLWidget::Draw()
 {
-    for (size_t i = 0; i < display_figures.size(); ++i) {
-        if (!display_figures[i])
-            continue;
-        if (edges_enabled) {
-            glColor3d(1, 1, 1);
-            glBegin(GL_LINE_LOOP);
-            for (auto point : changed_figures[i])
-                glVertex2d(point[0], point[1]);
-            glEnd();
-        }
-        if (color_enabled) {
-            glColor3fv(changed_figures[i].getColor());
-            glBegin(GL_POLYGON);
-            for (auto point : changed_figures[i])
-                glVertex2d(point[0], point[1]);
-            glEnd();
-        }
-    }
 
     if (base_enabled) {
         std::vector<QVector3D> display_base({ { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
         float offset = 40.0;
         QVector3D center = {
-            static_cast<float>(width() / 2 - offset * 2),
-            static_cast<float>(-height() / 2 + offset * 2),
+            float(width()) / 2.0f - offset * 2.0f,
+            float(-height()) / 2.0f + offset * 2.0f,
             0.0f
         };
         Matrix m = Ry(angle_theta) * Rx(angle_phi) * Sh(offset) * Move(center);
@@ -87,5 +86,23 @@ void GLWidget::Draw()
         glVertex2d(display_base[2].x(), display_base[2].y());
         glVertex2d(center.x(), center.y());
         glEnd();
+    }
+    for (size_t i = 0; i < display_figures.size(); ++i) {
+        if (!display_figures[i])
+            continue;
+        if (edges_enabled) {
+            glColor3d(1, 1, 1);
+            glBegin(GL_LINE_LOOP);
+            for (auto point : changed_figures[i])
+                glVertex2d(point[0], point[1]);
+            glEnd();
+        }
+        if (color_enabled) {
+            glColor3fv(changed_figures[i].getColor());
+            glBegin(GL_POLYGON);
+            for (auto point : changed_figures[i])
+                glVertex2d(point[0], point[1]);
+            glEnd();
+        }
     }
 }
