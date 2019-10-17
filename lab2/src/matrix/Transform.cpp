@@ -26,16 +26,18 @@ Matrix Ry(float theta)
         4, 4);
 }
 
-Matrix Sh(float scale)
+Matrix Sh(float scale_x, float scale_y, float scale_z)
 {
     return Matrix({
-                      scale, 0, 0, 0,
-                      0, scale, 0, 0,
-                      0, 0, scale, 0,
+                      scale_x, 0, 0, 0,
+                      0, scale_y, 0, 0,
+                      0, 0, scale_z, 0,
                       0, 0, 0, 1 //
                   },
         4, 4);
 }
+
+Matrix Sh(float scale_all) { return Sh(scale_all, scale_all, scale_all); }
 
 Matrix Move(const QVector3D& delta)
 

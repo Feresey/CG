@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>758</width>
+    <width>800</width>
     <height>625</height>
    </rect>
   </property>
@@ -134,6 +134,20 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>Rescale</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Restore</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QDoubleSpinBox" name="doubleSpinBox">
           <property name="locale">
            <locale language="English" country="UnitedStates"/>
@@ -172,6 +186,9 @@
           <property name="maximum">
            <double>72000.000000000000000</double>
           </property>
+          <property name="value">
+           <double>0.000000000000000</double>
+          </property>
          </widget>
         </item>
         <item>
@@ -193,6 +210,9 @@
           </property>
           <property name="maximum">
            <double>72000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>0.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -282,7 +302,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>758</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>
@@ -302,8 +322,8 @@
    <slots>
     <signal>scale_changed(double)</signal>
     <signal>scale_message(QString)</signal>
-    <signal>phi_changed(double)</signal>
-    <signal>theta_changed(double)</signal>
+    <signal>phi_changed(int)</signal>
+    <signal>theta_changed(int)</signal>
     <signal>set_project(int)</signal>
     <slot>restore()</slot>
     <slot>set_scale(double)</slot>
@@ -312,8 +332,9 @@
     <slot>edges(bool)</slot>
     <slot>base(bool)</slot>
     <slot>project(int)</slot>
-    <slot>set_phi(double)</slot>
-    <slot>set_theta(double)</slot>
+    <slot>set_phi(int)</slot>
+    <slot>set_theta(int)</slot>
+    <slot>norm()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -326,8 +347,8 @@
    <slot>edges(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>45</x>
-     <y>212</y>
+     <x>51</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
      <x>268</x>
@@ -358,28 +379,12 @@
    <slot>base(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>35</x>
-     <y>254</y>
+     <x>41</x>
+     <y>331</y>
     </hint>
     <hint type="destinationlabel">
      <x>388</x>
      <y>227</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>scale_changed(double)</signal>
-   <receiver>doubleSpinBox</receiver>
-   <slot>setValue(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>258</x>
-     <y>152</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>152</x>
-     <y>87</y>
     </hint>
    </hints>
   </connection>
@@ -390,28 +395,12 @@
    <slot>color(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>52</x>
-     <y>186</y>
+     <x>58</x>
+     <y>273</y>
     </hint>
     <hint type="destinationlabel">
      <x>389</x>
      <y>203</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>doubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>set_scale(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>130</x>
-     <y>88</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>439</x>
-     <y>110</y>
     </hint>
    </hints>
   </connection>
@@ -422,44 +411,12 @@
    <slot>project(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>287</y>
+     <x>93</x>
+     <y>367</y>
     </hint>
     <hint type="destinationlabel">
      <x>471</x>
      <y>399</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>theta_changed(double)</signal>
-   <receiver>doubleSpinBox_3</receiver>
-   <slot>setValue(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>357</x>
-     <y>137</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>136</x>
-     <y>154</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openGLWidget</sender>
-   <signal>phi_changed(double)</signal>
-   <receiver>doubleSpinBox_2</receiver>
-   <slot>setValue(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>393</x>
-     <y>202</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>78</x>
-     <y>118</y>
     </hint>
    </hints>
   </connection>
@@ -474,8 +431,136 @@
      <y>378</y>
     </hint>
     <hint type="destinationlabel">
-     <x>165</x>
-     <y>285</y>
+     <x>171</x>
+     <y>367</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>scale_changed(double)</signal>
+   <receiver>doubleSpinBox</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>519</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>158</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>set_scale(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>439</x>
+     <y>110</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox_2</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>set_phi(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>675</x>
+     <y>169</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>phi_changed(double)</signal>
+   <receiver>doubleSpinBox_2</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>393</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>84</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox_3</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>set_theta(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>220</x>
+     <y>244</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>645</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGLWidget</sender>
+   <signal>theta_changed(double)</signal>
+   <receiver>doubleSpinBox_3</receiver>
+   <slot>setValue(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>137</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>norm()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>restore()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>108</y>
     </hint>
    </hints>
   </connection>

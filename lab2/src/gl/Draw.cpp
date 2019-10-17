@@ -17,18 +17,54 @@ void GLWidget::redraw()
 
 void GLWidget::LoadMatrix()
 {
+
+    // orthogonal projections
+    float local_phi, local_theta;
+    switch (pr) {
+    case 1:
+        local_phi = 0;
+        local_theta = 0;
+        break;
+    case 2:
+        local_phi = 0;
+        local_theta = -90 * D2R;
+        break;
+    case 3:
+        local_phi = -90 * D2R;
+        local_theta = local_phi;
+        break;
+    case 4:
+        local_phi = 35 * D2R;
+        local_theta = -45 * D2R;
+        break;
+    default:
+        local_phi = local_theta = 0;
+        break;
+    }
     QPoint tmp = zero - normalize;
     tmp.setX(-tmp.x());
-    // std::cout << scale << '\n';
-    Matrix m = Ry(angle_theta) * Rx(angle_phi) * Sh(scale) * Move({ float(tmp.x()), float(tmp.y()), 0.0f });
+
+    Matrix m = Sh(scale, scale, scale) * Move({ float(tmp.x()), float(tmp.y()), 0.0f });
+
+    if (pr == 0)
+        m = Ry(angle_theta) * Rx(angle_phi) * m;
+    else
+        m = Ry(local_theta) * Rx(local_phi) * m;
 
     std::transform(figures.begin(), figures.end(), changed_figures.begin(),
         [m](const Polygon& p) { return m * p; });
 
-    changed_inside = m * inside;
-    Matrix view = Matrix{ { 0, 0, 1, 0 }, 1, 4 } * Matrix{ changed_figures, changed_inside };
+    Matrix view = Matrix{ { 0, 0, ((pr != 0 && cosf(angle_phi) > 0) ? 1.0f : -1.0f), 0 }, 1, 4 } * Matrix{ changed_figures, m * inside };
     for (size_t i = 0; i < changed_figures.size(); ++i)
         display_figures[i] = view[i] > 0;
+
+    if (pr != 0 && pr != 4) {
+        m = Sh(1, 1, 0);
+        m *= Ry(angle_theta) * Rx(angle_phi);
+
+        std::for_each(changed_figures.begin(), changed_figures.end(),
+            [m](Polygon& p) { p = m * p; });
+    }
 
     update();
 }
@@ -50,12 +86,11 @@ float GLWidget::findScale()
     }
     std::vector<float> anus = { abs(mn_x), abs(mn_y), abs(mx_x), abs(mx_y) };
     std::sort(anus.begin(), anus.end());
-    return std::min(width(), height()) * 0.45f / (anus.back() / scale);
+    return float(std::min(width(), height())) * 0.45f / (anus.back() / scale);
 }
 
 void GLWidget::Draw()
 {
-
     if (base_enabled) {
         std::vector<QVector3D> display_base({ { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
         float offset = 40.0;
@@ -87,6 +122,7 @@ void GLWidget::Draw()
         glVertex2d(center.x(), center.y());
         glEnd();
     }
+    
     for (size_t i = 0; i < display_figures.size(); ++i) {
         if (!display_figures[i])
             continue;

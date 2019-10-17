@@ -1,0 +1,448 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<title>Лабораторная работа N 2</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+h1
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-indent:36.0pt;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:normal;}
+h2
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:right;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:normal;}
+h3
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:normal;}
+h4
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+h5
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Times New Roman",serif;}
+h6
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoHeading7, li.MsoHeading7, div.MsoHeading7
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoHeading8, li.MsoHeading8, div.MsoHeading8
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	text-indent:36.0pt;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Times New Roman",serif;
+	text-decoration:underline;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoCaption, li.MsoCaption, div.MsoCaption
+	{margin-top:6.0pt;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	font-size:16.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoBodyText2, li.MsoBodyText2, div.MsoBodyText2
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoBodyText3, li.MsoBodyText3, div.MsoBodyText3
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	font-size:16.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:59.55pt 2.0cm 2.0cm 70.9pt;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=RU>
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=right style='text-align:right'><b><span
+style='font-size:13.0pt'>&nbsp;</span></b></p>
+
+<p class=MsoBodyText3><span style='font-size:13.0pt'>Удаление невидимых
+поверхностей выпуклого многогранника.</span></p>
+
+<p class=MsoBodyText3><span style='font-size:13.0pt'>Однотонная закраска
+полигонов.</span></p>
+
+<p class=MsoBodyText3><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b><span
+style='font-size:13.0pt'>&nbsp;</span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><u><span
+style='font-size:13.0pt'>Удаление невидимых граней.</span></u></p>
+
+<p class=MsoNormal align=right style='text-align:right'><span style='font-size:
+13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>            Первым
+шагом к построению фотореалистичного изображения тела, аппроксимируемого
+выпуклым многогранником, является удаление невидимых граней.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>При параллельном проектировании видимость грани
+выпуклого непрозрачного многогранника (рис. 4.1) определяется следующим
+образом: грань видна тогда и только тогда, когда внешняя нормаль <b>N</b> к
+грани образует с направлением <b>V</b> на наблюдателя острый угол (cos(</span><span
+style='font-size:13.0pt;font-family:Symbol'>a</span><span style='font-size:
+13.0pt'>)&gt;0).</span></p>
+
+<p class=MsoNormal align=right style='text-align:right'><span style='font-size:
+13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'>
+
+<table cellpadding=0 cellspacing=0 align=left>
+ <tr>
+  <td width=295 height=8></td>
+ </tr>
+ <tr>
+  <td></td>
+  <td><img width=227 height=142 src="Lect5.files/image001.gif"></td>
+ </tr>
+</table>
+
+<span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<br clear=ALL>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>                                                            </span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'>
+
+<table cellpadding=0 cellspacing=0 align=left>
+ <tr>
+  <td width=193 height=6></td>
+  <td width=260></td>
+ </tr>
+ <tr>
+  <td height=183></td>
+  <td align=left valign=top><img width=260 height=183
+  src="Lect5.files/image002.gif"></td>
+ </tr>
+</table>
+
+<span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<br clear=ALL>
+
+<p class=MsoCaption align=center style='margin-top:12.0pt;margin-right:0cm;
+margin-bottom:6.0pt;margin-left:72.0pt;text-align:center'><span
+style='font-size:13.0pt;font-weight:normal'>Рис. Определение видимости грани.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Предполагая вектора внешней нормали к грани и
+направления на наблюдателя нормированными, имеем:                                                                                                 </span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:144.0pt;margin-bottom:.0001pt;text-align:justify;text-indent:
+36.0pt'><sub><span style='font-size:13.0pt'><img width=168 height=44
+src="Lect5.files/image003.gif">                        (4.1)</span></sub></p>
+
+<p class=MsoNormal style='margin-left:144.0pt;text-align:justify;text-indent:
+36.0pt'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:144.0pt;text-align:justify;text-indent:
+36.0pt'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Таким образом, условием видимости грани является знак
+скалярного произведения Для вычисления внешней нормали к грани можно взять
+любые три не лежащие на одной прямой вершины грани в положительном порядке
+обхода (против часовой стрелки, если смотреть на грань снаружи) и
+воспользоваться следующими формулами, получившимися в результате решения
+системы уравнений, описывающей принадлежность плоскости трех точек:</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+lang=EN-US style='font-size:13.0pt'>N<sub>x</sub> = (y<sub>2</sub>-y<sub>0</sub>)*(z<sub>1</sub>-z<sub>0</sub>)
+- (y<sub>1</sub>-y<sub>0</sub>)*(z<sub>2</sub>-z<sub>0</sub>)</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+lang=EN-US style='font-size:13.0pt'>N<sub>y</sub> = (z<sub>2</sub>-z<sub>0</sub>)*(x<sub>1</sub>-x<sub>0</sub>)
+- (z<sub>1</sub>-z<sub>0</sub>)*(x<sub>2</sub>-x<sub>0</sub>)                                             (4.2)</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+lang=EN-US style='font-size:13.0pt'>N<sub>z</sub> = (y<sub>1</sub>-y<sub>0</sub>)*(x<sub>2</sub>-x<sub>1</sub>)
+- (y<sub>2</sub>-y<sub>0</sub>)*(x<sub>1</sub>-x<sub>0</sub>),</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+lang=EN-US style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-align:justify;text-indent:
+36.0pt'><span style='font-size:13.0pt'>где (x<sub>i</sub>, y<sub>i</sub>, z<sub>i</sub>)
+– координаты точек P<sub>i</sub> , i = 0,1,2 (рис. 4.1); N<sub>x</sub>, N<sub>y</sub>,
+N<sub>z </sub>– составляющие вектора нормали. Для использования (4.1) вектор
+нормали следует пронормировать.</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-align:justify;text-indent:
+36.0pt'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-align:justify;text-indent:
+36.0pt'><span style='font-size:13.0pt'>На рис. приведены изображения
+многогранника до и после удаления невидимых граней.</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-align:justify;text-indent:
+36.0pt'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoCaption align=center style='text-align:center'><span
+style='font-size:13.0pt;font-weight:normal'><img width=175 height=211
+src="Lect5.files/image004.jpg"><img width=174 height=212
+src="Lect5.files/image005.jpg"></span></p>
+
+<p class=MsoCaption align=center style='text-align:center'><span
+style='font-size:13.0pt;font-weight:normal'>. Многогранник до и после удаления
+невидимых граней.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><u><span
+style='font-size:13.0pt'>Геометрическая оптика.</span></u></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>            Методы моделирования освещенности в
+компьютерной графике основаны на использовании понятий и законов геометрической
+оптики (точечный источник света, световой луч, законы отражения, преломления и
+обратимости хода лучей. Законы геометрической оптики справедливы для излучений
+с длиной волны, пренебрежимо малой, по сравнению с размерами элементов объектов
+сцены.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center;text-indent:36.0pt'><u><span
+style='font-size:13.0pt'>Трассировка лучей.</span></u></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>            Рассмотренные методы не учитывают
+преломление, вторичное освещение (отраженным и диффузным светом) и образование
+теней. Для изображения теней, зеркальных и преломляющих поверхностей
+используется метод трассировки лучей.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Прямая трассировка лучей (источник-&gt; точка объекта
+-&gt; рецептор)</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Часто используется обратная трассировка лучей
+(рецептор-&gt; точка объекта -&gt; источник)</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>1) Определить, какая точка объекта соответствует
+пикселу-рецептору.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>2) Отследить ход луча, вычисляя его интенсивность и
+окраску, расщепляя луч при необходимости. Т. о., создается дерево лучей.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Прекращение вычисления:</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>-Затухание луча (большой путь)</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>-Поглощение луча плохо отражающей поверхностью</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>- Попадание луча в источник</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>- Уход луча за пределы сцены</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Вычисление построенного дерева лучей с корнем в
+рецепторе дает окраску пиксела.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Диффузное отражение – много лучей – считается
+отдельно.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Преломление</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>показатель преломления </span><span lang=EN-US
+style='font-size:13.0pt'>n</span><span style='font-size:13.0pt'> = </span><span
+lang=EN-US style='font-size:13.0pt'>c</span><span style='font-size:13.0pt'>/</span><span
+lang=EN-US style='font-size:13.0pt'>v</span><span style='font-size:13.0pt'>
+&gt; 1</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><img
+width=150 height=158 src="Lect5.files/image006.gif"></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+lang=EN-US style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><a
+name=BITSoft></a><span style='font-size:12.0pt;layout-grid-mode:line'>Ход луч<a
+name=OCRUncertain001>е</a>й света при преломлении на плоской поверхности,
+разделеляющей две прозрачные среды. Пунктиром обозначен отражённый луч. Угол
+преломлен<a name=OCRUncertain012>и</a>я </span><span lang=EN-US
+style='font-size:12.0pt;font-family:Symbol;layout-grid-mode:line'>c</span><span
+style='font-size:12.0pt;layout-grid-mode:line'> больше угла па<a
+name=OCRUncertain016>де</a>н<a name=OCRUncertain017>и</a>я </span><span
+lang=EN-US style='font-size:12.0pt;font-family:Symbol;layout-grid-mode:line'>j</span><span
+style='font-size:12.0pt;layout-grid-mode:line'>; это указывает, что в данном
+случае происходит преломлен<a name=OCRUncertain047>и</a>е из <a
+name=OCRUncertain048>оптнчески</a> <a name=OCRUncertain049>менее</a> плотной
+1-й среды в более <a name=OCRUncertain051>оптич</a>ески плотную 2-ю</span><span
+lang=EN-US style='font-size:12.0pt;layout-grid-mode:line'> <a
+name=OCRUncertain054>(n<sub>1</sub>&lt;n<sub>2</sub><i>)</i></a><i>.</i></span><i><span
+style='font-size:12.0pt;layout-grid-mode:line'> <a name=OCRUncertain055>п</a></span></i><i><span
+lang=EN-US style='font-size:12.0pt;layout-grid-mode:line'>—</span></i><span
+style='font-size:12.0pt;layout-grid-mode:line'> нор<a name=OCRUncertain056>м</a>аль
+к <a name=OCRUncertain057>поверхнос</a>ти раздела</span><span lang=EN-US
+style='font-size:12.0pt;layout-grid-mode:line'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+lang=EN-US style='font-size:12.0pt;layout-grid-mode:line'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:12.0pt;layout-grid-mode:line'>прозрачность 0 –нет, 1 - прозрачный</span></p>
+
+<p class=MsoHeading8><span style='font-size:12.0pt'>Задание</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:13.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:36.0pt'><span
+style='font-size:13.0pt'>Литература.</span></p>
+
+<p class=MsoBodyText><span style='font-size:13.0pt'>1. Роджерс Д.
+Алгоритмические основы машинной графики. –М.: Мир, 1989. с. 230-487.</span></p>
+
+<p class=MsoBodyText><span style='font-size:13.0pt'>2. Фоли Дж., вэн Дэм А.
+Основы интерактивной машинной графики. –М.: Мир, 1985, т. 1 с. 266-340.</span></p>
+
+<p class=MsoBodyText><span style='font-size:13.0pt'>3. А.В. Боресков, Е.В.
+Шикин, Г.Е. Шикина. Компьютерная графика: первое знакомство. –М.: Финансы и
+статистика, 1996, с. 109-158.</span></p>
+
+</div>
+
+</body>
+
+</html>

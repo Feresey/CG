@@ -10,18 +10,18 @@ GLWidget::GLWidget(QWidget* parent)
     , changed_figures()
     , display_figures()
     , inside(0, 0, 0)
-    , changed_inside(0, 0, 0)
     , zero()
     , prev_pos()
     , normalize()
-    , mouse_tapped(false)
     , button_pressed()
     , scale(100)
-    , angle_phi( 35 * M_PIf32 / 180.0f)
-    , angle_theta( -45 * M_PIf32 / 180.0f)
+    , angle_phi(0)
+    , angle_theta(0)
+    , mouse_tapped(false)
     , color_enabled(true)
     , edges_enabled(true)
     , base_enabled(true)
+    , pr(4)
     , seed()
 {
     rand_r(&seed);
@@ -45,7 +45,7 @@ GLWidget::GLWidget(QWidget* parent)
         bottom_points.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
 
-    QVector3D top = { 0, 0, 3 }, bottom = { 0, 0, 0 };
+    QVector3D top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
     figures.push_back({ bottom_points.front(), bottom_points.back(), top });
     figures.push_back({ bottom_points.front(), bottom_points.back(), bottom });
 

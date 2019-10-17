@@ -9,7 +9,6 @@ void GLWidget::wheelEvent(QWheelEvent* we)
     scale_changed(scale);
     LoadMatrix();
 }
-#include <iostream>
 
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
@@ -19,20 +18,19 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
             zero += prev_pos - me->pos();
             break;
         case Qt::MouseButton::RightButton:
-            angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * M_PIf32 / 180.0f;
-            angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * M_PIf32 / 180.0f;
+            angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
+            angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
+            phi_changed(angle_phi / D2R);
+            theta_changed(angle_theta / D2R);
             break;
         case Qt::MouseButton::MiddleButton:
             break;
         default:
             break;
         }
-        phi_changed(angle_phi * 180.0f / M_PIf32);
-        theta_changed(angle_theta * 180.0f / M_PIf32);
-        set_project(0);
+
         prev_pos = me->pos();
         LoadMatrix();
-
     }
 }
 
@@ -91,39 +89,25 @@ void GLWidget::base(bool ind)
 
 void GLWidget::project(int val)
 {
-    switch (val) {
-    case 1:
-        angle_phi = 0;
-        angle_theta = 0;
-        break;
-    case 2:
-        angle_phi = 0;
-        angle_theta = -90 * M_PIf32 / 180.0f;
-        break;
-    case 3:
-        angle_phi = -90 * M_PIf32 / 180.0f;
-        angle_theta = angle_phi;
-        break;
-    case 4:
-        angle_phi = 35 * M_PIf32 / 180.0f;
-        angle_theta = -45 * M_PIf32 / 180.0f;
-    default:
-        break;
-    }
-    phi_changed(angle_phi * 180.0f / M_PIf32);
-    theta_changed(angle_theta * 180.0f / M_PIf32);
-    restore();
-    update();
+    pr = val;
+    norm();
 }
 
 void GLWidget::set_phi(double val)
 {
-    angle_phi = val;
-    update();
+    angle_phi = float(val) * D2R;
+    LoadMatrix();
 }
 
 void GLWidget::set_theta(double val)
 {
-    angle_theta = val;
-    update();
+    angle_theta = float(val) * D2R;
+    LoadMatrix();
+}
+
+
+void GLWidget::norm()
+{
+    angle_theta = angle_phi = 0;
+    restore();
 }
