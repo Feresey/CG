@@ -35,7 +35,8 @@ public:
 
 Matrix Rx(float phi);
 Matrix Ry(float theta);
-Matrix Sh(float scale);
+Matrix Sh(float scale_x, float scale_y, float scale_z);
+Matrix Sh(float scale_all);
 Matrix Move(const QVector3D& delta);
 
 #endif /* MATRIX_HPP */

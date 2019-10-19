@@ -18,8 +18,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
             zero += prev_pos - me->pos();
             break;
         case Qt::MouseButton::RightButton:
-            angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * M_PIf32 / 180.0f;
-            angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * M_PIf32 / 180.0f;
+            angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
+            angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
+            phi_changed(angle_phi / D2R);
+            theta_changed(angle_theta / D2R);
             break;
         case Qt::MouseButton::MiddleButton:
             break;
@@ -47,12 +49,12 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
 
 void GLWidget::restore()
 {
+    LoadMatrix();
     scale = findScale();
     update();
     scale_message("");
     scale_changed(scale);
-    angle_phi = 0;
-    angle_theta = 0.0f;
+
     zero = normalize = { width() / 2, -height() / 2 };
     LoadMatrix();
 }
@@ -83,4 +85,29 @@ void GLWidget::base(bool ind)
 {
     base_enabled = ind;
     update();
+}
+
+void GLWidget::project(int val)
+{
+    pr = val;
+    norm();
+}
+
+void GLWidget::set_phi(double val)
+{
+    angle_phi = float(val) * D2R;
+    LoadMatrix();
+}
+
+void GLWidget::set_theta(double val)
+{
+    angle_theta = float(val) * D2R;
+    LoadMatrix();
+}
+
+
+void GLWidget::norm()
+{
+    angle_theta = angle_phi = 0;
+    restore();
 }

@@ -13,19 +13,29 @@
 
 class Polygon;
 
+const float D2R = M_PIf32 / 180.0f;
+
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
     void restore();
+    void norm();
     void set_scale(double);
     void redraw();
     void color(bool);
     void edges(bool);
     void base(bool);
+    void project(int);
+    void set_phi(double);
+    void set_theta(double);
+
 
 signals:
     void scale_changed(double);
     void scale_message(QString = { "Scale is too small, please restore it" });
+    void phi_changed(double);
+    void theta_changed(double);
+    void set_project(int);
 
 public:
     GLWidget(QWidget* parent = 0);
@@ -47,15 +57,24 @@ private:
     void LoadMatrix();
 
     std::vector<Polygon> figures;
-    std::vector<Polygon> display_figures;
+    std::vector<Polygon> changed_figures;
+    std::vector<bool> display_figures;
+    QVector3D inside;
+
     QPoint zero, prev_pos, normalize;
-    bool mouse_tapped;
     Qt::MouseButton button_pressed;
 
-    float scale;
+    float scale,
+        angle_phi,
+        angle_theta;
 
-    float angle_phi, angle_theta;
-    bool color_enabled, edges_enabled,base_enabled;
+    bool mouse_tapped,
+        color_enabled,
+        edges_enabled,
+        base_enabled;
+    int ignore_angle;
+
+    int pr;
     unsigned int seed;
 };
 

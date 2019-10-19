@@ -7,18 +7,21 @@
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
     , figures()
+    , changed_figures()
     , display_figures()
+    , inside(0, 0, 0)
     , zero()
     , prev_pos()
     , normalize()
-    , mouse_tapped(false)
     , button_pressed()
     , scale(100)
-    , angle_phi(0.0)
-    , angle_theta(0.0)
+    , angle_phi(0)
+    , angle_theta(0)
+    , mouse_tapped(false)
     , color_enabled(true)
     , edges_enabled(true)
     , base_enabled(true)
+    , pr(4)
     , seed()
 {
     rand_r(&seed);
@@ -34,7 +37,6 @@ GLWidget::GLWidget(QWidget* parent)
 
     // figures.push_back();
     /*/
-    
 
     std::vector<QVector3D> bottom_points;
     size_t number = 5;
@@ -43,7 +45,7 @@ GLWidget::GLWidget(QWidget* parent)
         bottom_points.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
 
-    QVector3D top = { 0, 0, 3 }, bottom = { 0, 0, 0 };
+    QVector3D top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
     figures.push_back({ bottom_points.front(), bottom_points.back(), top });
     figures.push_back({ bottom_points.front(), bottom_points.back(), bottom });
 
@@ -51,6 +53,17 @@ GLWidget::GLWidget(QWidget* parent)
         figures.push_back({ bottom_points[i], bottom_points[i - 1], top });
         figures.push_back({ bottom_points[i], bottom_points[i - 1], bottom });
     }
+    changed_figures.resize(figures.size());
+    display_figures.resize(figures.size());
+
+    size_t total = 0;
+    for (const auto& i : figures)
+        for (const auto& j : i) {
+            ++total;
+            inside += j;
+        }
+    inside /= static_cast<float>(total);
+    LoadMatrix();
     //*/
 }
 
@@ -64,6 +77,7 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     restore();
     redraw();
+    set_project(4);
 }
 
 void GLWidget::paintGL()

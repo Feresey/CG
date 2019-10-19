@@ -79,7 +79,7 @@ std::vector<float> Polygon::to_plane() const
 {
     std::vector<float> res(4, 0.0f);
     const QVector3D v1 = points[0] - points[1],
-              v2 = points[0] - points[2], p = points[0];
+                    v2 = points[0] - points[2], p = points[0];
 
     res[0] = v1.y() * v2.z() - v2.y() * v1.z();
     res[1] = v1.z() * v2.x() - v2.z() * v1.x();
