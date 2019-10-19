@@ -3,7 +3,6 @@
 
 #include <QOpenGLWidget>
 #include <QVector2D>
-#include <QVector3D>
 #include <QWheelEvent>
 #include <QWidget>
 
@@ -11,9 +10,11 @@
 #include <cmath>
 #include <vector>
 
+#include "Vector.hpp"
 class Polygon;
 
 const float D2R = M_PIf32 / 180.0f;
+const float EPS = 1e-8f;
 
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
@@ -28,7 +29,6 @@ public slots:
     void project(int);
     void set_phi(double);
     void set_theta(double);
-
 
 signals:
     void scale_changed(double);
@@ -55,11 +55,11 @@ private:
     void Draw();
     float findScale();
     void LoadMatrix();
-
+    void triangle(Polygon tr);
     std::vector<Polygon> figures;
     std::vector<Polygon> changed_figures;
     std::vector<bool> display_figures;
-    QVector3D inside;
+    Vector3f inside;
 
     QPoint zero, prev_pos, normalize;
     Qt::MouseButton button_pressed;
@@ -72,10 +72,10 @@ private:
         color_enabled,
         edges_enabled,
         base_enabled;
-    int ignore_angle;
 
     int pr;
     unsigned int seed;
+    std::vector<int> z_buffer;
 };
 
 #endif

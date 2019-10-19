@@ -49,20 +49,22 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
 
 void GLWidget::restore()
 {
+    zero = { 0, 0 };
+    normalize = { width()/2, -height() / 2 };
     LoadMatrix();
     scale = findScale();
     update();
     scale_message("");
     scale_changed(scale);
 
-    zero = normalize = { width() / 2, -height() / 2 };
     LoadMatrix();
+    update();
 }
 
 void GLWidget::set_scale(double val)
 {
     scale = static_cast<float>(val);
-    if (scale < 1e-6f)
+    if (scale < EPS)
         scale_message();
     else
         scale_message("");
@@ -104,7 +106,6 @@ void GLWidget::set_theta(double val)
     angle_theta = float(val) * D2R;
     LoadMatrix();
 }
-
 
 void GLWidget::norm()
 {

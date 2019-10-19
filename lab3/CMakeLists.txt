@@ -17,6 +17,9 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic\
     -Wconversion -Wsign-conversion -Wunreachable-code\
     -Weffc++")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3 -fsanitize=address")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
+
+enable_testing()
+find_package(Boost REQUIRED)
 
 add_subdirectory(src)

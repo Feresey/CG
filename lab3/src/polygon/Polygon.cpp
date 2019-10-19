@@ -5,7 +5,7 @@
 
 float EPS = 1e-9f;
 
-Polygon::Polygon(Points src, QVector3D col)
+Polygon::Polygon(Points src, Vector3f col)
     : points(src)
 {
     color[0] = col[0];
@@ -13,18 +13,18 @@ Polygon::Polygon(Points src, QVector3D col)
     color[2] = col[2];
 }
 
-Polygon::Polygon(std::initializer_list<QVector3D> list)
+Polygon::Polygon(std::initializer_list<Vector3f> list)
     : Polygon()
 {
     for (auto i : list)
         points.push_back(i);
 }
 
-void Polygon::setColor(QVector3D col)
+void Polygon::setColor(float col0,float col1,float col2)
 {
-    color[0] = col.x();
-    color[1] = col.y();
-    color[2] = col.z();
+    color[0] = col0;
+    color[1] = col1;
+    color[2] = col2;
 }
 
 const float* Polygon::getColor() const { return color; }
@@ -40,10 +40,10 @@ Polygon::Points::const_iterator Polygon::cend() const { return points.cend(); }
 
 size_t Polygon::size() const { return points.size(); }
 
-QVector3D& Polygon::operator[](size_t index) { return points[index]; }
-QVector3D Polygon::operator[](size_t index) const { return points[index]; }
+Vector3f& Polygon::operator[](size_t index) { return points[index]; }
+Vector3f Polygon::operator[](size_t index) const { return points[index]; }
 
-QVector3D Polygon::min() const
+Vector3f Polygon::min() const
 {
     float a = points[0].x(),
           b = points[0].y(),
@@ -59,7 +59,7 @@ QVector3D Polygon::min() const
     return { a, b, c };
 }
 
-QVector3D Polygon::max() const
+Vector3f Polygon::max() const
 {
     float a = points[0].x(),
           b = points[0].y(),
@@ -78,8 +78,8 @@ QVector3D Polygon::max() const
 std::vector<float> Polygon::to_plane() const
 {
     std::vector<float> res(4, 0.0f);
-    const QVector3D v1 = points[0] - points[1],
-                    v2 = points[0] - points[2], p = points[0];
+    const Vector3f v1 = points[0] - points[1],
+                   v2 = points[0] - points[2], p = points[0];
 
     res[0] = v1.y() * v2.z() - v2.y() * v1.z();
     res[1] = v1.z() * v2.x() - v2.z() * v1.x();

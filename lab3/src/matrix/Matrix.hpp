@@ -1,11 +1,9 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include <QVector2D>
-#include <QVector3D>
-#include <QPointF>
-
 #include <vector>
+
+#include "Vector.hpp"
 
 class Polygon;
 
@@ -16,7 +14,7 @@ class Matrix {
 public:
     Matrix(size_t N, size_t M);
     Matrix(const std::vector<float>& m, size_t N, size_t M);
-    Matrix(const std::vector<Polygon> & src, const QVector3D& inside);
+    Matrix(const std::vector<Polygon> & src, const Vector3f& inside);
 
     Matrix operator*(const Matrix& second) const;
     Matrix& operator*=(const Matrix& second);
@@ -25,7 +23,7 @@ public:
     Matrix operator*(float prod)const;
     
     Polygon operator*(const Polygon& v) const;
-    QVector3D operator*(const QVector3D& v) const;
+    Vector3f operator*(const Vector3f& v) const;
 
     float operator[](size_t i) const;
     float& operator[](size_t i);
@@ -37,6 +35,6 @@ Matrix Rx(float phi);
 Matrix Ry(float theta);
 Matrix Sh(float scale_x, float scale_y, float scale_z);
 Matrix Sh(float scale_all);
-Matrix Move(const QVector3D& delta);
+Matrix Move(const Vector3f& delta);
 
 #endif /* MATRIX_HPP */

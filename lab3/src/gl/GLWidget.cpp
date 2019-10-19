@@ -9,7 +9,7 @@ GLWidget::GLWidget(QWidget* parent)
     , figures()
     , changed_figures()
     , display_figures()
-    , inside(0, 0, 0)
+    , inside({0.0f, 0.0f, 0.0f})
     , zero()
     , prev_pos()
     , normalize()
@@ -21,8 +21,9 @@ GLWidget::GLWidget(QWidget* parent)
     , color_enabled(true)
     , edges_enabled(true)
     , base_enabled(true)
-    , pr(4)
+    , pr(0)
     , seed()
+    , z_buffer()
 {
     rand_r(&seed);
     /*
@@ -38,14 +39,14 @@ GLWidget::GLWidget(QWidget* parent)
     // figures.push_back();
     /*/
 
-    std::vector<QVector3D> bottom_points;
+    std::vector<Vector3f> bottom_points;
     size_t number = 5;
     for (size_t i = 0; i < number; ++i) {
         float tmp = float(i) * 2.0f / float(number) * M_PIf32;
         bottom_points.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
 
-    QVector3D top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
+    Vector3f top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
     figures.push_back({ bottom_points.front(), bottom_points.back(), top });
     figures.push_back({ bottom_points.front(), bottom_points.back(), bottom });
 
@@ -63,7 +64,7 @@ GLWidget::GLWidget(QWidget* parent)
             inside += j;
         }
     inside /= static_cast<float>(total);
-    LoadMatrix();
+
     //*/
 }
 
@@ -75,19 +76,21 @@ void GLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
     glEnable(GL_DEPTH_TEST);
-    restore();
+    z_buffer.resize(width() * height());
     redraw();
-    set_project(4);
+    restore();
 }
 
 void GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
-    glLoadIdentity(); // загружаем матрицу
-    glOrtho(-width() / 2, width() / 2,
-        -height() / 2, height() / 2,
+    glLoadIdentity(); 
+    glOrtho(0, width(),
+        0, height(),
         -1000, 1000); // подготавливаем плоскости для матрицы
+
+    z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 
     Draw();
 
@@ -99,6 +102,5 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
-
     restore();
 }

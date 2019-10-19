@@ -39,7 +39,7 @@ Matrix Sh(float scale_x, float scale_y, float scale_z)
 
 Matrix Sh(float scale_all) { return Sh(scale_all, scale_all, scale_all); }
 
-Matrix Move(const QVector3D& delta)
+Matrix Move(const Vector3f& delta)
 
 {
     return Matrix({

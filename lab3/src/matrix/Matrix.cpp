@@ -1,3 +1,6 @@
+#include <stdexcept>
+#include <algorithm>
+
 #include "Matrix.hpp"
 #include "Polygon.hpp"
 
@@ -17,7 +20,7 @@ Matrix::Matrix(const std::vector<float>& m, size_t N, size_t M)
         throw std::invalid_argument("Matrix size must be equal to N*M : " + std::to_string(rows * colomns));
 }
 
-Matrix::Matrix(const std::vector<Polygon>& src, const QVector3D& inside)
+Matrix::Matrix(const std::vector<Polygon>& src, const Vector3f& inside)
     : Matrix(4, src.size())
 {
     for (size_t i = 0; i < src.size(); ++i) {
@@ -56,10 +59,10 @@ Matrix& Matrix::operator*=(const Matrix& second)
     return *this;
 }
 
-QVector3D Matrix::operator*(const QVector3D& v) const
+Vector3f Matrix::operator*(const Vector3f& v) const
 {
     Matrix tmp = Matrix{ { v.x(), v.y(), v.z(), 1 }, 1, 4 } * (*this);
-    return QVector3D{
+    return Vector3f{
         tmp[0] / tmp[3],
         tmp[1] / tmp[3],
         tmp[2] / tmp[3]
@@ -69,7 +72,7 @@ QVector3D Matrix::operator*(const QVector3D& v) const
 Polygon Matrix::operator*(const Polygon& v) const
 {
     Polygon res(v);
-    std::transform(v.cbegin(), v.cend(), res.begin(), [&](const QVector3D& p) { return *this * p; });
+    std::transform(v.cbegin(), v.cend(), res.begin(), [&](const Vector3f& p) { return *this * p; });
     return res;
 }
 
