@@ -1,5 +1,5 @@
 #include "mainwindow.hpp"
-#include "../ui/ui_mainwindow.h"
+#include "ui_mainwindow.h"
 
 #include <QShortcut>
 

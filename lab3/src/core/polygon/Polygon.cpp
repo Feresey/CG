@@ -3,8 +3,6 @@
 
 #include "Polygon.hpp"
 
-float EPS = 1e-9f;
-
 Polygon::Polygon(Points src, Vector3f col)
     : points(src)
 {
