@@ -12,53 +12,58 @@ void GLWidget::wheelEvent(QWheelEvent* we)
 
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
 {
-    if (mouse_tapped) {
-        switch (button_pressed) {
-        case Qt::MouseButton::LeftButton:
-            zero += prev_pos - me->pos();
-            break;
-        case Qt::MouseButton::RightButton:
-            angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
-            angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
-            phi_changed(angle_phi / D2R);
-            theta_changed(angle_theta / D2R);
-            break;
-        case Qt::MouseButton::MiddleButton:
-            break;
-        default:
-            break;
-        }
-
-        prev_pos = me->pos();
-        LoadMatrix();
+    if (button_pressed == Qt::MouseButton::NoButton)
+        return;
+    switch (button_pressed) {
+    case Qt::MouseButton::LeftButton:
+        zero += prev_pos - me->pos();
+        break;
+    case Qt::MouseButton::RightButton:
+        angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
+        angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
+        phi_changed(angle_phi / D2R);
+        theta_changed(angle_theta / D2R);
+        break;
+    case Qt::MouseButton::MiddleButton:
+        break;
+    default:
+        break;
     }
+
+    prev_pos = me->pos();
+    LoadMatrix();
 }
 
 void GLWidget::mousePressEvent(QMouseEvent* me)
 {
-    mouse_tapped = true;
     button_pressed = me->button();
     prev_pos = me->pos();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent* me)
 {
-    mouse_tapped = false;
+    button_pressed = Qt::MouseButton::NoButton;
     prev_pos = me->pos();
 }
 
 void GLWidget::restore()
 {
     zero = { 0, 0 };
-    normalize = { width()/2, -height() / 2 };
+    normalize = { width() / 2, -height() / 2 };
     LoadMatrix();
-    scale = findScale();
+    auto borders = figure.MinMax();
+
+    // scale = findScale();
     update();
     scale_message("");
     scale_changed(scale);
 
     LoadMatrix();
-    update();
+}
+void GLWidget::restore_all()
+{
+    angle_theta = angle_phi = 0;
+    restore();
 }
 
 void GLWidget::set_scale(double val)
@@ -92,7 +97,8 @@ void GLWidget::base(bool ind)
 void GLWidget::project(int val)
 {
     pr = val;
-    norm();
+    angle_theta = angle_phi = 0;
+    restore();
 }
 
 void GLWidget::set_phi(double val)
@@ -105,10 +111,4 @@ void GLWidget::set_theta(double val)
 {
     angle_theta = float(val) * D2R;
     LoadMatrix();
-}
-
-void GLWidget::norm()
-{
-    angle_theta = angle_phi = 0;
-    restore();
 }

@@ -1,5 +1,5 @@
-#include <stdexcept>
 #include <algorithm>
+#include <stdexcept>
 
 #include "Matrix.hpp"
 #include "Polygon.hpp"
@@ -101,3 +101,5 @@ Matrix& Matrix::operator*=(float prod)
 }
 
 Matrix Matrix::operator*(float prod) const { return Matrix{ *this } *= prod; }
+
+bool Matrix::empty() const { return rows * colomns == 0; }

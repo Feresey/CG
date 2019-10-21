@@ -6,12 +6,6 @@
 
 void GLWidget::redraw()
 {
-    const float mx = static_cast<float>(RAND_MAX);
-    for (auto& i : figures)
-        i.setColor(
-            static_cast<float>(rand()) / mx,
-            static_cast<float>(rand()) / mx,
-            static_cast<float>(rand()) / mx);
     LoadMatrix();
 }
 
@@ -41,48 +35,21 @@ void GLWidget::LoadMatrix()
         break;
     }
 
-    Matrix m = Ry(pr == 0 ? angle_theta : local_theta) * Rx(pr == 0 ? angle_phi : local_phi); // rotate
+    Matrix m = Rx(pr == 0 ? angle_phi : local_phi) * Ry(pr == 0 ? angle_theta: local_theta) * Rz(0); // rotate
 
-    std::transform(figures.begin(), figures.end(), changed_figures.begin(), // apply changes
-        [m](const Polygon& p) { return m * p; });
-
-    Matrix view = Matrix{ { 0, 0, ((pr != 0 && cosf(angle_phi) > 0) ? 1.0f : -1.0f), 0 }, 1, 4 } // point of view
-        * Matrix{ changed_figures, m * inside }; // matrix of normals
-    for (size_t i = 0; i < changed_figures.size(); ++i)
-        display_figures[i] = view[i] > 0;
+    figure.LoadMatrix(m);
+    figure.Sort({ 0.0f, 0.0f, (pr != 0 && cosf(angle_phi) > 0) ? -1.0f : 1.0f });
 
     m = Sh(1);
     if (pr != 0 && pr != 4) {
         m = Sh(1, 1, 0) // drop z
-            * Ry(angle_theta) * Rx(angle_phi); // rotate
+            * Rx(angle_phi) * Ry(angle_theta) * Rz(0); // rotate
     }
     QPoint tmp = zero - normalize;
     m *= Sh(scale) * Move({ -float(tmp.x()), float(tmp.y()), 0.0f });
-    std::for_each(changed_figures.begin(), changed_figures.end(),
-        [m](Polygon& p) { p = m * p; }); // apply changes
+    figure.LoadMatrix(m);
 
     update();
-}
-
-float GLWidget::findScale()
-{
-    const Vector3f& one = changed_figures[0][0];
-    float mx_x = one.x(), mx_y = one.y(), mn_x = one.x(), mn_y = one.y();
-    for (const auto& i : changed_figures) {
-        auto max = i.max(), min = i.min();
-        if (max.x() > mx_x)
-            mx_x = max.x();
-        if (max.y() > mx_y)
-            mx_y = max.y();
-        if (min.x() < mn_x)
-            mn_x = min.x();
-        if (min.y() < mn_y)
-            mn_y = min.y();
-    }
-    std::vector<float> anus = { abs(mn_x - normalize.x()), abs(mn_y + normalize.y()), abs(mx_x - normalize.x()), abs(mx_y + normalize.y()) };
-    std::sort(anus.begin(), anus.end());
-    // return float(std::min(width(), height())) * 0.45f / anus.back();
-    return 100;
 }
 
 void GLWidget::Draw()
@@ -119,12 +86,18 @@ void GLWidget::Draw()
         glEnd();
     }
     glBegin(GL_POINTS);
-    for (size_t i = 0; i < display_figures.size(); ++i) {
-        if (!display_figures[i])
-            continue;
-        glColor3fv(changed_figures[i].getColor());
-        triangle(changed_figures[i]);
+    for (const auto& i : figure) {
+        glColor3fv(i.getColor());
+        for (const auto& tr : i.to_triangles())
+            triangle(tr);
     }
+    // for (size_t i = 0; i < display_figures.size(); ++i) {
+    //     if (!display_figures[i])
+    //         continue;
+    //     glColor3fv(changed_figures[i].getColor());
+    //     for (auto t : changed_figures[i].to_triangles())
+    //         triangle(t);
+    // }
     glEnd();
 }
 

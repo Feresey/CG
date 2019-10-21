@@ -10,17 +10,27 @@
 #include <cmath>
 #include <vector>
 
+#include "Figure.hpp"
 #include "Vector.hpp"
+
 class Polygon;
 
 const float D2R = M_PIf32 / 180.0f;
 const float EPS = 1e-8f;
 
+enum {
+    axonometric,
+    xy,
+    xz,
+    yz,
+    izometric
+};
+
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
     void restore();
-    void norm();
+    void restore_all();
     void set_scale(double);
     void redraw();
     void color(bool);
@@ -53,29 +63,26 @@ protected:
 
 private:
     void Draw();
-    float findScale();
     void LoadMatrix();
     void triangle(Polygon tr);
-    std::vector<Polygon> figures;
-    std::vector<Polygon> changed_figures;
-    std::vector<bool> display_figures;
-    Vector3f inside;
+
+    Figure figure;
 
     QPoint zero, prev_pos, normalize;
     Qt::MouseButton button_pressed;
 
-    float scale,
+    float
+        scale,
         angle_phi,
         angle_theta;
 
-    bool mouse_tapped,
+    bool
         color_enabled,
         edges_enabled,
         base_enabled;
 
     int pr;
     unsigned int seed;
-    std::vector<int> z_buffer;
 };
 
 #endif

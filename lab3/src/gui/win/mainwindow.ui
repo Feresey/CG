@@ -334,7 +334,7 @@
     <slot>project(int)</slot>
     <slot>set_phi(int)</slot>
     <slot>set_theta(int)</slot>
-    <slot>norm()</slot>
+    <slot>restore_all()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -536,7 +536,7 @@
    <sender>pushButton_2</sender>
    <signal>clicked()</signal>
    <receiver>openGLWidget</receiver>
-   <slot>norm()</slot>
+   <slot>restore_all()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>191</x>

@@ -6,6 +6,8 @@
 
 #include "Vector.hpp"
 
+class Matrix;
+
 class Polygon {
     using Points = std::vector<Vector3f>;
     Points points;
@@ -34,11 +36,14 @@ public:
     size_t size() const;
     Vector3f& operator[](size_t index);
     Vector3f operator[](size_t index) const;
+    Polygon& operator*=(const Matrix& m);
+    Polygon operator*(const Matrix& m) const;
 
     Vector3f min() const;
     Vector3f max() const;
 
     std::vector<float> to_plane() const;
+    std::vector<Polygon> to_triangles() const;
 };
 
 #endif /* POLYGON_HPP */

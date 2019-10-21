@@ -6,26 +6,21 @@
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
-    , figures()
-    , changed_figures()
-    , display_figures()
-    , inside({0.0f, 0.0f, 0.0f})
     , zero()
     , prev_pos()
     , normalize()
-    , button_pressed()
+    , button_pressed(Qt::MouseButton::NoButton)
     , scale(100)
     , angle_phi(0)
     , angle_theta(0)
-    , mouse_tapped(false)
     , color_enabled(true)
     , edges_enabled(true)
     , base_enabled(true)
-    , pr(0)
+    , pr(axonometric)
     , seed()
-    , z_buffer()
 {
     rand_r(&seed);
+    std::vector<Polygon> figures;
     /*
     figures = {
         { { 1, -1, -1 }, { 1, 1, -1 }, { 1, 1, 1 }, { 1, -1, 1 } }, // front
@@ -54,18 +49,9 @@ GLWidget::GLWidget(QWidget* parent)
         figures.push_back({ bottom_points[i], bottom_points[i - 1], top });
         figures.push_back({ bottom_points[i], bottom_points[i - 1], bottom });
     }
-    changed_figures.resize(figures.size());
-    display_figures.resize(figures.size());
-
-    size_t total = 0;
-    for (const auto& i : figures)
-        for (const auto& j : i) {
-            ++total;
-            inside += j;
-        }
-    inside /= static_cast<float>(total);
-
     //*/
+
+    figure = Figure(figures);
 }
 
 GLWidget::~GLWidget()
@@ -76,8 +62,6 @@ void GLWidget::initializeGL()
 {
     glClearColor(0, 0, 0, 1);
     glEnable(GL_DEPTH_TEST);
-    z_buffer.resize(width() * height());
-    redraw();
     restore();
 }
 
@@ -89,8 +73,6 @@ void GLWidget::paintGL()
     glOrtho(0, width(),
         0, height(),
         -1000, 1000); // подготавливаем плоскости для матрицы
-
-    z_buffer.assign(width() * height(), std::numeric_limits<int>::min());
 
     Draw();
 
