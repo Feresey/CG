@@ -18,6 +18,7 @@ public:
     Figure(Figures f = {});
 
     void LoadMatrix(const Matrix& m);
+    void AppendMatrix(const Matrix& m);
     void Sort(const Vector3f& eye);
     std::pair<Vector2f, Vector2f> MinMax() const;
     void ChangeColor();

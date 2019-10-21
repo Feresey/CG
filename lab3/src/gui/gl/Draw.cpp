@@ -35,7 +35,7 @@ void GLWidget::LoadMatrix()
         break;
     }
 
-    Matrix m = Rx(pr == 0 ? angle_phi : local_phi) * Ry(pr == 0 ? angle_theta: local_theta) * Rz(0); // rotate
+    Matrix m = Rx(pr == 0 ? angle_phi : local_phi) * Ry(pr == 0 ? angle_theta : local_theta) * Rz(0); // rotate
 
     figure.LoadMatrix(m);
     figure.Sort({ 0.0f, 0.0f, (pr != 0 && cosf(angle_phi) > 0) ? -1.0f : 1.0f });
@@ -47,7 +47,7 @@ void GLWidget::LoadMatrix()
     }
     QPoint tmp = zero - normalize;
     m *= Sh(scale) * Move({ -float(tmp.x()), float(tmp.y()), 0.0f });
-    figure.LoadMatrix(m);
+    figure.AppendMatrix(m);
 
     update();
 }
@@ -91,13 +91,6 @@ void GLWidget::Draw()
         for (const auto& tr : i.to_triangles())
             triangle(tr);
     }
-    // for (size_t i = 0; i < display_figures.size(); ++i) {
-    //     if (!display_figures[i])
-    //         continue;
-    //     glColor3fv(changed_figures[i].getColor());
-    //     for (auto t : changed_figures[i].to_triangles())
-    //         triangle(t);
-    // }
     glEnd();
 }
 

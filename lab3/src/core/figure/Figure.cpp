@@ -11,7 +11,7 @@ Figure::Figure(Figures f)
     , inside({ 0, 0, 0 })
     , changed_inside(inside)
 {
-    size_t size;
+    size_t size=0;
     for (const auto& i : f)
         for (const auto& j : i) {
             ++size;
@@ -24,8 +24,14 @@ void Figure::LoadMatrix(const Matrix& m)
 {
     changed.resize(original.size());
     changed_inside = m * inside;
-    std::transform(original.cbegin(), original.cend(), changed.begin(),
+    std::transform(original.begin(), original.end(), changed.begin(),
         [m](const Polygon& p) { return m * p; });
+}
+
+void Figure::AppendMatrix(const Matrix& m)
+{
+    std::for_each(changed.begin(), changed.end(),
+        [m](Polygon& p) { p = m * p; });
 }
 
 void Figure::Sort(const Vector3f& eye)
