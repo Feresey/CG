@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include <cmath>
 #include <numeric>
 
@@ -41,6 +43,8 @@ size_t Polygon::size() const { return points.size(); }
 
 Vector3f& Polygon::operator[](size_t index) { return points[index]; }
 Vector3f Polygon::operator[](size_t index) const { return points[index]; }
+
+Polygon operator*(const Polygon& p, const Matrix& m) { return m * p; }
 
 Vector3f Polygon::min() const
 {

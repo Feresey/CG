@@ -1,111 +1,54 @@
-#include <stdexcept>
-
-#include "Vector.hpp"
-
-template <class T, size_t S>
-Vector<T, S>::Vector()
-{
-    for (size_t i = 0; i < S; ++i)
-        v[i] = T();
-}
-
-template <class T, size_t S>
-Vector<T, S>::Vector(std::initializer_list<T> list)
-{
-    if (list.size() != S)
-        throw std::invalid_argument("arguments size does not match to class capacity");
-    size_t ins = 0;
-    for (auto i : list)
-        v[ins++] = i;
-}
-
-template <class T, size_t S>
-Vector<T, S>::~Vector()
-{
-}
-
-template <class T, size_t S>
-T& Vector<T, S>::operator[](size_t pos)
-{
-    if (pos >= S)
-        throw std::invalid_argument("bad position");
-    return v[pos];
-}
-
-template <class T, size_t S>
-T Vector<T, S>::operator[](size_t pos) const
-{
-    if (pos >= S)
-        throw std::invalid_argument("bad position");
-    return v[pos];
-}
-
-template <class T, size_t S>
-T Vector<T, S>::x() const
-{
-    if constexpr (S < 1)
-        throw std::logic_error("class capacity does not match");
-    return v[0];
-}
-
-template <class T, size_t S>
-T Vector<T, S>::y() const
-{
-    if constexpr (S < 3)
-        throw std::logic_error("class capacity does not match");
-    return v[1];
-}
-
-template <class T, size_t S>
-T Vector<T, S>::z() const
-{
-    if constexpr (S < 3)
-        throw std::logic_error("class capacity does not match");
-    return v[2];
-}
-
-template <class T, size_t S>
-Vector<T, S>& Vector<T, S>::operator+=(const Vector<T, S>& r)
-{
-    for (size_t i = 0; i < S; ++i)
-        v[i] += r[i];
-    return *this;
-}
-
-template <class T, size_t S>
-Vector<T, S>& Vector<T, S>::operator-=(const Vector<T, S>& r)
-{
-    for (size_t i = 0; i < S; ++i)
-        v[i] -= r[i];
-    return *this;
-}
-
-template <class T, size_t S>
-Vector<T, S>& Vector<T, S>::operator*=(T val)
-{
-    for (size_t i = 0; i < S; ++i)
-        v[i] *= val;
-    return *this;
-}
-
-template <class T, size_t S>
-Vector<T, S>& Vector<T, S>::operator/=(T val)
-{
-    for (size_t i = 0; i < S; ++i)
-        v[i] /= val;
-    return *this;
-}
-
-template <class T, size_t S>
-Vector<T, S> Vector<T, S>::operator+(const Vector& r) const { return Vector(*this) += r; }
-template <class T, size_t S>
-Vector<T, S> Vector<T, S>::operator-(const Vector& r) const { return Vector(*this) -= r; }
-template <class T, size_t S>
-Vector<T, S> Vector<T, S>::operator*(T r) const { return Vector(*this) *= r; }
-template <class T, size_t S>
-Vector<T, S> Vector<T, S>::operator/(T r) const { return Vector(*this) /= r; }
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+#include "Vector.h"
 
 template class Vector<float, 3>;
 template class Vector<int, 3>;
 template class Vector<float, 2>;
 template class Vector<int, 2>;
+
+Vector2i::Vector2i(std::initializer_list<int> L)
+    : Vector<int, 2>(L)
+{
+}
+Vector2i::Vector2i(const Vector<int, 2>& src)
+    : Vector<int, 2>(src)
+{
+}
+int Vector2i::x() const { return v[0]; }
+int Vector2i::y() const { return v[1]; }
+
+Vector3i::Vector3i(std::initializer_list<int> L)
+    : Vector<int, 3>(L)
+{
+}
+Vector3i::Vector3i(const Vector<int, 3>& src)
+    : Vector<int, 3>(src)
+{
+}
+int Vector3i::x() const { return v[0]; }
+int Vector3i::y() const { return v[1]; }
+int Vector3i::z() const { return v[2]; }
+
+Vector2f::Vector2f(std::initializer_list<float> L)
+    : Vector<float, 2>(L)
+{
+}
+Vector2f::Vector2f(const Vector<float, 2>& src)
+    : Vector<float, 2>(src)
+{
+}
+float Vector2f::x() const { return v[0]; }
+float Vector2f::y() const { return v[1]; }
+
+Vector3f::Vector3f(std::initializer_list<float> L)
+    : Vector<float, 3>(L)
+{
+}
+Vector3f::Vector3f(const Vector<float, 3>& src)
+    : Vector<float, 3>(src)
+{
+}
+float Vector3f::x() const { return v[0]; }
+float Vector3f::y() const { return v[1]; }
+float Vector3f::z() const { return v[2]; }

@@ -19,10 +19,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
         zero += prev_pos - me->pos();
         break;
     case Qt::MouseButton::RightButton:
-        angle_phi -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
-        angle_theta -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
-        phi_changed(angle_phi / D2R);
-        theta_changed(angle_theta / D2R);
+        angle_x -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
+        angle_y -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
+        x_changed(angle_x / D2R);
+        y_changed(angle_y / D2R);
         break;
     case Qt::MouseButton::MiddleButton:
         break;
@@ -49,12 +49,21 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
 void GLWidget::restore()
 {
     zero = { 0, 0 };
-    normalize = { width() / 2, -height() / 2 };
+    normalize = { 0, 0 };
+    scale = 1;
     LoadMatrix();
     auto borders = figure.MinMax();
+    float arr[] = {
+        abs(borders.first.x()),
+        abs(borders.first.y()),
+        abs(borders.second.x()),
+        abs(borders.second.y()),
+    };
+    float mx = std::max(arr[0], std::max(arr[1], std::max(arr[2], arr[3])));
 
-    // scale = findScale();
-    update();
+    scale = float(std::min(width(), height())) * 0.45f / mx;
+    normalize = { width() / 2, -height() / 2 };
+
     scale_message("");
     scale_changed(scale);
 
@@ -62,7 +71,10 @@ void GLWidget::restore()
 }
 void GLWidget::restore_all()
 {
-    angle_theta = angle_phi = 0;
+    angle_y = angle_x = angle_z = 0;
+    x_changed(0);
+    y_changed(0);
+    z_changed(0);
     restore();
 }
 
@@ -73,6 +85,12 @@ void GLWidget::set_scale(double val)
         scale_message();
     else
         scale_message("");
+    LoadMatrix();
+}
+
+void GLWidget::redraw()
+{
+    figure.ChangeColor();
     LoadMatrix();
 }
 
@@ -97,18 +115,36 @@ void GLWidget::base(bool ind)
 void GLWidget::project(int val)
 {
     pr = val;
-    angle_theta = angle_phi = 0;
+    switch (pr) {
+    case project_yz:
+        angle_x = -90 * D2R;
+        angle_y = -90 * D2R;
+        angle_z = 0;
+        break;
+    case project_xz:
+        angle_x = angle_z = 0;
+        angle_y = -90 * D2R;
+        break;
+    default:
+        angle_x = angle_y = angle_z = 0;
+    }
     restore();
 }
 
-void GLWidget::set_phi(double val)
+void GLWidget::set_x(double val)
 {
-    angle_phi = float(val) * D2R;
+    angle_x = float(val) * D2R;
     LoadMatrix();
 }
 
-void GLWidget::set_theta(double val)
+void GLWidget::set_y(double val)
 {
-    angle_theta = float(val) * D2R;
+    angle_y = float(val) * D2R;
+    LoadMatrix();
+}
+
+void GLWidget::set_z(double val)
+{
+    angle_z = float(val) * D2R;
     LoadMatrix();
 }

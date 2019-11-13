@@ -9,3 +9,9 @@ set(source
     figure/Figure.cpp)
 
 add_library(core STATIC ${source})
+
+pvs_studio_add_target(TARGET ${PROJECT_NAME}.analyze ALL
+                      ANALYZE ${PROJECT_NAME}
+                      OUTPUT FORMAT tasklist
+                      LOG ${PROJECT_NAME}.err)
+

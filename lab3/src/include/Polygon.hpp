@@ -46,4 +46,6 @@ public:
     std::vector<Polygon> to_triangles() const;
 };
 
+Polygon operator*(const Polygon& p, const Matrix& m);
+
 #endif /* POLYGON_HPP */

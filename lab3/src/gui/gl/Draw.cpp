@@ -4,47 +4,68 @@
 #include "Matrix.hpp"
 #include "Polygon.hpp"
 
-void GLWidget::redraw()
-{
-    LoadMatrix();
-}
+#include <iostream>
 
 void GLWidget::LoadMatrix()
 {
     // orthogonal projections
-    float local_phi, local_theta;
+    float local_x, local_y, local_z;
+    Vector3f e({ 0, 0, 1 });
     switch (pr) {
-    case 1:
-        local_phi = 0;
-        local_theta = 0;
+    case project_xy:
+        local_x = local_y = local_z = 0;
+        e = { 0, 0, (cosf(angle_x) < 0 || cosf(angle_y) < 0) ? -1.f : 1.f };
         break;
-    case 2:
-        local_phi = 0;
-        local_theta = -90 * D2R;
+    case project_xz:
+        local_x = 0;
+        local_y = -90 * D2R;
+        local_z = 0;
+        e = Vector3f{ 0, 0, sinf(angle_y) > 0 ? -1.f : 1.f };
+        // local_phi = 0;
+        // local_theta = -90 * D2R;
         break;
-    case 3:
-        local_phi = -90 * D2R;
-        local_theta = local_phi;
+    case project_yz:
+        local_x = 90 * D2R;
+        local_y = 0;
+        local_z = -90 * D2R;
+        e = { 0, 0, sinf(angle_y) > 0 ? -1.f : 1.f };
+        // local_phi = -90 * D2R;
+        // local_theta = local_phi;
         break;
-    case 4:
-        local_phi = 35 * D2R;
-        local_theta = -45 * D2R;
-        break;
-    default:
-        local_phi = local_theta = 0;
+    case izometric:
+        local_x = 35 * D2R;
+        local_y = -45 * D2R;
+        local_z = 0;
         break;
     }
-
-    Matrix m = Rx(pr == 0 ? angle_phi : local_phi) * Ry(pr == 0 ? angle_theta : local_theta) * Rz(0); // rotate
+    // Vector3f eye = { cosf(angle_x) * cosf(angle_y), sinf(angle_x) * cosf(angle_y), sinf(angle_y) };
+    // float alpha = (abs(eye.y()) < EPS || abs(eye.z()) < EPS) ? 0.0f : atanf(eye.y() / eye.z()),
+    //       beta = (abs(eye.z()) < EPS || abs(eye.x()) < EPS) ? 0.0f : atanf(eye.z() / eye.x()),
+    //       gamma = (abs(eye.x()) < EPS || abs(eye.y()) < EPS) ? 0.0f : atanf(eye.x() / eye.y());
+    // std::cout << "alpha:" << alpha << '\n'
+    //           << "beta:" << beta << '\n'
+    //           << "gamma:" << gamma << std::endl;
+    Matrix m;
+    if (pr != axonometric)
+        m = Rx(local_x) * Ry(local_y) * Rz(local_z);
+    else
+        m = Rx(angle_x) * Ry(angle_y) * Rz(angle_z);
 
     figure.LoadMatrix(m);
-    figure.Sort({ 0.0f, 0.0f, (pr != 0 && cosf(angle_phi) > 0) ? -1.0f : 1.0f });
+    figure.Sort(pr != axonometric ? e : Vector3f{ 0, 0, 1 });
+    // float eye_z = 1;
+    // if (pr == project_yz)
+    //     eye_z = (cosf(angle_y) < 0 || cosf(angle_z) < 0 ? -1 : 1);
+    // if (pr == project_yz)
+    //     eye_z = (cosf(angle_y) < 0 || cosf(angle_z) < 0 ? -1 : 1);
+    // figure.Sort({ 0.0f, 0.0f, (pr != axonometric ) ? eye_z : 1.0f });
 
     m = Sh(1);
-    if (pr != 0 && pr != 4) {
+    if (pr != axonometric && pr != izometric)
         m = Sh(1, 1, 0) // drop z
-            * Rx(angle_phi) * Ry(angle_theta) * Rz(0); // rotate
-    }
+            * Rx(-local_x) * Ry(-local_y) * Rz(-local_z)
+            * Rx(angle_x) * Ry(angle_y) * Rz(angle_z);
+
     QPoint tmp = zero - normalize;
     m *= Sh(scale) * Move({ -float(tmp.x()), float(tmp.y()), 0.0f });
     figure.AppendMatrix(m);
@@ -62,7 +83,7 @@ void GLWidget::Draw()
             offset * 2.0f,
             0.0f
         };
-        Matrix m = Ry(angle_theta) * Rx(angle_phi) * Sh(offset) * Move(center);
+        Matrix m = Ry(angle_y) * Rx(angle_x) * Rz(angle_z) * Sh(offset) * Move(center);
         std::transform(display_base.begin(), display_base.end(), display_base.begin(),
             [m](const Vector3f& v) { return m * v; });
 
@@ -116,8 +137,8 @@ void GLWidget::triangle(Polygon tr)
     for (int y = v1.y(); y <= v3.y(); ++y) {
         bool top = y >= v2.y() || v1.y() == v2.y();
         int segment_height = (top ? v3.y() - v2.y() : v2.y() - v1.y());
-        float alpha = static_cast<float>((y - v1.y())) / total_height;
-        float beta = static_cast<float>((y - (top ? v2.y() : v1.y()))) / segment_height;
+        float alpha = static_cast<float>((y - v1.y())) / float(total_height);
+        float beta = static_cast<float>((y - (top ? v2.y() : v1.y()))) / float(segment_height);
         QPoint A = v1 + (v3 - v1) * alpha;
         QPoint B = (top ? v2 : v1) + (top ? v3 - v2 : v2 - v1) * beta;
         if (A.x() > B.x())
