@@ -71,11 +71,12 @@ void GLWidget::restore()
 }
 void GLWidget::restore_all()
 {
-    angle_y = angle_x = angle_z = 0;
-    x_changed(0);
-    y_changed(0);
-    z_changed(0);
+    project(pr);
     restore();
+    // angle_y = angle_x = angle_z = 0;
+    x_changed(angle_x / D2R);
+    y_changed(angle_y / D2R);
+    z_changed(angle_z / D2R);
 }
 
 void GLWidget::set_scale(double val)

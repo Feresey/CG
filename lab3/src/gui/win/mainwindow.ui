@@ -239,6 +239,29 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>Color</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="text">
+           <string>Edges</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="checkBox_3">
           <property name="text">
            <string>base</string>
@@ -562,6 +585,38 @@
     <hint type="destinationlabel">
      <x>217</x>
      <y>278</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>edges(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>57</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>color(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>64</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>389</x>
+     <y>203</y>
     </hint>
    </hints>
   </connection>

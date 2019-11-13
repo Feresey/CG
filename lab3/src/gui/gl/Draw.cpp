@@ -10,27 +10,23 @@ void GLWidget::LoadMatrix()
 {
     // orthogonal projections
     float local_x, local_y, local_z;
-    Vector3f e({ 0, 0, 1 });
+    Vector3f eye({ 0, 0, 1 });
     switch (pr) {
     case project_xy:
         local_x = local_y = local_z = 0;
-        e = { 0, 0, (cosf(angle_x) < 0 || cosf(angle_y) < 0) ? -1.f : 1.f };
+        eye = { 0, 0, (cosf(angle_x) < 0 || cosf(angle_y) < 0) ? -1.f : 1.f };
         break;
     case project_xz:
         local_x = 0;
         local_y = -90 * D2R;
         local_z = 0;
-        e = Vector3f{ 0, 0, sinf(angle_y) > 0 ? -1.f : 1.f };
-        // local_phi = 0;
-        // local_theta = -90 * D2R;
+        eye = Vector3f{ 0, 0, sinf(angle_y) > 0 ? -1.f : 1.f };
         break;
     case project_yz:
         local_x = 90 * D2R;
         local_y = 0;
         local_z = -90 * D2R;
-        e = { 0, 0, sinf(angle_y) > 0 ? -1.f : 1.f };
-        // local_phi = -90 * D2R;
-        // local_theta = local_phi;
+        eye = { 0, 0, sinf(angle_y) > 0 ? -1.f : 1.f };
         break;
     case izometric:
         local_x = 35 * D2R;
@@ -38,13 +34,7 @@ void GLWidget::LoadMatrix()
         local_z = 0;
         break;
     }
-    // Vector3f eye = { cosf(angle_x) * cosf(angle_y), sinf(angle_x) * cosf(angle_y), sinf(angle_y) };
-    // float alpha = (abs(eye.y()) < EPS || abs(eye.z()) < EPS) ? 0.0f : atanf(eye.y() / eye.z()),
-    //       beta = (abs(eye.z()) < EPS || abs(eye.x()) < EPS) ? 0.0f : atanf(eye.z() / eye.x()),
-    //       gamma = (abs(eye.x()) < EPS || abs(eye.y()) < EPS) ? 0.0f : atanf(eye.x() / eye.y());
-    // std::cout << "alpha:" << alpha << '\n'
-    //           << "beta:" << beta << '\n'
-    //           << "gamma:" << gamma << std::endl;
+
     Matrix m;
     if (pr != axonometric)
         m = Rx(local_x) * Ry(local_y) * Rz(local_z);
@@ -52,13 +42,7 @@ void GLWidget::LoadMatrix()
         m = Rx(angle_x) * Ry(angle_y) * Rz(angle_z);
 
     figure.LoadMatrix(m);
-    figure.Sort(pr != axonometric ? e : Vector3f{ 0, 0, 1 });
-    // float eye_z = 1;
-    // if (pr == project_yz)
-    //     eye_z = (cosf(angle_y) < 0 || cosf(angle_z) < 0 ? -1 : 1);
-    // if (pr == project_yz)
-    //     eye_z = (cosf(angle_y) < 0 || cosf(angle_z) < 0 ? -1 : 1);
-    // figure.Sort({ 0.0f, 0.0f, (pr != axonometric ) ? eye_z : 1.0f });
+    figure.Sort(eye);
 
     m = Sh(1);
     if (pr != axonometric && pr != izometric)
@@ -106,20 +90,31 @@ void GLWidget::Draw()
         glVertex2d(center.x(), center.y());
         glEnd();
     }
-    glBegin(GL_POINTS);
     for (const auto& i : figure) {
-        glColor3fv(i.getColor());
-        for (const auto& tr : i.to_triangles())
-            triangle(tr);
+        for (const auto& tr : i.to_triangles()) {
+            if (edges_enabled) {
+                glColor3d(1, 1, 1);
+                glBegin(GL_LINE_LOOP);
+                glVertex2d(tr[0].x(), tr[0].y());
+                glVertex2d(tr[1].x(), tr[1].y());
+                glVertex2d(tr[2].x(), tr[2].y());
+                glEnd();
+            }
+            if (color_enabled) {
+                glColor3fv(i.getColor());
+                glBegin(GL_POINTS);
+                triangle(tr);
+                glEnd();
+            }
+        }
     }
-    glEnd();
 }
 
 void GLWidget::triangle(Polygon tr)
 {
     std::sort(tr.begin(), tr.end(),
         [](const Vector3f& l, const Vector3f& r) { return l.y() < r.y(); });
-    auto v2p = [](const Vector3f& src) -> QPoint { return { int(src.x()), int(src.y()) }; };
+    auto v2p = [](const Vector3f& src) -> QPoint { return { int(floorf(src.x() + 0.5)), int(floorf(src.y() + 0.5)) }; };
     const QPoint v1 = v2p(tr[0]),
                  v2 = v2p(tr[1]),
                  v3 = v2p(tr[2]);
