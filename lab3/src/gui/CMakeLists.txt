@@ -2,14 +2,15 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-include_directories(gl win)
+include_directories(gl win angle)
 
 add_executable(${PROJECT_NAME}
                main.cpp
                gl/GLWidget.cpp
                gl/Draw.cpp
                gl/Interface.cpp
-               win/mainwindow.cpp)
+               win/mainwindow.cpp
+               angle/AngleSpinBox.cpp)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenGL COMPONENTS OpenGL REQUIRED)

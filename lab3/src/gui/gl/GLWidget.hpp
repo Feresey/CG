@@ -12,11 +12,9 @@
 
 #include "Figure.hpp"
 #include "Vector.hpp"
+#include "config.hpp"
 
 class Polygon;
-
-const float D2R = M_PIf32 / 180.0f;
-const float EPS = 1e-8f;
 
 enum {
     axonometric,
@@ -29,25 +27,20 @@ enum {
 class GLWidget : public QOpenGLWidget {
     Q_OBJECT
 public slots:
-    void restore();
-    void restore_all();
     void set_scale(double);
-    void redraw();
     void color(bool);
     void edges(bool);
     void base(bool);
-    void project(int);
-    void set_x(double);
-    void set_y(double);
-    void set_z(double);
+    void initial_state();
+    void auto_scale();
+    void change_colors();
+    void set_angle(Vector3f, char);
+    void set_approx(int);
 
 signals:
     void scale_changed(double);
     void scale_message(QString = { "Scale is too small, please restore it" });
-    void x_changed(double);
-    void y_changed(double);
-    void z_changed(double);
-    void set_project(int);
+    void angle_changed(Vector3f);
 
 public:
     GLWidget(QWidget* parent = 0);
@@ -67,24 +60,21 @@ private:
     void Draw();
     void LoadMatrix();
     void triangle(Polygon tr);
+    void draw_base();
 
     Figure figure;
 
     QPoint zero, prev_pos, normalize;
     Qt::MouseButton button_pressed;
 
-    float
-        scale,
-        angle_x,
-        angle_y,
-        angle_z;
+    float scale;
+    Vector3f angle;
 
     bool
         color_enabled,
         edges_enabled,
         base_enabled;
 
-    int pr;
     unsigned int seed;
 };
 

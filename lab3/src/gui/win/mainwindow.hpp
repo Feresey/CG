@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "config.hpp"
+
 namespace Ui {
 class MainWindow;
 }

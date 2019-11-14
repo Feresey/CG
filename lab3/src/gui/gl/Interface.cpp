@@ -19,10 +19,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
         zero += prev_pos - me->pos();
         break;
     case Qt::MouseButton::RightButton:
-        angle_x -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
-        angle_y -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
-        x_changed(angle_x / D2R);
-        y_changed(angle_y / D2R);
+        angle.x() -= float((prev_pos - me->pos()).x()) * 0.2f * D2R;
+        angle.y() -= float((prev_pos - me->pos()).y()) * 0.2f * D2R;
+        angle_changed(angle);
         break;
     case Qt::MouseButton::MiddleButton:
         break;
@@ -46,7 +45,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* me)
     prev_pos = me->pos();
 }
 
-void GLWidget::restore()
+void GLWidget::auto_scale()
 {
     zero = { 0, 0 };
     normalize = { 0, 0 };
@@ -69,14 +68,10 @@ void GLWidget::restore()
 
     LoadMatrix();
 }
-void GLWidget::restore_all()
+void GLWidget::initial_state()
 {
-    project(pr);
-    restore();
-    // angle_y = angle_x = angle_z = 0;
-    x_changed(angle_x / D2R);
-    y_changed(angle_y / D2R);
-    z_changed(angle_z / D2R);
+    auto_scale();
+    angle_changed(angle);
 }
 
 void GLWidget::set_scale(double val)
@@ -89,7 +84,7 @@ void GLWidget::set_scale(double val)
     LoadMatrix();
 }
 
-void GLWidget::redraw()
+void GLWidget::change_colors()
 {
     figure.ChangeColor();
     LoadMatrix();
@@ -113,39 +108,23 @@ void GLWidget::base(bool ind)
     update();
 }
 
-void GLWidget::project(int val)
+void GLWidget::set_angle(Vector3f v, char axis)
 {
-    pr = val;
-    switch (pr) {
-    case project_yz:
-        angle_x = -90 * D2R;
-        angle_y = -90 * D2R;
-        angle_z = 0;
+    switch (axis) {
+    case 'x':
+        angle.x() = v[0];
         break;
-    case project_xz:
-        angle_x = angle_z = 0;
-        angle_y = -90 * D2R;
+    case 'y':
+        angle.y() = v[1];
         break;
-    default:
-        angle_x = angle_y = angle_z = 0;
+    case 'z':
+        angle.z() = v[2];
+        break;
     }
-    restore();
-}
-
-void GLWidget::set_x(double val)
-{
-    angle_x = float(val) * D2R;
     LoadMatrix();
 }
 
-void GLWidget::set_y(double val)
-{
-    angle_y = float(val) * D2R;
-    LoadMatrix();
-}
 
-void GLWidget::set_z(double val)
-{
-    angle_z = float(val) * D2R;
-    LoadMatrix();
+void GLWidget::set_approx(int ap) {
+    // approx= ap;
 }
