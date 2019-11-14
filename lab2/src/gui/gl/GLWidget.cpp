@@ -6,25 +6,22 @@
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
-    , figures()
-    , changed_figures()
-    , display_figures()
-    , inside(0, 0, 0)
     , zero()
     , prev_pos()
     , normalize()
-    , button_pressed()
+    , button_pressed(Qt::MouseButton::NoButton)
     , scale(100)
-    , angle_phi(0)
-    , angle_theta(0)
-    , mouse_tapped(false)
+    , angle_x(0)
+    , angle_y(0)
+    , angle_z(0)
     , color_enabled(true)
     , edges_enabled(true)
     , base_enabled(true)
-    , pr(4)
+    , pr(axonometric)
     , seed()
 {
     rand_r(&seed);
+    std::vector<Polygon> figures;
     /*
     figures = {
         { { 1, -1, -1 }, { 1, 1, -1 }, { 1, 1, 1 }, { 1, -1, 1 } }, // front
@@ -38,14 +35,14 @@ GLWidget::GLWidget(QWidget* parent)
     // figures.push_back();
     /*/
 
-    std::vector<QVector3D> bottom_points;
+    std::vector<Vector3f> bottom_points;
     size_t number = 5;
     for (size_t i = 0; i < number; ++i) {
         float tmp = float(i) * 2.0f / float(number) * M_PIf32;
         bottom_points.push_back({ cosf(tmp), sinf(tmp), 0 });
     }
 
-    QVector3D top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
+    Vector3f top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
     figures.push_back({ bottom_points.front(), bottom_points.back(), top });
     figures.push_back({ bottom_points.front(), bottom_points.back(), bottom });
 
@@ -53,18 +50,9 @@ GLWidget::GLWidget(QWidget* parent)
         figures.push_back({ bottom_points[i], bottom_points[i - 1], top });
         figures.push_back({ bottom_points[i], bottom_points[i - 1], bottom });
     }
-    changed_figures.resize(figures.size());
-    display_figures.resize(figures.size());
-
-    size_t total = 0;
-    for (const auto& i : figures)
-        for (const auto& j : i) {
-            ++total;
-            inside += j;
-        }
-    inside /= static_cast<float>(total);
-    LoadMatrix();
     //*/
+
+    figure = Figure(figures);
 }
 
 GLWidget::~GLWidget()
@@ -76,17 +64,15 @@ void GLWidget::initializeGL()
     glClearColor(0, 0, 0, 1);
     glEnable(GL_DEPTH_TEST);
     restore();
-    redraw();
-    set_project(4);
 }
 
 void GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
-    glLoadIdentity(); // загружаем матрицу
-    glOrtho(-width() / 2, width() / 2,
-        -height() / 2, height() / 2,
+    glLoadIdentity(); 
+    glOrtho(0, width(),
+        0, height(),
         -1000, 1000); // подготавливаем плоскости для матрицы
 
     Draw();
@@ -99,6 +85,5 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
-
     restore();
 }

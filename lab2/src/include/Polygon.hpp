@@ -1,26 +1,27 @@
 #ifndef POLYGON_HPP
 #define POLYGON_HPP
 
-#include <QVector3D>
-#include <QVector2D>
-
-#include <vector>
 #include <cmath>
+#include <vector>
+
+#include "Vector.hpp"
+
+class Matrix;
 
 class Polygon {
-    using Points = std::vector<QVector3D>;
+    using Points = std::vector<Vector3f>;
     Points points;
     float color[3];
 
 public:
     Polygon(Points src = {},
-        QVector3D color = QVector3D{ //
+        Vector3f color = Vector3f{ //
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX),
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX),
             static_cast<float>(rand()) / static_cast<float>(RAND_MAX) });
-    Polygon(std::initializer_list<QVector3D> list);
+    Polygon(std::initializer_list<Vector3f> list);
 
-    void setColor(QVector3D col);
+    void setColor(float col0, float col1, float col2);
     const float* getColor() const;
 
     Points::iterator begin();
@@ -28,19 +29,23 @@ public:
 
     Points::const_iterator begin() const;
     Points::const_iterator end() const;
-    
+
     Points::const_iterator cbegin() const;
     Points::const_iterator cend() const;
 
     size_t size() const;
-    QVector3D& operator[](size_t index);
-    QVector3D operator[](size_t index) const;
+    Vector3f& operator[](size_t index);
+    Vector3f operator[](size_t index) const;
+    Polygon& operator*=(const Matrix& m);
+    Polygon operator*(const Matrix& m) const;
 
-    QVector3D min() const;
-    QVector3D max() const;
+    Vector3f min() const;
+    Vector3f max() const;
 
     std::vector<float> to_plane() const;
-
+    std::vector<Polygon> to_triangles() const;
 };
+
+Polygon operator*(const Polygon& p, const Matrix& m);
 
 #endif /* POLYGON_HPP */

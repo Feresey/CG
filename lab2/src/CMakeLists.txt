@@ -1,24 +1,10 @@
-include_directories(BEFORE
-                    gl
-                    polygon
-                    matrix
-                    mainwindow)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+        ${PROJECT_BINARY_DIR}
+        CACHE PATH
+        "Single Directory for all"
+    )
 
-add_subdirectory(polygon)
-add_subdirectory(matrix)
+include_directories(BEFORE include)
 
-add_executable(${PROJECT_NAME}
-               main.cpp
-               mainwindow/mainwindow.cpp
-               gl/GLWidget.cpp
-               gl/Draw.cpp
-               gl/Interface.cpp)
-
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-find_package(OpenGL COMPONENTS OpenGL REQUIRED)
-
-target_link_libraries(${PROJECT_NAME}
-                      PRIVATE Qt5::Widgets
-                              OpenGL::OpenGL
-                              polygon
-                              matrix)
+add_subdirectory(core)
+add_subdirectory(gui)
