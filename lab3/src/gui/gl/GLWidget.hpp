@@ -1,6 +1,7 @@
 #ifndef GLWIDGET_HPP
 #define GLWIDGET_HPP
 
+#include <QDebug>
 #include <QOpenGLWidget>
 #include <QVector2D>
 #include <QWheelEvent>
@@ -57,10 +58,14 @@ protected:
     void mouseReleaseEvent(QMouseEvent* me) override;
 
 private:
+    void gen_figuries();
     void Draw();
-    void LoadMatrix();
-    void triangle(Polygon tr);
+    void Apply();
+    // void AppendMatrix();
+    void triangle(const Polygon& tr);
     void draw_base();
+
+    int approx;
 
     Figure figure;
 

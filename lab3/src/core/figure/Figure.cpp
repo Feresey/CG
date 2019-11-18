@@ -7,14 +7,35 @@
 #include "Matrix.hpp"
 #include "Polygon.hpp"
 
-Figure::Figure(Figures f)
+Figure::Figure(Figures f, Vector3f eye)
     : original(f)
     , changed(f.size())
-    , inside({ 0, 0, 0 })
-    , changed_inside(inside)
+    , visible(f.size(), false)
+    , inside()
+    , changed_inside()
+    , m(Sh(1))
+    , normals()
+    , eye(eye)
 {
-    size_t size=0;
-    for (const auto& i : f)
+    CalcInside();
+}
+
+void Figure::SetFigures(Figures _new)
+{
+    original = _new;
+    changed.resize(original.size());
+    visible.resize(original.size());
+
+    CalcInside();
+    ChangeColor();
+    LoadMatrix(m);
+}
+
+void Figure::CalcInside()
+{
+    inside = { 0, 0, 0 };
+    size_t size = 0;
+    for (const auto& i : original)
         for (const auto& j : i) {
             ++size;
             inside += j;
@@ -22,34 +43,40 @@ Figure::Figure(Figures f)
     inside /= static_cast<float>(size);
 }
 
-void Figure::LoadMatrix(const Matrix& m)
+void Figure::LoadMatrix(const Matrix& _m)
 {
-    changed.resize(original.size());
-    changed_inside = m * inside;
+    this->m = _m;
     std::transform(original.begin(), original.end(), changed.begin(),
-        [m](const Polygon& p) { return m * p; });
+        [&](const Polygon& p) { return m * p; });
+    changed_inside = m * inside;
+    normals = Matrix{ changed, changed_inside };
+    Sort();
 }
 
-void Figure::AppendMatrix(const Matrix& m)
+void Figure::AppendMatrix(const Matrix& _m)
 {
-    std::for_each(changed.begin(), changed.end(),
-        [m](Polygon& p) { p = m * p; });
+    changed_inside = _m * changed_inside;
+    normals *= _m;
+    for (auto& i : changed)
+        i *= _m;
+    Sort();
 }
 
-void Figure::Sort(const Vector3f& eye)
+void Figure::Sort()
 {
     Matrix view = Matrix{ { eye.x(), eye.y(), eye.z(), 0 }, 1, 4 } // point of view
-        * Matrix{ changed, changed_inside }; // matrix of normals
-    size_t size = 0;
-    for (size_t i = 0; i < changed.size(); ++i)
-        if (view[i] > 0)
-            changed[size++] = changed[i];
-
-    changed.resize(size);
+        * normals;
+    for (size_t i = 0; i < changed.size(); ++i) {
+        visible[i] = view[i] > 0;
+        // std::sort(changed[i].begin(), changed[i].end(),
+        //     [](const Vector3f& l, const Vector3f& r) -> bool { return l.y() < r.y(); });
+    }
 }
 
 std::pair<Vector2f, Vector2f> Figure::MinMax() const
 {
+    if (original.empty())
+        throw std::range_error("Figures are not initialized!!!");
     float min_x = changed[0][0][0], max_x = min_x,
           min_y = min_x, max_y = min_x;
     for (const auto& i : changed)
@@ -74,12 +101,6 @@ void Figure::ChangeColor()
         i.setColor(
             static_cast<float>(rand()) / mx,
             static_cast<float>(rand()) / mx,
-            static_cast<float>(rand()) / mx);
+            static_cast<float>(rand()) / mx //
+        );
 }
-
-Figure::Figures::iterator Figure::begin() { return changed.begin(); }
-Figure::Figures::iterator Figure::end() { return changed.end(); }
-Figure::Figures::const_iterator Figure::begin() const { return changed.cbegin(); }
-Figure::Figures::const_iterator Figure::end() const { return changed.cend(); }
-Figure::Figures::const_iterator Figure::cbegin() const { return changed.cbegin(); }
-Figure::Figures::const_iterator Figure::cend() const { return changed.cend(); }

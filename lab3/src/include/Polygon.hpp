@@ -14,11 +14,7 @@ class Polygon {
     float color[3];
 
 public:
-    Polygon(Points src = {},
-        Vector3f color = Vector3f{ //
-            static_cast<float>(rand()) / static_cast<float>(RAND_MAX),
-            static_cast<float>(rand()) / static_cast<float>(RAND_MAX),
-            static_cast<float>(rand()) / static_cast<float>(RAND_MAX) });
+    Polygon(Points src = {}, Vector3f col = { 0, 0, 0 });
     Polygon(std::initializer_list<Vector3f> list);
 
     void setColor(float col0, float col1, float col2);

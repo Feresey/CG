@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     auto collapse = new QShortcut(this);
     collapse->setKey(QKeySequence("Esc"));
-    connect(collapse, SIGNAL(activated()), this, SLOT(close()));
+    connect(collapse, &QShortcut::activated, std::bind(&MainWindow::close, this));
     ui->x_box->SetAxis('x');
     ui->y_box->SetAxis('y');
     ui->z_box->SetAxis('z');

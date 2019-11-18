@@ -95,8 +95,12 @@ std::vector<Polygon> Polygon::to_triangles() const
 {
     std::vector<Polygon> res;
     size_t size = points.size() - 1;
-    for (size_t i = 1; i < size; ++i)
+    for (size_t i = 1; i < size; ++i) {
         res.push_back({ points[0], points[i], points[i + 1] });
+        res.back().color[0] = color[0];
+        res.back().color[1] = color[1];
+        res.back().color[2] = color[2];
+    }
     return res;
 }
 

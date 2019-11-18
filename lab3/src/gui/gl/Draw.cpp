@@ -1,24 +1,52 @@
-#include <algorithm>
-
 #include "GLWidget.hpp"
 #include "Matrix.hpp"
 #include "Polygon.hpp"
 
+#include <algorithm>
+#include <functional>
+#include <future>
 #include <iostream>
 
-void GLWidget::LoadMatrix()
+void GLWidget::gen_figuries()
+{
+    float height = 3;
+    float radius = 1;
+    float step = 360.f * D2R / static_cast<float>(approx);
+    float curr = 0.f;
+    std::vector<Vector3f> bottom;
+    bottom.reserve(approx);
+    for (int i = 0; i < approx; ++i) {
+        bottom.push_back(Vector3f{ radius * cosf(curr), radius * sinf(curr), -1.5f });
+        curr += step;
+    }
+    std::vector<Vector3f> top(bottom.size());
+    std::transform(bottom.begin(), bottom.end(), top.begin(),
+        [height](Vector3f v) { v.z()+=height; return v; });
+    std::vector<Polygon> f;
+    f.reserve(approx + 3UL);
+    f.push_back(bottom);
+    f.push_back(top);
+    f.push_back(Polygon{ bottom.front(), bottom.back(), top.back(), top.front() });
+    for (size_t i = 1; i < bottom.size(); ++i)
+        f.push_back(Polygon{ bottom[i - 1], bottom[i], top[i], top[i - 1] });
+    figure.SetFigures(f);
+}
+
+void GLWidget::Apply()
 {
     QPoint tmp = zero - normalize;
     Matrix m = Rx(angle.x()) * Ry(angle.y()) * Rz(angle.z())
         * Sh(scale) * Move({ -float(tmp.x()), float(tmp.y()), 0.0f });
     figure.LoadMatrix(m);
-    figure.Sort({ 0, 0, 1 });
     update();
 }
 
+#define MAX_PROCS 1
 
 void GLWidget::Draw()
 {
+    std::vector<std::vector<Polygon>> todo(MAX_PROCS);
+    uint8_t curr = 0;
     if (base_enabled) {
         draw_base();
     }
@@ -32,26 +60,45 @@ void GLWidget::Draw()
                 glVertex2d(tr[2].x(), tr[2].y());
                 glEnd();
             }
+            glColor3d(1, 0, 0);
+            glBegin(GL_POINTS);
             if (color_enabled) {
-                glColor3fv(i.getColor());
-                glBegin(GL_POINTS);
                 triangle(tr);
-                glEnd();
+                // todo[curr].push_back(tr);
+                // curr = ++curr % MAX_PROCS;
             }
+            glEnd();
         }
     }
+    // if (color_enabled) {
+    //     glColor3d(1, 0, 0);
+    //     glBegin(GL_POINTS);
+    //     std::vector<std::future<void>> run(MAX_PROCS);
+    //     for (size_t i = 0; i < MAX_PROCS; ++i) {
+    //         run[i] = std::async(std::launch::async,
+    //             [&](const std::vector<Polygon>& src) {
+    //                 for (const auto& j : src)
+    //                     triangle(j);
+    //             },
+    //             todo[i]);
+    //     }
+    //     glEnd();
+    // }
 }
 
-void GLWidget::triangle(Polygon tr)
+void GLWidget::triangle(const Polygon& tr)
 {
-    std::sort(tr.begin(), tr.end(),
-        [](const Vector3f& l, const Vector3f& r) { return l.y() < r.y(); });
+    qDebug("triangle");
     auto v2p = [](const Vector3f& src) -> QPoint { return { int(floorf(src.x() + 0.5f)), int(floorf(src.y() + 0.5f)) }; };
-    const QPoint v1 = v2p(tr[0]),
-                 v2 = v2p(tr[1]),
-                 v3 = v2p(tr[2]);
-    if (v1.y() == v2.y() && v1.y() == v3.y())
-        return;
+    QPoint v1 = v2p(tr[0]),
+           v2 = v2p(tr[1]),
+           v3 = v2p(tr[2]);
+    if (v3.y() < v2.y())
+        std::swap(v2, v3);
+    if (v3.y() < v1.y())
+        std::swap(v1, v3);
+    if (v2.y() < v1.y())
+        std::swap(v2, v1);
     const int total_height = v3.y() - v1.y();
 
     int bottom_y = std::max(v1.y(), 0),

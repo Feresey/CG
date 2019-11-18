@@ -6,6 +6,8 @@
 
 GLWidget::GLWidget(QWidget* parent)
     : QOpenGLWidget(parent)
+    , approx(3)
+    , figure()
     , zero()
     , prev_pos()
     , normalize()
@@ -17,39 +19,11 @@ GLWidget::GLWidget(QWidget* parent)
     , base_enabled(true)
     , seed()
 {
+    // qDebug().setVerbosity(QDebug::MaximumVerbosity);
+    qDebug("Enter constructor");
     rand_r(&seed);
-    std::vector<Polygon> figures;
-    /*
-    figures = {
-        { { 1, -1, -1 }, { 1, 1, -1 }, { 1, 1, 1 }, { 1, -1, 1 } }, // front
-        { { -1, -1, -1 }, { -1, 1, -1 }, { -1, 1, 1 }, { -1, -1, 1 } }, // back
-        { { 1, 1, -1 }, { -1, 1, -1 }, { -1, 1, 1 }, { 1, 1, 1 } }, //right
-        { { 1, -1, -1 }, { -1, -1, -1 }, { -1, -1, 1 }, { 1, -1, 1 } }, //left
-        { { 1, -1, 1 }, { 1, 1, 1 }, { -1, 1, 1 }, { -1, -1, 1 } }, // top
-        { { 1, -1, -1 }, { 1, 1, -1 }, { -1, 1, -1 }, { -1, -1, -1 } } //bottom
-    };
-
-    // figures.push_back();
-    /*/
-
-    std::vector<Vector3f> bottom_points;
-    size_t number = 5;
-    for (size_t i = 0; i < number; ++i) {
-        float tmp = float(i) * 2.0f / float(number) * M_PIf32;
-        bottom_points.push_back({ cosf(tmp), sinf(tmp), 0 });
-    }
-
-    Vector3f top = { 0, 0, 2 }, bottom = { 0, 0, 0 };
-    figures.push_back({ bottom_points.front(), bottom_points.back(), top });
-    figures.push_back({ bottom_points.front(), bottom_points.back(), bottom });
-
-    for (size_t i = 1; i < bottom_points.size(); ++i) {
-        figures.push_back({ bottom_points[i], bottom_points[i - 1], top });
-        figures.push_back({ bottom_points[i], bottom_points[i - 1], bottom });
-    }
-    //*/
-
-    figure = Figure(figures);
+    gen_figuries();
+    qDebug("Leave constructor");
 }
 
 GLWidget::~GLWidget()
@@ -71,7 +45,7 @@ void GLWidget::paintGL()
     glOrtho(0, width(),
         0, height(),
         -1000, 1000); // подготавливаем плоскости для матрицы
-
+    qDebug("Prepare to Draw");
     Draw();
 
     glFlush();
@@ -82,5 +56,6 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
+    qDebug("Resize");
     auto_scale();
 }

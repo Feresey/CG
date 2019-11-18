@@ -7,7 +7,7 @@ void GLWidget::wheelEvent(QWheelEvent* we)
 
     set_scale(scale);
     scale_changed(scale);
-    LoadMatrix();
+    Apply();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent* me)
@@ -30,7 +30,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* me)
     }
 
     prev_pos = me->pos();
-    LoadMatrix();
+    Apply();
 }
 
 void GLWidget::mousePressEvent(QMouseEvent* me)
@@ -50,7 +50,7 @@ void GLWidget::auto_scale()
     zero = { 0, 0 };
     normalize = { 0, 0 };
     scale = 1;
-    LoadMatrix();
+    Apply();
     auto borders = figure.MinMax();
     float arr[] = {
         abs(borders.first.x()),
@@ -66,7 +66,7 @@ void GLWidget::auto_scale()
     scale_message("");
     scale_changed(scale);
 
-    LoadMatrix();
+    Apply();
 }
 void GLWidget::initial_state()
 {
@@ -81,13 +81,13 @@ void GLWidget::set_scale(double val)
         scale_message();
     else
         scale_message("");
-    LoadMatrix();
+    Apply();
 }
 
 void GLWidget::change_colors()
 {
     figure.ChangeColor();
-    LoadMatrix();
+    Apply();
 }
 
 void GLWidget::color(bool ind)
@@ -121,10 +121,14 @@ void GLWidget::set_angle(Vector3f v, char axis)
         angle.z() = v[2];
         break;
     }
-    LoadMatrix();
+    Apply();
 }
 
-
-void GLWidget::set_approx(int ap) {
-    // approx= ap;
+void GLWidget::set_approx(int ap)
+{
+    if (approx != ap) {
+        approx = ap;
+        gen_figuries();
+    }
+    update();
 }

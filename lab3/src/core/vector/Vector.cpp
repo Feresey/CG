@@ -7,6 +7,10 @@ template class Vector<int, 3>;
 template class Vector<float, 2>;
 template class Vector<int, 2>;
 
+Vector2i::Vector2i()
+    : Vector<int, 2>()
+{
+}
 Vector2i::Vector2i(std::initializer_list<int> L)
     : Vector<int, 2>(L)
 {
@@ -18,6 +22,11 @@ Vector2i::Vector2i(const Vector<int, 2>& src)
 int& Vector2i::x() { return v[0]; }
 int& Vector2i::y() { return v[1]; }
 
+
+Vector3i::Vector3i()
+    : Vector<int, 3>()
+{
+}
 Vector3i::Vector3i(std::initializer_list<int> L)
     : Vector<int, 3>(L)
 {
@@ -30,6 +39,11 @@ int& Vector3i::x() { return v[0]; }
 int& Vector3i::y() { return v[1]; }
 int& Vector3i::z() { return v[2]; }
 
+
+Vector2f::Vector2f()
+    : Vector<float, 2>()
+{
+}
 Vector2f::Vector2f(std::initializer_list<float> L)
     : Vector<float, 2>(L)
 {
@@ -41,6 +55,11 @@ Vector2f::Vector2f(const Vector<float, 2>& src)
 float& Vector2f::x() { return v[0]; }
 float& Vector2f::y() { return v[1]; }
 
+
+Vector3f::Vector3f()
+    : Vector<float, 3>()
+{
+}
 Vector3f::Vector3f(std::initializer_list<float> L)
     : Vector<float, 3>(L)
 {
