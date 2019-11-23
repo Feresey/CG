@@ -1,15 +1,18 @@
-#include "GLWidget.hpp"
-#include "Matrix.hpp"
-#include "Polygon.hpp"
+#include <QOpenGLContext>
+
 
 #include <algorithm>
 #include <functional>
 #include <future>
 #include <iostream>
 
+#include "GLWidget.hpp"
+#include "Matrix.hpp"
+#include "Polygon.hpp"
+
 void GLWidget::gen_figuries()
 {
-    float height = 3;
+    float _height = 3;
     float radius = 1;
     float step = 360.f * D2R / static_cast<float>(approx);
     float curr = 0.f;
@@ -21,7 +24,7 @@ void GLWidget::gen_figuries()
     }
     std::vector<Vector3f> top(bottom.size());
     std::transform(bottom.begin(), bottom.end(), top.begin(),
-        [height](Vector3f v) { v.z()+=height; return v; });
+        [_height](Vector3f v) { v.z()+=_height; return v; });
     std::vector<Polygon> f;
     f.reserve(approx + 3UL);
     f.push_back(bottom);
@@ -60,35 +63,43 @@ void GLWidget::Draw()
                 glVertex2d(tr[2].x(), tr[2].y());
                 glEnd();
             }
-            glColor3d(1, 0, 0);
-            glBegin(GL_POINTS);
+            // glColor3d(1, 0, 0);
+            // glBegin(GL_POINTS);
             if (color_enabled) {
-                triangle(tr);
-                // todo[curr].push_back(tr);
-                // curr = ++curr % MAX_PROCS;
+                // triangle(tr);
+                todo[curr].push_back(tr);
+                curr = ++curr % MAX_PROCS;
             }
-            glEnd();
+            // glEnd();
         }
     }
-    // if (color_enabled) {
-    //     glColor3d(1, 0, 0);
-    //     glBegin(GL_POINTS);
-    //     std::vector<std::future<void>> run(MAX_PROCS);
-    //     for (size_t i = 0; i < MAX_PROCS; ++i) {
-    //         run[i] = std::async(std::launch::async,
-    //             [&](const std::vector<Polygon>& src) {
-    //                 for (const auto& j : src)
-    //                     triangle(j);
-    //             },
-    //             todo[i]);
-    //     }
-    //     glEnd();
-    // }
+    if (color_enabled) {
+        std::vector<std::future<void>> run(MAX_PROCS);
+        for (size_t i = 0; i < MAX_PROCS; ++i) {
+            run[i] = std::async(std::launch::async,
+                [&](const std::vector<Polygon>& src) {
+                    for (const auto& j : src)
+                        triangle(j);
+                },
+                todo[i]);
+        }
+        is_point.resize(points.size());
+        for (size_t i = 0; i < MAX_PROCS; ++i)
+            run[i].wait();
+        glBegin(GL_POINTS);
+        for (size_t i = 0; i < points.size(); ++i)
+            if (is_point[i]) {
+                glColor3fv(points[i].v);
+                glVertex2i(i / _width, i % _width);
+            }
+        glEnd();
+    }
 }
+
+std::mutex draw;
 
 void GLWidget::triangle(const Polygon& tr)
 {
-    qDebug("triangle");
     auto v2p = [](const Vector3f& src) -> QPoint { return { int(floorf(src.x() + 0.5f)), int(floorf(src.y() + 0.5f)) }; };
     QPoint v1 = v2p(tr[0]),
            v2 = v2p(tr[1]),
@@ -102,8 +113,8 @@ void GLWidget::triangle(const Polygon& tr)
     const int total_height = v3.y() - v1.y();
 
     int bottom_y = std::max(v1.y(), 0),
-        top_y = std::min(v3.y(), height());
-    if (bottom_y > height() || top_y < 0)
+        top_y = std::min(v3.y(), int(_height));
+    if (bottom_y > _height || top_y < 0)
         return;
     auto norm = tr.to_plane();
     if (abs(norm[2]) < EPS)
@@ -118,13 +129,22 @@ void GLWidget::triangle(const Polygon& tr)
         if (A.x() > B.x())
             std::swap(A, B);
         int bottom_x = std::max(A.x(), 0),
-            top_x = std::min(B.x(), width());
-        if (bottom_x > width() || top_x < 0)
+            top_x = std::min(B.x(), int(_width));
+        if (bottom_x > _width || top_x < 0)
             continue;
+        draw.lock();
         for (int j = A.x(); j <= B.x(); ++j) {
-            glVertex2i(j, y);
+            size_t pos = j * _width + y;
+            if (j < 0 || y < 0 || pos >= points.size())
+                continue;
+            points[pos] = Vector3f{ 1, 0, 0 };
+            is_point[pos] = true;
         }
+        draw.unlock();
     }
+    QOpenGLContext q;
+
+    // qDebug("triangle");
 }
 
 void GLWidget::draw_base()
@@ -132,7 +152,7 @@ void GLWidget::draw_base()
     std::vector<Vector3f> display_base({ { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
     float offset = 40.0;
     Vector3f center = {
-        float(width()) - offset * 2.0f,
+        float(_width) - offset * 2.0f,
         offset * 2.0f,
         0.0f
     };

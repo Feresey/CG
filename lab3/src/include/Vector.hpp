@@ -6,10 +6,8 @@
 
 template <class T, size_t S>
 class Vector {
-protected:
-    T v[S];
-
 public:
+    T v[S];
     Vector();
     Vector(std::initializer_list<T>);
 

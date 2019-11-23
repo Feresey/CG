@@ -79,7 +79,9 @@ private:
         color_enabled,
         edges_enabled,
         base_enabled;
-
+    size_t _width, _height;
+    std::vector<Vector3f> points;
+    std::vector<bool> is_point;
     unsigned int seed;
 };
 

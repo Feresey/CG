@@ -56,6 +56,12 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
-    qDebug("Resize");
+
+    _width = static_cast<size_t>(w);
+    _height = static_cast<size_t>(h);
+    points.resize(_width * _height);
+    is_point.resize(_width * _height);
+
     auto_scale();
+    qDebug("Resize");
 }
